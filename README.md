@@ -2,6 +2,11 @@
 
 Jogo de Pokemon TCG (Simplificado)
 
+***IMPORTANTE***
+Criei um novo projeto para desenvolver o app do jogo, deixando o outro projeto como exemplo, como sugere o nome.
+
+
+
 Classes:
 - Card (abstrata);
 - Energy (sub-classe de Card);

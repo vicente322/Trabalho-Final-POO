@@ -1,17 +1,15 @@
-package poo;
-
 import java.util.*;
 
 public class Card extends Observable{
     private String id;
     private String imageId;
-    private int value;
     private boolean faceUp;
+    private String nome;
     
-    public Card(String anId,String anImageId,int val){
+    public Card(String nome,String anId,String anImageId){
+        this.nome = nome;
         id = anId;
         imageId = anImageId;
-        value = val;
         faceUp = true;
     }
     
@@ -23,12 +21,12 @@ public class Card extends Observable{
         return(imageId);
     }
     
-    public int getValue(){
-        return(value);
-    }
-    
     public boolean isFacedUp(){
         return(faceUp);
+    }
+
+    public String getNome() {
+        return nome;
     }
     
     public void flip(){
@@ -41,5 +39,3 @@ public class Card extends Observable{
         notifyObservers();
     }
 }
-        
-
