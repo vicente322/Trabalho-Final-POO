@@ -1,5 +1,7 @@
 package poo;
 
+import java.nio.file.Paths;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -33,15 +35,15 @@ public class App extends Application{
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        //Tentativa de criar imagem para por no grid
-        String bckFile = "file:///C:/Users/vicen/Documents/GitHub/Trabalho-Final-POO/batalha-pokemon/src/main/resources/imagens/Back.png";
-        String aronFile = "file:///C:/Users/vicen/Documents/GitHub/Trabalho-Final-POO/batalha-pokemon/src/main/resources/imagens/Aron.png";
-        Image bckImg = new Image(bckFile);
-        ImageView bckImgV = new ImageView(bckImg);
-        grid.add(bckImgV, 0, 0);
-        Image aronImg = new Image(aronFile);
-        ImageView aronImgV = new ImageView(aronImg);
-        grid.add(aronImgV, 1, 0);
+        //Cria Cards e suas imagens
+        Card aron = new Card("Aron", "aron-card", "aron");
+        ImageView aronImg = ImageFactory.getInstance().createImage(aron.getImageId());
+
+        //Cria Scroll Pane 1 e bota a imagem do Card Aron dentro
+        ScrollPane sd1 = new ScrollPane();
+        sd1.setPrefSize(600, 400);
+        sd1.setContent(aronImg);
+        grid.add(sd1, 0, 0);
 
         // Lanca Stage
         Scene scene = new Scene(grid);
