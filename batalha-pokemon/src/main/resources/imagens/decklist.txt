@@ -1,0 +1,29 @@
+vulpix x2
+ninetales x1
+
+bellsprout x2
+weepibell x1
+
+oddish x2
+gloom x1
+
+eevee x2
+flareon x1
+
+lillipup x2
+herdier x1
+
+farfetch'd x1
+
+magmar x1
+
+=======================
+
+hau x1
+potion x2
+
+====================
+fairy-energy x5
+grass-energy x5
+
+TOTAL = 30

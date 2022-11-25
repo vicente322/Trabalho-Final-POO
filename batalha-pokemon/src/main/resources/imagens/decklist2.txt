@@ -1,0 +1,28 @@
+alolan-sandshrew x2
+alolan-sandslash x1
+
+aron x2
+lairon x1
+
+rookidee x2
+corvisquire x1
+
+piplup x2
+prinplup x1
+
+starly x2
+staravia x1
+
+skwovet x1
+
+===================
+
+hau x1
+potion x1
+full heal x2
+
+==================
+water-energy x5
+steel-energy x5
+
+TOTAL = 30
