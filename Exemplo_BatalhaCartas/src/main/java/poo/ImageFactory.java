@@ -44,8 +44,3 @@ public class ImageFactory{
         return(imgv);
     }
 }
-
-        
-        
-    
-

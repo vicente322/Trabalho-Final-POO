@@ -1,4 +1,4 @@
-package poo;
+ package poo;
 
 import java.util.*;
 
@@ -15,7 +15,7 @@ public class Card extends Observable{
     private boolean faceUp;
     private String nome;
     
-    public Card(String nome,String anId,String anImageId){
+    public Card(String nome, String anId, String anImageId){
         this.nome = nome;
         id = anId;
         imageId = anImageId;

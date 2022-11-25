@@ -30,7 +30,7 @@ public class App extends Application{
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         Card aron = new Card("Aron", "aronTeste", "aron");
-        CardView c1 = new CardView(null);
+        CardView c1 = new CardView(aron);
         ScrollPane sd1 = new ScrollPane();
         sd1.setPrefSize(950, 250);
         sd1.setContent(c1);
