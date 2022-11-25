@@ -2,7 +2,6 @@ poo\GameEvent$Action.class
 poo\Card.class
 poo\GameEvent$Target.class
 poo\GameWindow.class
-poo\GameWindow$1.class
 poo\DeckView.class
 module-info.class
 poo\Game.class

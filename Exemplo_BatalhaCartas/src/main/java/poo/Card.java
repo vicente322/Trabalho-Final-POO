@@ -15,23 +15,23 @@ public class Card extends Observable{
         faceUp = true;
     }
     
-    public String getId(){
+    public String getId(){ //Retorna id da carta
         return(id);
     }
     
-    public String getImageId(){
+    public String getImageId(){ //Retorna id da imagem da carta
         return(imageId);
     }
     
-    public int getValue(){
+    public int getValue(){ //Retorna valor da carta
         return(value);
     }
     
-    public boolean isFacedUp(){
+    public boolean isFacedUp(){ //confere se esta virada para cima
         return(faceUp);
     }
     
-    public void flip(){
+    public void flip(){ //vira a carta
         if (faceUp == true){
             faceUp = false;
         }else{

@@ -4,16 +4,16 @@ import java.util.*;
 
 public class Game extends Observable{
     private static Game game = new Game();
-    private int ptsJ1,ptsJ2;
-    private CardDeck deckJ1,deckJ2;
-    private int player;
-    private int jogadas;
+    private int ptsJ1,ptsJ2; //Pontos de cada jogador. Manter? Substituir por pokemons derrotados?a
+    private CardDeck deckJ1,deckJ2; //Decks
+    private int player; //Numero do jogador da vez.
+    private int jogadas; //Quantas jogadas podem ter no jogo. *Retirar*
     
-    public static Game getInstance(){
+    public static Game getInstance(){ //Retorna o jogo
         return(game);
     }
     
-    private Game(){
+    private Game(){ //instancia objeto Game
         ptsJ1 = 0;
         ptsJ2 = 0;
         deckJ1 = new CardDeck();
@@ -22,26 +22,26 @@ public class Game extends Observable{
         jogadas = CardDeck.NCARDS;
     }
     
-    private void nextPlayer(){
+    private void nextPlayer(){ //Avanca jogador. Por que ate 4 jogadores(?)
         player++;
         if (player == 4){
             player = 1;
         }
     }
         
-    public int getPtsJ1(){
+    public int getPtsJ1(){ //Retorna pontos do jogador 1
         return(ptsJ1);
     }
 
-    public int getPtsJ2(){
+    public int getPtsJ2(){ //Retorna pontos do jogador 2
         return(ptsJ2);
     }
     
-    public CardDeck getDeckJ1(){
+    public CardDeck getDeckJ1(){ //retorna deck do jogador 1
         return(deckJ1);
     }
     
-    public CardDeck getDeckJ2(){
+    public CardDeck getDeckJ2(){ //retorna deck do jogador 2
         return(deckJ2);
     }
     
