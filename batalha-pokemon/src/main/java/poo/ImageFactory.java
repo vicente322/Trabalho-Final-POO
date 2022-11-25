@@ -30,37 +30,37 @@ public class ImageFactory{
     
     private String id2File(String imgId){
         switch(imgId){
-            // case "bellsprout" : return("/imagens/Bellsprout.png");
-            // case "eevee" : return("/imagens/Eevee.png");
-            // case "farfetchd" : return("/imagens/Farfetchd.png");
-            // case "flareon" : return("/imagens/Flareon.png");
-            // case "gloom" : return("/imagens/Gloom.png");
-            // case "herdier" : return("/imagens/Herdier.png");
-            // case "lillipup" : return("/imagens/Lillipup.png");
-            // case "magmar" : return("/imagens/Magmar.png");
-            // case "ninetales" : return("/imagens/Ninetales.png");
-            // case "oddish" : return("/imagens/Oddish.png");
-            // case "vulpix" : return("/imagens/Vulpix.png");
-            // case "weepinbell" : return("/imagens/Weepinbell.png");
-            // case "hau" : return("/imagens/Hau.png");
-            // case "potion" : return("/imagens/Potion.png");
-            // case "fullheal" : return("/imagens/FullHeal.png");
-            // case "fireenergy" : return("/imagens/FireEnergy.png");
-            // case "grassenergy" : return("/imagens/GrassEnergy.png");
-            // case "alolansandshrew" : return("/imagens/AlolanSandshrew.png");
-            // case "alolansandslash" : return("/imagens/AlolanSandslash.png");
-            case "aron" : return(fileDir + "/Aron.png");
-            // case "corvisquire" : return("/imagens/Corvisquire.png");
-            // case "lairon" : return("/imagens/Lairon.png");
-            // case "piplup" : return("/imagens/Piplup.png");
-            // case "prinplup" : return("/imagens/Prinplup.png");
-            // case "rookidee" : return("/imagens/Rookidee.png");
-            // case "skwovet" : return("/imagens/Skwovet.png");
-            // case "staravia" : return("/imagens/Staravia.png");
-            // case "starly" : return("/imagens/Starly.png");
-            // case "waterenergy" : return("/imagens/WaterEnergy.png");
-            // case "steelenergy" : return("/imagens/SteelEnergy.png");
-            case "imgBck" : return(fileDir + "/Back.png");
+            case "bellsprout" : return("/Bellsprout.png");
+            case "eevee" : return("/Eevee.png");
+            case "farfetchd" : return("/Farfetchd.png");
+            case "flareon" : return("/Flareon.png");
+            case "gloom" : return("/Gloom.png");
+            case "herdier" : return("/Herdier.png");
+            case "lillipup" : return("/Lillipup.png");
+            case "magmar" : return("/Magmar.png");
+            case "ninetales" : return("/Ninetales.png");
+            case "oddish" : return("/Oddish.png");
+            case "vulpix" : return("/Vulpix.png");
+            case "weepinbell" : return("/Weepinbell.png");
+            case "hau" : return("/Hau.png");
+            case "potion" : return("/Potion.png");
+            case "fullheal" : return("/FullHeal.png");
+            case "fireenergy" : return("/FireEnergy.png");
+            case "grassenergy" : return("/GrassEnergy.png");
+            case "alolansandshrew" : return("/AlolanSandshrew.png");
+            case "alolansandslash" : return("/AlolanSandslash.png");
+            case "aron" : return("/Aron.png");
+            case "corvisquire" : return("/Corvisquire.png");
+            case "lairon" : return("/Lairon.png");
+            case "piplup" : return("/Piplup.png");
+            case "prinplup" : return("/Prinplup.png");
+            case "rookidee" : return("/Rookidee.png");
+            case "skwovet" : return("/Skwovet.png");
+            case "staravia" : return("/Staravia.png");
+            case "starly" : return("/Starly.png");
+            case "waterenergy" : return("/WaterEnergy.png");
+            case "steelenergy" : return("/SteelEnergy.png");
+            case "imgBck" : return("/Back.png");
             default: throw new IllegalArgumentException("Invalid image Id");
         }
     }
@@ -71,7 +71,7 @@ public class ImageFactory{
             currDir = Paths.get("").toAbsolutePath().toString();
             currDir = currDir.replace("\\", "/");
             fileDir = "file:///" + currDir + "/src/main/resources/imagens";
-            img = new Image(id2File(imgId));
+            img = new Image(fileDir + id2File(imgId));
             images.put(imgId,img);
         }
         
