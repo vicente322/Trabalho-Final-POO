@@ -17,7 +17,7 @@ import javafx.stage.Stage;
  * 
  * @author vicente322
  * 
- * @version 2022-11-25
+ * @version 2022-11-26
  */
 
 public class App extends Application{
