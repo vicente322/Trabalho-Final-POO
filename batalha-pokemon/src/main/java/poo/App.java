@@ -161,7 +161,7 @@ public class App extends Application{
         Label descarte2 = new Label("Pilha de descarte");
         grid.add(descarte2, 2, 1);
 
-        launchP1Hand(grid);
+        launchP1Hand(grid); // Uso de metodos pra deixar a leitura do codigo mais facil
         launchP2Hand(grid);
         
 
