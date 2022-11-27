@@ -73,7 +73,7 @@ public class App extends Application implements Observer{
     }
 
     /**
-     * Armazena sequencia que organiza a mao do jogador 1
+     * Metodo para tratar acao do botao "Confirmar" para mudar os nomes dos jogadores
      * @param e Evento do botao
      *          Ao ser pressionado, atualiza os nomes de P1 e P2 e fecha a janela.
      */
@@ -121,6 +121,7 @@ public class App extends Application implements Observer{
 
     /**
      * Armazena sequencia que organiza a mao do jogador 1
+     * 
      * @param grid GridPane do Stage principal
      */
     public void launchP1Hand(GridPane grid){
