@@ -97,11 +97,11 @@ public class App extends Application implements Observer{
      * 
      * @param grid GridPane do Stage principal
      */
-    public void launchP2Hand(GridPane grid){
+    public void launchP2Hand(GridPane grid, int btnX, int btnY){
         // Cria botao da mao do jogador 2
         hnd2Btn = new Button("Mao do Jogador 2");
         hnd2Btn.setOnAction(e -> trataBtnHand2(e));
-        grid.add(hnd2Btn, 0, 0);
+        grid.add(hnd2Btn, btnX, btnY);
         // Fecha a janela da mao do jogador 2
         hnd2CloseBtn = new Button("Fechar");
         hnd2CloseBtn.setOnAction(e -> trataBtnCloseHand2(e));
@@ -134,8 +134,7 @@ public class App extends Application implements Observer{
      * 
      * O quinto bloco adiciona Label para dar informacoes do deck e da pilha de descarte
      * 
-     * O ultimo bloco cria o Label com as informacoes do pokemon e do deck
-     *  **SEPARAR INFORMACOES DO DECK DO POKEMON**
+     * O sexto bloco/linha adiciona o botao da mao do jogador
      * 
      * COISA A SEREM ADICIONADAS:
      * - Vidas do jogador em coracoes
@@ -195,6 +194,8 @@ public class App extends Application implements Observer{
         );
         grid.add(infoDeck2, 0, 2);
 
+        launchP2Hand(grid, 3, 1);
+
     }
 
     @Override
@@ -210,8 +211,6 @@ public class App extends Application implements Observer{
 
         launchP1Field(grid);
         launchP2Field(grid);
-
-        launchP2Hand(grid);
       
         Button resetBtn = new Button();
         resetBtn.setText("Reiniciar");
