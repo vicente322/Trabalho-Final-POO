@@ -33,4 +33,6 @@ public abstract class Card extends Observable{
     public String getImageId(){
         return(imageId);
     }
+
+    public abstract String toString();
 }

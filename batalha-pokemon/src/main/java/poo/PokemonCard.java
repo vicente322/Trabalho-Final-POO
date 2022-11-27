@@ -226,4 +226,10 @@ public class PokemonCard extends Card{
         return this;
     }
     */
+    
+    @Override
+    public String toString() {
+        String s = super.getNome() + "[" + super.getId() + "]";
+        return s;
+    }
 }

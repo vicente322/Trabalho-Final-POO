@@ -60,7 +60,7 @@ public class Game {
             //Faz acao 
 
             if (player == 1){
-
+                  
                   
 
 
