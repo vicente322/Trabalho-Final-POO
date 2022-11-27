@@ -1,8 +1,10 @@
 package poo;
 
 public class GameEvent{
-    public enum Target {DECK,GWIN};
-    public enum Action {INVPLAY,MUSTCLEAN,ENDGAME,REMOVESEL};
+    public enum Target {DECK,GWIN}; //A quem se direciona o evento. Ao Deck ou ao Game Window
+    public enum Action {INVPLAY,MUSTCLEAN,ENDGAME,REMOVESEL}; //Qual a acao tomada
+                                                              //play invertida, deve limpar,
+                                                              // fim de jogo, remove selecionado
     
     private Target target;
     private Action action;
