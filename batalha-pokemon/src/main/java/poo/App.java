@@ -72,13 +72,11 @@ public class App extends Application implements Observer{
     public void trataBtnCloseHand2(ActionEvent e) {
         hnd2Stage.close();
     }
-
     /**
      * Metodo para tratar acao do botao "Confirmar" para mudar os nomes dos jogadores
      * @param e Evento do botao
      *          Ao ser pressionado, atualiza os nomes de P1 e P2 e fecha a janela.
      */
-
     public void trataBtnCloseConfirm(ActionEvent e) {
         jogador1Nome = jogador1.getText();
         jogador2Nome = jogador2.getText();
@@ -86,11 +84,9 @@ public class App extends Application implements Observer{
         lbP2.setText(jogador2Nome + " (Vidas: 4)");
         confirmNameStage.close();
     }
-
     /**
      * Armazena sequencia que cria e mostra a janela de inserção de nomes dos jogadores
      */
-
     public void launchNameWindow(){
         // Fecha a janela de informar nomes
         confirmNamesBtn = new Button("Confirmar");
@@ -119,7 +115,6 @@ public class App extends Application implements Observer{
 
         confirmNameStage.show();
     }
-
     /**
      * Armazena sequencia que organiza a mao do jogador 1
      * 
@@ -144,7 +139,6 @@ public class App extends Application implements Observer{
         hnd1Stage.setScene(hnd1Scene);
         hnd1Stage.setTitle("Player 1 Hand");
     }
-
     /**
      * Armazena sequencia que organiza a mao do jogador 2
      * 
@@ -169,7 +163,6 @@ public class App extends Application implements Observer{
         hnd2Stage.setScene(hnd2Scene);
         hnd2Stage.setTitle("Player 2 Hand");
     }
-    
     /**
      * Metodo que guarda os comandos do lado do jogador 1
      * @param grid GridPane onde tudo sera colocado
@@ -196,62 +189,133 @@ public class App extends Application implements Observer{
      */
     public void launchP1Field(GridPane grid){
         
-        lbP1 = new Label("Jogador 1 (Vidas: 2)");
-        grid.add(lbP1, 2, 4);
+        GridPane gridP1 = new GridPane();
+        gridP1.setHgap(15);
+        gridP1.setVgap(10);
+        gridP1.setPadding(new Insets(25, 25, 25, 25));
 
+        lbP1 = new Label("Jogador 1 (Vidas: 2)");
+        gridP1.add(lbP1, 2, 1);
+        
         CardDeck deck1 = new CardDeck(1);
         ImageView dck1CardView = ImageFactory.getInstance().createImage(deck1.draw().getImageId());
-        dck1CardView.setFitHeight(250);
-        dck1CardView.setFitWidth(188);
-        grid.add(dck1CardView, 2, 3);
+        dck1CardView.setFitHeight(300);
+        dck1CardView.setFitWidth(225);
+        gridP1.add(dck1CardView, 2, 0);
 
         ImageView deck1View = ImageFactory.getInstance().createImage("imgBck");
         deck1View.setFitHeight(200);
         deck1View.setFitWidth(150);
-        grid.add(deck1View, 3, 3);
+        gridP1.add(deck1View, 3, 0);
 
         infoPokemon1 = new Label(
             "*Nome Pokemon*    HP: 40\n\nEnergias(3):\nFogo: 1\nGrama: 2\n\nStatus:\nEnvenenado\nQueimado\nParalizado"
         );
-        grid.add(infoPokemon1, 1, 3);
+        gridP1.add(infoPokemon1, 1, 0);
 
         infoDeck1 = new Label(
             "Deck: 14\n\nPilha de Descarte(11):\nPokemon: 5\nTreinador: 1\nEnergia: 5"
         );
-        grid.add(infoDeck1, 4, 3);
+        gridP1.add(infoDeck1, 4, 0);
 
-        launchP1Hand(grid, 1, 4);
+        launchP1Hand(gridP1, 1, 1);
+
+        GridPane lifeBar = new GridPane();
+        lifeBar.setHgap(5);
+        ImageView c1 = ImageFactory.getInstance().createImage("fullheart");
+        ImageView c2 = ImageFactory.getInstance().createImage("fullheart");
+        ImageView c3 = ImageFactory.getInstance().createImage("fullheart");
+        c1.setFitHeight(20);
+        c1.setFitWidth(20);
+        c2.setFitHeight(20);
+        c2.setFitWidth(20);
+        c3.setFitHeight(20);
+        c3.setFitWidth(20);
+        lifeBar.add(c1, 0, 0);
+        lifeBar.add(c2, 1, 0);
+        lifeBar.add(c3, 2, 0);
+        gridP1.add(lifeBar, 3, 1);
+
+        grid.add(gridP1, 0, 2);
+
     }
 
     public void launchP2Field(GridPane grid){
 
-        this.lbP2 = new Label("Jogador 2 (Vidas: 3)");
-        grid.add(lbP2, 2, 1);
+        GridPane gridP2 = new GridPane();
+        gridP2.setHgap(15);
+        gridP2.setVgap(15);
+        gridP2.setPadding(new Insets(25, 25, 25, 25));
+
+        lbP2 = new Label("Jogador 2 (Vidas: 3)");
+        gridP2.add(lbP2, 2, 0);
         CardDeck deck2 = new CardDeck(2);
         ImageView dck2CardView = ImageFactory.getInstance().createImage(deck2.draw().getImageId());
-        dck2CardView.setFitHeight(250); // Ajusta altura da imagem
-        dck2CardView.setFitWidth(188); // Ajusta largura da imagem
-        grid.add(dck2CardView, 2, 2);
+        dck2CardView.setFitHeight(300); // Ajusta altura da imagem
+        dck2CardView.setFitWidth(225); // Ajusta largura da imagem
+        gridP2.add(dck2CardView, 2, 1);
 
         ImageView deck2View = ImageFactory.getInstance().createImage("imgBck");
         deck2View.setFitHeight(200);
         deck2View.setFitWidth(150);
-        grid.add(deck2View, 1, 2);
+        gridP2.add(deck2View, 1, 1);
 
         infoPokemon2 = new Label(
             "*Nome Pokemon*    HP: 50\n\nEnergias(4):\nFogo: 3\nGrama: 1\n\nStatus:\nEnvenenado\nParalizado"
         );
-        grid.add(infoPokemon2, 3, 2);
+        gridP2.add(infoPokemon2, 3, 1);
 
         infoDeck2 = new Label(
             "Deck: 22\n\nPilha de Descarte(5):\nPokemon: 1\nTreinador: 1\nEnergia: 3"
         );
-        grid.add(infoDeck2, 0, 2);
+        gridP2.add(infoDeck2, 0, 1);
 
-        launchP2Hand(grid, 3, 1);
+        launchP2Hand(gridP2, 3, 0);
+
+        GridPane lifeBar = new GridPane();
+        lifeBar.setHgap(5);
+        ImageView c1 = ImageFactory.getInstance().createImage("fullheart");
+        ImageView c2 = ImageFactory.getInstance().createImage("fullheart");
+        ImageView c3 = ImageFactory.getInstance().createImage("fullheart");
+        c1.setFitHeight(20);
+        c1.setFitWidth(20);
+        c2.setFitHeight(20);
+        c2.setFitWidth(20);
+        c3.setFitHeight(20);
+        c3.setFitWidth(20);
+        lifeBar.add(c1, 0, 0);
+        lifeBar.add(c2, 1, 0);
+        lifeBar.add(c3, 2, 0);
+        gridP2.add(lifeBar, 1, 0);
+
+        grid.add(gridP2, 0, 1);
 
     }
 
+    public void launchTopCommands(GridPane grid){
+        GridPane gridTopCmd = new GridPane();
+        gridTopCmd.setHgap(50);
+        gridTopCmd.setVgap(10);
+        gridTopCmd.setPadding(new Insets(25, 25, 25, 25));
+        
+        Button changeNameBtn = new Button("Mudar Nomes");
+        changeNameBtn.setOnAction(e -> launchNameWindow());
+        gridTopCmd.add(changeNameBtn, 1, 0);
+
+        Button resetBtn = new Button();
+        resetBtn.setText("Reiniciar");
+        resetBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                updateLabels();
+            }
+        });
+        gridTopCmd.add(resetBtn, 2, 0);
+
+        grid.add(gridTopCmd, 0, 0);
+
+    }
+   
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("JavaFX - Batalha Pokemon");
@@ -265,26 +329,17 @@ public class App extends Application implements Observer{
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
+        launchNameWindow();
         launchP1Field(grid);
         launchP2Field(grid);
-        launchNameWindow();
+        launchTopCommands(grid);
       
-        Button resetBtn = new Button();
-        resetBtn.setText("Reiniciar");
-        resetBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                updateLabels();
-            }
-        });
-        grid.add(resetBtn,2,0);
-
-        // Lanca primaryStage
+        
         fieldScene = new Scene(grid);
         primaryStage.setScene(fieldScene);
         primaryStage.show();
     }
-    
+
     @Override
     public void update(Observable o, Object arg) {
         // TODO Auto-generated method stub
