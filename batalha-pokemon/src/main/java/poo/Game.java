@@ -47,11 +47,13 @@ public class Game extends Observable{
       // Faz acao
 
       // Termina turno
-      public void play(){
+      public void play(Card cartaAcionada){
             GameEvent ge = null;
 
             if (player == 1){
-                  cardOnFieldP1.getId();
+                  if(cartaAcionada == cardOnFieldP2){
+                        
+                  }
             }
 
       }

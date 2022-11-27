@@ -19,7 +19,8 @@ import javafx.event.EventHandler;
 /**
  * App da Batalha de Pokemon
  * 
- * @author vicente322
+ * @author @vicente322
+ * @author @gfgiaretta
  * 
  * @version 2022-11-27
  */

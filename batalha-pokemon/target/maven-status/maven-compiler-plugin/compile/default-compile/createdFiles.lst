@@ -1,4 +1,6 @@
+poo\GameEvent$Action.class
 poo\Card.class
+poo\GameEvent$Target.class
 module-info.class
 poo\App.class
 poo\Game.class
@@ -7,3 +9,4 @@ poo\ImageFactory.class
 poo\CardDeck.class
 poo\PokemonCard.class
 poo\Ataque.class
+poo\GameEvent.class
