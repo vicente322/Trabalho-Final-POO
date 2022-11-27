@@ -8,11 +8,12 @@ package poo;
  */
 
 public class GameEvent {
-      
+      private enum Target {DECK, APP};
+      private enum Action {PLAY};
 
       public GameEvent(){
 
       }
 
-      
+
 }

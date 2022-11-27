@@ -6,7 +6,7 @@ import java.util.Observable;
  * 
  * @author @vicente322
  * 
- * @version 2022-11-26
+ * @version 2022-11-27
  */
 
 public class Game extends Observable{
@@ -49,6 +49,10 @@ public class Game extends Observable{
       // Termina turno
       public void play(){
             GameEvent ge = null;
+
+            if (player == 1){
+                  cardOnFieldP1.getId();
+            }
 
       }
 

@@ -19,7 +19,7 @@ import javafx.stage.Stage;
  * 
  * @author vicente322
  * 
- * @version 2022-11-26
+ * @version 2022-11-27
  */
 
 public class App extends Application implements Observer{
@@ -168,7 +168,7 @@ public class App extends Application implements Observer{
         // TODO Auto-generated method stub
 
     }
-    
+
     public static void main(String args[]){
         launch(args);
     }
