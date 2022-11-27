@@ -12,7 +12,7 @@ import java.util.Observable;
 public class Game extends Observable{
       private static Game game = new Game();
       private CardDeck deckP1, deckP2;
-      private Card cardOnFieldP1, cardOnFieldP2;
+      private Card cardOnFieldP1, cardOnFieldP2; //Vao virar PokemonCard. Por hora ainda nao por ser tirado direto do deck pode dar erro.
       private int player;
 
       /**
@@ -50,11 +50,21 @@ public class Game extends Observable{
       public void play(Card cartaAcionada){
             GameEvent ge = null;
 
-            if (player == 1){
-                  if(cartaAcionada == cardOnFieldP2){
-                        
+            if (cartaAcionada == cardOnFieldP1){
+                  if (player != 1){
+                        ge = new GameEvent(GameEvent.Target.App, GameEvent.Action.NotMyCard, "");
+                        setChanged();
+                        notifyObservers();
+                        //Acoes na carta do adversário
+                        // zoom?
+                  }
+                  else {
+                        ge = new GameEvent(GameEvent.Target.App, GameEvent.Action.FieldCard, "");
                   }
             }
+            // else if (hand.contains(cartaAcionada)){
+                  // ge = new GameEvent(GameEvent.Target.App, GameEvent.Action.HandCard, "");
+            // }
 
       }
 

@@ -8,8 +8,8 @@ package poo;
  */
 
 public class GameEvent {
-      private enum Target {DECK, APP};
-      private enum Action {PLAY};
+      public enum Target {Deck,App};
+      public enum Action {NotMyCard, FieldCard, HandCard};
       
       private Target target;
       private Action action;
