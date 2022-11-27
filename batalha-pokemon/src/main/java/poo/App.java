@@ -1,5 +1,7 @@
 package poo;
 
+import java.util.Observable;
+import java.util.Observer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -11,20 +13,24 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.event.EventHandler;
+
 
 /**
  * App da Batalha de Pokemon
  * 
- * @author vicente322
+ * @author @vicente322
+ * @author @gfgiaretta
  * 
- * @version 2022-11-25
+ * @version 2022-11-27
  */
 
-public class App extends Application{
+public class App extends Application implements Observer{
     private Button hnd1Btn, hnd2Btn, hnd1CloseBtn, hnd2CloseBtn;
     private Stage hnd1Stage, hnd2Stage;
     private Scene fieldScene, hnd1Scene, hnd2Scene;
     private FlowPane hnd1Pane, hnd2Pane;
+    private Label lbP1, lbP2, info1, info2;
 
     /**
      * Metodo para tratar acao do botao para abrir mao do jogador 1
@@ -121,45 +127,51 @@ public class App extends Application{
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        //Cria Card Aron e sua imagem
-        Label lbP2 = new Label("Jogador 2");
+        //Cria CardDeck e sua imagem
+        this.lbP2 = new Label("Jogador 2 (Vidas: 3)");
         grid.add(lbP2, 1, 0);
-        Card aron = new Card("Aron", "aron-card", "aron");
-        ImageView aronImg = ImageFactory.getInstance().createImage(aron.getImageId());
-        aronImg.setFitHeight(250); //Ajusta altura da imagem
-        aronImg.setFitWidth(188); //Ajusta largura da imagem
-        grid.add(aronImg, 1, 1);
+        CardDeck deck2 = new CardDeck(2);
+        ImageView dck2CardView = ImageFactory.getInstance().createImage(deck2.draw().getImageId());
+        dck2CardView.setFitHeight(250); //Ajusta altura da imagem
+        dck2CardView.setFitWidth(188); //Ajusta largura da imagem
+        grid.add(dck2CardView, 1, 1);
 
-        // Cria Card Eevee e sua imagem
-        Label lbP1 = new Label("Jogador 1");
+        // Cria CardDeck e sua imagem
+        this.lbP1 = new Label("Jogador 1 (Vidas: 2)");
         grid.add(lbP1, 1, 3);
-        Card eevee = new Card("Eevee", "eevee-card", "eevee");
-        ImageView eeveeImg = ImageFactory.getInstance().createImage(eevee.getImageId());
-        eeveeImg.setFitHeight(250);
-        eeveeImg.setFitWidth(188);
-        grid.add(eeveeImg, 1, 2);
+        CardDeck deck1 = new CardDeck(1);
+        ImageView dck1CardView = ImageFactory.getInstance().createImage(deck1.draw().getImageId());
+        dck1CardView.setFitHeight(250);
+        dck1CardView.setFitWidth(188);
+        grid.add(dck1CardView, 1, 2);
 
         //Cria deck do jogador 1
-        Card deck1 = new Card("DeckP1", "p1-deck", "imgBck");
-        ImageView deck1View = ImageFactory.getInstance().createImage(deck1.getImageId());
+        ImageView deck1View = ImageFactory.getInstance().createImage("imgBck");
         deck1View.setFitHeight(200);
         deck1View.setFitWidth(150);
         grid.add(deck1View, 2, 2);
 
         //Cria deck do jogador 2
-        Card deck2 = new Card("DeckP2", "p2-deck", "imgBck");
-        ImageView deck2View = ImageFactory.getInstance().createImage(deck2.getImageId());
+        ImageView deck2View = ImageFactory.getInstance().createImage("imgBck");
         deck2View.setFitHeight(200);
         deck2View.setFitWidth(150);
         grid.add(deck2View, 0, 1);
 
-        //Cria pilha de descarte do jogador 1
-        Label descarte1 = new Label("Pilha de descarte");
-        grid.add(descarte1, 0, 2);
+        this.info1 = new Label("HP: 40      Baralho: 17\n\nEnergias(3):\nFogo: 1\nGrama: 2\n\nStatus:\nEnvenenado\nQueimado\nParalizado\n\nPilha de Descarte(11):\nPokemon: 5\nTreinador: 1\nEnergia: 5");
+        grid.add(info1, 0, 2);
 
-        //Cria pilha de descarte do jogador 2
-        Label descarte2 = new Label("Pilha de descarte");
-        grid.add(descarte2, 2, 1);
+        this.info2 = new Label("HP: 50      Baralho: 18\n\nEnergias(3):\nAgua: 2\nMetal: 1\n\nStatus:\nEnvenenado\nQueimado\nDormindo\n\nPilha de Descarte(7):\nPokemon: 3\nTreinador: 1\nEnergia: 3");
+        grid.add(info2, 2, 1);
+
+        Button resetBtn = new Button();
+        resetBtn.setText("Reiniciar");
+        resetBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                updateLabels();
+            }
+        });
+        grid.add(resetBtn,2,0);
 
         launchP1Hand(grid); // Uso de metodos pra deixar a leitura do codigo mais facil
         launchP2Hand(grid);
@@ -170,9 +182,25 @@ public class App extends Application{
         primaryStage.setScene(fieldScene);
         primaryStage.show(); 
     }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+        // TODO Auto-generated method stub
+
+    }
+
+    public void updateLabels()
+    {
+        info1.setText("HP: 20      Baralho: 16\n\nEnergias(4):\nFogo: 2\nGrama: 2\n\nStatus:\n\nQueimado\nParalizado\n\nPilha de Descarte(13):\nPokemon: 7\nTreinador: 1\nEnergia: 5");
+        info2.setText("HP: 50      Baralho: 24\n\nEnergias(0):\n\n\n\nStatus:\n\n\n\n\nPilha de Descarte(0):\nPokemon: 0\nTreinador: 0\nEnergia: 0");
+        lbP1.setText("Jogador 1 (Vidas: 4)");
+        lbP2.setText("Jogador 1 (Vidas: 4)");
+    }
 
     public static void main(String args[]){
         launch(args);
-    }    
+    }
+    
+    
 
 }

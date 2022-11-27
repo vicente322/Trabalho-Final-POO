@@ -11,7 +11,7 @@ import java.util.*;
  * @version 2022-11-25
  */
 
-public class Card extends Observable{
+public abstract class Card extends Observable{
     private String nome;
     private String id;
     private String imageId;
@@ -33,4 +33,6 @@ public class Card extends Observable{
     public String getImageId(){
         return(imageId);
     }
+
+    public abstract String toString();
 }
