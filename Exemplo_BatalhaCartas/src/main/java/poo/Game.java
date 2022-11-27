@@ -22,7 +22,7 @@ public class Game extends Observable{
         jogadas = CardDeck.NCARDS;
     }
     
-    private void nextPlayer(){ //Avanca jogador. Por que ate 4 jogadores(?)
+    private void nextPlayer(){ //Avanca jogador. Jogador 3 eh para o clean
         player++;
         if (player == 4){
             player = 1;
@@ -48,14 +48,16 @@ public class Game extends Observable{
     public void play(CardDeck deckAcionado){
         GameEvent gameEvent = null;
 
-        if (player == 3){
+        // Se o jogador for o 3, instancia gameEvent com target em GWin e acao
+        // MustClean, sem argumentos
+        if (player == 3){ // Se o jogador for o 3, instancia gameEvent com target em GWin e acao MustClean, sem argumentos
                 gameEvent = new GameEvent(GameEvent.Target.GWIN,GameEvent.Action.MUSTCLEAN,"");
                 setChanged();
                 notifyObservers((Object)gameEvent);
                 return;
         }        
-        if (deckAcionado == deckJ1){
-            if (player != 1){
+        if (deckAcionado == deckJ1){ //Confere se o deck acionado foi o 1
+            if (player != 1){ //Se o deck acionado foi o 1 mas nao eh a vez do player 1,
                 gameEvent = new GameEvent(GameEvent.Target.GWIN,GameEvent.Action.INVPLAY,"2");
                 setChanged();
                 notifyObservers((Object)gameEvent);

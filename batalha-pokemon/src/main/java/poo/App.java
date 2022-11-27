@@ -124,7 +124,8 @@ public class App extends Application{
         //Cria Card Aron e sua imagem
         Label lbP2 = new Label("Jogador 2");
         grid.add(lbP2, 1, 0);
-        Card aron = new Card("Aron", "aron-card", "aron");
+        PokemonCard aron = new PokemonCard("Aron", "aron-card", "aron", 60,
+                                            new Ataque("Tackle", 10), new Ataque("Metal Claw", 30));
         ImageView aronImg = ImageFactory.getInstance().createImage(aron.getImageId());
         aronImg.setFitHeight(250); //Ajusta altura da imagem
         aronImg.setFitWidth(188); //Ajusta largura da imagem
@@ -133,33 +134,24 @@ public class App extends Application{
         // Cria Card Eevee e sua imagem
         Label lbP1 = new Label("Jogador 1");
         grid.add(lbP1, 1, 3);
-        Card eevee = new Card("Eevee", "eevee-card", "eevee");
+        PokemonCard eevee = new PokemonCard("Eevee", "eevee-card", "eevee", 60,
+                                            new Ataque("Tackle", 10), new Ataque("Lunge", 30));
         ImageView eeveeImg = ImageFactory.getInstance().createImage(eevee.getImageId());
         eeveeImg.setFitHeight(250);
         eeveeImg.setFitWidth(188);
         grid.add(eeveeImg, 1, 2);
 
         //Cria deck do jogador 1
-        Card deck1 = new Card("DeckP1", "p1-deck", "imgBck");
-        ImageView deck1View = ImageFactory.getInstance().createImage(deck1.getImageId());
+        ImageView deck1View = ImageFactory.getInstance().createImage("imgBck");
         deck1View.setFitHeight(200);
         deck1View.setFitWidth(150);
         grid.add(deck1View, 2, 2);
 
         //Cria deck do jogador 2
-        Card deck2 = new Card("DeckP2", "p2-deck", "imgBck");
-        ImageView deck2View = ImageFactory.getInstance().createImage(deck2.getImageId());
+        ImageView deck2View = ImageFactory.getInstance().createImage("imgBck");
         deck2View.setFitHeight(200);
         deck2View.setFitWidth(150);
         grid.add(deck2View, 0, 1);
-
-        //Cria pilha de descarte do jogador 1
-        Label descarte1 = new Label("Pilha de descarte");
-        grid.add(descarte1, 0, 2);
-
-        //Cria pilha de descarte do jogador 2
-        Label descarte2 = new Label("Pilha de descarte");
-        grid.add(descarte2, 2, 1);
 
         launchP1Hand(grid); // Uso de metodos pra deixar a leitura do codigo mais facil
         launchP2Hand(grid);

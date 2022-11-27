@@ -1,4 +1,7 @@
 poo\Card.class
 module-info.class
 poo\App.class
+poo\Game.class
 poo\ImageFactory.class
+poo\PokemonCard.class
+poo\Ataque.class

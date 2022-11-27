@@ -1,7 +1,4 @@
 package poo;
-
-import java.util.*;
-
 /**
  * 
  * @author @gfgiaretta
@@ -138,12 +135,24 @@ public class PokemonCard extends Card{
     public Tipo getTipo(){
         return tipo;
     }
+    */
+
+    /**
+     * 
+     * @return Ataque 1 do pokemon
+     */
     public Ataque getAtaque1(){
         return ataque1;
     }
+    /**
+     * 
+     * @return Ataque 2 do pokemon, se houer. Caso nao haja, retorna null
+     */
     public Ataque getAtaque2(){
         return ataque2;
     }
+
+    /*
     public int getCustoRecuo(){
         return custoRecuo;
     }
@@ -170,12 +179,23 @@ public class PokemonCard extends Card{
     }
     */
 
+    /**
+     * 
+     * @param dano Dano recebido
+     */
     public void damage(int dano){
-        currentHP-=dano;
+        currentHP -= dano;
     }
-    public void heal(int dano){
-        currentHP+=dano;
-        if (currentHP>defaultHP){currentHP=defaultHP;}
+    /**
+     * 
+     * @param cura Quantidade de vida curada.
+     * Cura a vida do pokemon, nao ultrapassando a vida base
+     */
+    public void heal(int cura){
+        currentHP += cura;
+        if (currentHP>defaultHP){
+            currentHP=defaultHP;
+        }
     }
     
     /*
