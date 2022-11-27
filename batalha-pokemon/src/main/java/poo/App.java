@@ -1,7 +1,7 @@
 package poo;
 
-import javax.crypto.spec.DESKeySpec;
-
+import java.util.Observable;
+import java.util.Observer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -22,7 +22,7 @@ import javafx.stage.Stage;
  * @version 2022-11-26
  */
 
-public class App extends Application{
+public class App extends Application implements Observer{
     private Button hnd1Btn, hnd2Btn, hnd1CloseBtn, hnd2CloseBtn;
     private Stage hnd1Stage, hnd2Stage;
     private Scene fieldScene, hnd1Scene, hnd2Scene;
@@ -162,9 +162,17 @@ public class App extends Application{
         primaryStage.setScene(fieldScene);
         primaryStage.show(); 
     }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+        // TODO Auto-generated method stub
 
+    }
+    
     public static void main(String args[]){
         launch(args);
-    }    
+    }
+    
+    
 
 }
