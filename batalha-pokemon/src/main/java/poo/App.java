@@ -18,6 +18,7 @@ import javafx.event.EventHandler;
 
 /**
  * App da Batalha de Pokemon
+ * Gerencia o front-end
  * 
  * @author @vicente322
  * @author @gfgiaretta
@@ -30,7 +31,7 @@ public class App extends Application implements Observer{
     private Stage hnd1Stage, hnd2Stage;
     private Scene fieldScene, hnd1Scene, hnd2Scene;
     private FlowPane hnd1Pane, hnd2Pane;
-    private Label lbP1, lbP2, info1, info2;
+    private Label lbP1, lbP2, infoPokemon1, infoPokemon2, infoDeck1, infoDeck2;
 
     /**
      * Metodo para tratar acao do botao para abrir mao do jogador 1
@@ -72,11 +73,11 @@ public class App extends Application implements Observer{
      * Armazena sequencia que organiza a mao do jogador 1
      * @param grid GridPane do Stage principal
      */
-    public void launchP1Hand(GridPane grid){
+    public void launchP1Hand(GridPane grid, int btnX, int btnY){
         // Cria botao da mao do jogador 1
         hnd1Btn = new Button("Mao do Jogador 1");
         hnd1Btn.setOnAction(e -> trataBtnHand1(e));
-        grid.add(hnd1Btn, 2, 3);
+        grid.add(hnd1Btn, btnX, btnY);
         // Fecha a janela da mao do jogador 1
         hnd1CloseBtn = new Button("Fechar");
         hnd1CloseBtn.setOnAction(e -> trataBtnCloseHand1(e));
@@ -115,7 +116,87 @@ public class App extends Application implements Observer{
         hnd2Stage.setScene(hnd2Scene);
         hnd2Stage.setTitle("Player 2 Hand");
     }
-    
+    /**
+     * Metodo que guarda os comandos do lado do jogador 1
+     * @param grid GridPane onde tudo sera colocado
+     * 
+     * O metodo esta divido em blocos para facilitar a visualizacao
+     * 
+     * O primeiro bloco adiciona o Label do jogador 1
+     * 
+     * O segundo bloco adiciona o deck do jogador, criando uma imagem da primeira carta retirada
+     * Futuramente essa carta sera um botao para selecionar as acoes da carta (Ataque, zoom)
+     *  *****TEM QUE SER ADAPTADO PARA SOMENTE REAGIR AO GAME*****
+     * 
+     * O terceiro bloco cria uma imagem para representar o deck. Futuramente pode ser um botao para o proprio deck
+     * 
+     * O quarto bloco adiciona Label para dar informacoes da carta no campo
+     * 
+     * O quinto bloco adiciona Label para dar informacoes do deck e da pilha de descarte
+     * 
+     * O ultimo bloco cria o Label com as informacoes do pokemon e do deck
+     *  **SEPARAR INFORMACOES DO DECK DO POKEMON**
+     * 
+     * COISA A SEREM ADICIONADAS:
+     * - Vidas do jogador em coracoes
+     * 
+     */
+    public void launchP1Field(GridPane grid){
+        
+        lbP1 = new Label("Jogador 1 (Vidas: 2)");
+        grid.add(lbP1, 2, 4);
+
+        CardDeck deck1 = new CardDeck(1);
+        ImageView dck1CardView = ImageFactory.getInstance().createImage(deck1.draw().getImageId());
+        dck1CardView.setFitHeight(250);
+        dck1CardView.setFitWidth(188);
+        grid.add(dck1CardView, 2, 3);
+
+        ImageView deck1View = ImageFactory.getInstance().createImage("imgBck");
+        deck1View.setFitHeight(200);
+        deck1View.setFitWidth(150);
+        grid.add(deck1View, 3, 3);
+
+        infoPokemon1 = new Label(
+            "*Nome Pokemon*    HP: 40\n\nEnergias(3):\nFogo: 1\nGrama: 2\n\nStatus:\nEnvenenado\nQueimado\nParalizado"
+        );
+        grid.add(infoPokemon1, 1, 3);
+
+        infoDeck1 = new Label(
+            "Deck: 14\n\nPilha de Descarte(11):\nPokemon: 5\nTreinador: 1\nEnergia: 5"
+        );
+        grid.add(infoDeck1, 4, 3);
+
+        launchP1Hand(grid, 1, 4);
+    }
+
+    public void launchP2Field(GridPane grid){
+
+        this.lbP2 = new Label("Jogador 2 (Vidas: 3)");
+        grid.add(lbP2, 2, 1);
+        CardDeck deck2 = new CardDeck(2);
+        ImageView dck2CardView = ImageFactory.getInstance().createImage(deck2.draw().getImageId());
+        dck2CardView.setFitHeight(250); // Ajusta altura da imagem
+        dck2CardView.setFitWidth(188); // Ajusta largura da imagem
+        grid.add(dck2CardView, 2, 2);
+
+        ImageView deck2View = ImageFactory.getInstance().createImage("imgBck");
+        deck2View.setFitHeight(200);
+        deck2View.setFitWidth(150);
+        grid.add(deck2View, 1, 2);
+
+        infoPokemon2 = new Label(
+            "*Nome Pokemon*    HP: 50\n\nEnergias(4):\nFogo: 3\nGrama: 1\n\nStatus:\nEnvenenado\nParalizado"
+        );
+        grid.add(infoPokemon2, 3, 2);
+
+        infoDeck2 = new Label(
+            "Deck: 22\n\nPilha de Descarte(5):\nPokemon: 1\nTreinador: 1\nEnergia: 3"
+        );
+        grid.add(infoDeck2, 0, 2);
+
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("JavaFX - Batalha Pokemon");
@@ -127,42 +208,11 @@ public class App extends Application implements Observer{
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        //Cria CardDeck e sua imagem
-        this.lbP2 = new Label("Jogador 2 (Vidas: 3)");
-        grid.add(lbP2, 1, 0);
-        CardDeck deck2 = new CardDeck(2);
-        ImageView dck2CardView = ImageFactory.getInstance().createImage(deck2.draw().getImageId());
-        dck2CardView.setFitHeight(250); //Ajusta altura da imagem
-        dck2CardView.setFitWidth(188); //Ajusta largura da imagem
-        grid.add(dck2CardView, 1, 1);
+        launchP1Field(grid);
+        launchP2Field(grid);
 
-        // Cria CardDeck e sua imagem
-        this.lbP1 = new Label("Jogador 1 (Vidas: 2)");
-        grid.add(lbP1, 1, 3);
-        CardDeck deck1 = new CardDeck(1);
-        ImageView dck1CardView = ImageFactory.getInstance().createImage(deck1.draw().getImageId());
-        dck1CardView.setFitHeight(250);
-        dck1CardView.setFitWidth(188);
-        grid.add(dck1CardView, 1, 2);
-
-        //Cria deck do jogador 1
-        ImageView deck1View = ImageFactory.getInstance().createImage("imgBck");
-        deck1View.setFitHeight(200);
-        deck1View.setFitWidth(150);
-        grid.add(deck1View, 2, 2);
-
-        //Cria deck do jogador 2
-        ImageView deck2View = ImageFactory.getInstance().createImage("imgBck");
-        deck2View.setFitHeight(200);
-        deck2View.setFitWidth(150);
-        grid.add(deck2View, 0, 1);
-
-        this.info1 = new Label("HP: 40      Baralho: 17\n\nEnergias(3):\nFogo: 1\nGrama: 2\n\nStatus:\nEnvenenado\nQueimado\nParalizado\n\nPilha de Descarte(11):\nPokemon: 5\nTreinador: 1\nEnergia: 5");
-        grid.add(info1, 0, 2);
-
-        this.info2 = new Label("HP: 50      Baralho: 18\n\nEnergias(3):\nAgua: 2\nMetal: 1\n\nStatus:\nEnvenenado\nQueimado\nDormindo\n\nPilha de Descarte(7):\nPokemon: 3\nTreinador: 1\nEnergia: 3");
-        grid.add(info2, 2, 1);
-
+        launchP2Hand(grid);
+      
         Button resetBtn = new Button();
         resetBtn.setText("Reiniciar");
         resetBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -172,10 +222,6 @@ public class App extends Application implements Observer{
             }
         });
         grid.add(resetBtn,2,0);
-
-        launchP1Hand(grid); // Uso de metodos pra deixar a leitura do codigo mais facil
-        launchP2Hand(grid);
-        
 
         // Lanca primaryStage
         fieldScene = new Scene(grid);
@@ -189,10 +235,11 @@ public class App extends Application implements Observer{
 
     }
 
-    public void updateLabels()
-    {
-        info1.setText("HP: 20      Baralho: 16\n\nEnergias(4):\nFogo: 2\nGrama: 2\n\nStatus:\n\nQueimado\nParalizado\n\nPilha de Descarte(13):\nPokemon: 7\nTreinador: 1\nEnergia: 5");
-        info2.setText("HP: 50      Baralho: 24\n\nEnergias(0):\n\n\n\nStatus:\n\n\n\n\nPilha de Descarte(0):\nPokemon: 0\nTreinador: 0\nEnergia: 0");
+    public void updateLabels(){
+        infoPokemon1.setText("*Nome Pokemon*    HP: 60\n\nEnergias(0):\n\n\n\nStatus:");
+        infoPokemon2.setText("*Nome Pokemon*    HP: 60\n\nEnergias(0):\n\n\n\nStatus:");
+        infoDeck1.setText("Deck: 30\n\nPilha de Descarte(0):");
+        infoDeck2.setText("Deck: 30\n\nPilha de Descarte(0):");
         lbP1.setText("Jogador 1 (Vidas: 4)");
         lbP2.setText("Jogador 1 (Vidas: 4)");
     }

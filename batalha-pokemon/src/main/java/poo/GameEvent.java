@@ -1,7 +1,9 @@
 package poo;
 
 /**
- * 
+ * Classe GameEvent
+ * Gera estruturas para comunicar entre as classes
+ *  
  * @author @vicente322
  * 
  * @version 2022-11-27

@@ -3,6 +3,8 @@ package poo;
 import java.util.Observable;
 
 /**
+ * Classe Game
+ * Gerencia o back-end do jogo
  * 
  * @author @vicente322
  * 
