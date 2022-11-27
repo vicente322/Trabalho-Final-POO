@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.scene.control.TextField;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -26,11 +27,13 @@ import javafx.event.EventHandler;
  */
 
 public class App extends Application implements Observer{
-    private Button hnd1Btn, hnd2Btn, hnd1CloseBtn, hnd2CloseBtn;
-    private Stage hnd1Stage, hnd2Stage;
-    private Scene fieldScene, hnd1Scene, hnd2Scene;
+    private Button hnd1Btn, hnd2Btn, hnd1CloseBtn, hnd2CloseBtn, confirmNamesBtn;
+    private Stage hnd1Stage, hnd2Stage, confirmNameStage;
+    private Scene fieldScene, hnd1Scene, hnd2Scene, confirmNameScene;
     private FlowPane hnd1Pane, hnd2Pane;
     private Label lbP1, lbP2, info1, info2;
+    private String jogador1Nome,jogador2Nome;
+    private TextField jogador1, jogador2;
 
     /**
      * Metodo para tratar acao do botao para abrir mao do jogador 1
@@ -68,6 +71,54 @@ public class App extends Application implements Observer{
     public void trataBtnCloseHand2(ActionEvent e) {
         hnd2Stage.close();
     }
+
+    /**
+     * Armazena sequencia que organiza a mao do jogador 1
+     * @param e Evento do botao
+     *          Ao ser pressionado, atualiza os nomes de P1 e P2 e fecha a janela.
+     */
+
+    public void trataBtnCloseConfirm(ActionEvent e) {
+        jogador1Nome = jogador1.getText();
+        jogador2Nome = jogador2.getText();
+        lbP1.setText(jogador1Nome + " (Vidas: 4)");
+        lbP2.setText(jogador2Nome + " (Vidas: 4)");
+        confirmNameStage.close();
+    }
+
+    /**
+     * Armazena sequencia que cria e mostra a janela de inserção de nomes dos jogadores
+     */
+
+    public void launchNameWindow(){
+        // Fecha a janela de informar nomes
+        confirmNamesBtn = new Button("Confirmar");
+        confirmNamesBtn.setOnAction(e -> trataBtnCloseConfirm(e));
+        // Define janela de inserção de nomes
+        GridPane gridNomes = new GridPane();
+        gridNomes.setAlignment(Pos.CENTER);
+        gridNomes.setHgap(10);
+        gridNomes.setVgap(10);
+        gridNomes.setPadding(new Insets(25, 25, 25, 25));
+        gridNomes.add(confirmNamesBtn,1,4);
+        // Lanca Stage para inserir nomes
+        confirmNameScene = new Scene(gridNomes);
+        confirmNameStage = new Stage();
+        confirmNameStage.setScene(confirmNameScene);
+        confirmNameStage.setTitle("Informe seus nomes.");
+
+        Label lbP1InsertNome = new Label("Nome do Jogador 1:");
+        gridNomes.add(lbP1InsertNome,0,2);
+        jogador1 = new TextField();
+        gridNomes.add(jogador1,1,2);
+        Label lbP2InsertNome = new Label("Nome do Jogador 2:");
+        gridNomes.add(lbP2InsertNome,0,3);
+        jogador2 = new TextField();
+        gridNomes.add(jogador2,1,3);
+
+        confirmNameStage.show();
+    }
+
     /**
      * Armazena sequencia que organiza a mao do jogador 1
      * @param grid GridPane do Stage principal
@@ -91,6 +142,7 @@ public class App extends Application implements Observer{
         hnd1Stage.setScene(hnd1Scene);
         hnd1Stage.setTitle("Player 1 Hand");
     }
+
     /**
      * Armazena sequencia que organiza a mao do jogador 2
      * 
@@ -119,6 +171,8 @@ public class App extends Application implements Observer{
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("JavaFX - Batalha Pokemon");
+        jogador1Nome = "Jogador 1";
+        jogador2Nome = "Jogador 2";
 
         //Cria Grid
         GridPane grid = new GridPane();
@@ -175,12 +229,13 @@ public class App extends Application implements Observer{
 
         launchP1Hand(grid); // Uso de metodos pra deixar a leitura do codigo mais facil
         launchP2Hand(grid);
+        launchNameWindow();
         
 
         // Lanca primaryStage
         fieldScene = new Scene(grid);
         primaryStage.setScene(fieldScene);
-        primaryStage.show(); 
+        primaryStage.show();
     }
     
     @Override
@@ -193,8 +248,8 @@ public class App extends Application implements Observer{
     {
         info1.setText("HP: 20      Baralho: 16\n\nEnergias(4):\nFogo: 2\nGrama: 2\n\nStatus:\n\nQueimado\nParalizado\n\nPilha de Descarte(13):\nPokemon: 7\nTreinador: 1\nEnergia: 5");
         info2.setText("HP: 50      Baralho: 24\n\nEnergias(0):\n\n\n\nStatus:\n\n\n\n\nPilha de Descarte(0):\nPokemon: 0\nTreinador: 0\nEnergia: 0");
-        lbP1.setText("Jogador 1 (Vidas: 4)");
-        lbP2.setText("Jogador 1 (Vidas: 4)");
+        lbP1.setText(jogador1Nome + " (Vidas: 4)");
+        lbP2.setText(jogador2Nome + " (Vidas: 4)");
     }
 
     public static void main(String args[]){
