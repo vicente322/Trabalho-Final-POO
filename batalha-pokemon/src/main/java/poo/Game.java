@@ -1,15 +1,18 @@
 package poo;
 
+import java.util.Observable;
+
 /**
  * 
  * @author @vicente322
  * 
- * @version 2022-11-26
+ * @version 2022-11-27
  */
 
-public class Game {
+public class Game extends Observable{
       private static Game game = new Game();
-      private Card pkmn1, pkmn2;
+      private CardDeck deckP1, deckP2;
+      private Card cardOnFieldP1, cardOnFieldP2;
       private int player;
 
       /**
@@ -23,10 +26,10 @@ public class Game {
        * Construtor de Game
        */
       private Game(){
-            pkmn1 = new PokemonCard("Aron", "aron-card", "aron", 60,
-                                    new Ataque("Tackle", 10), new Ataque("Metal Claw", 30));
-            pkmn2 = new PokemonCard("Eevee", "eevee-card", "eevee", 60,
-                                    new Ataque("Tackle", 10), new Ataque("Lunge", 30));
+            deckP1 = new CardDeck(1);
+            deckP2 = new CardDeck(2);
+            cardOnFieldP1 = deckP1.draw();
+            cardOnFieldP2 = deckP2.draw();
             player = 1;
       }
       /**
@@ -38,41 +41,18 @@ public class Game {
                   player = 1;
             }
       }
-      /**
-       * 
-       * @return Carta Pokemon do jogador 1
-       */
-      public Card getCardP1(){
-            return pkmn1;
-      }
-      /**
-       * 
-       * @return Carta Pokemon do jogador 2
-       */
-      public Card getCardP2(){
-            return pkmn2;
-      }
 
+      // Compra carta
+
+      // Faz acao
+
+      // Termina turno
       public void play(){
-
-            //Compra carta
-
-            //Faz acao 
+            GameEvent ge = null;
 
             if (player == 1){
-                  
-                  
-
-
+                  cardOnFieldP1.getId();
             }
-            else {
-
-            }
-
-
-
-            //Termina turno
-
 
       }
 

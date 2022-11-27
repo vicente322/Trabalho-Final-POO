@@ -1,7 +1,7 @@
 package poo;
 
-import javax.crypto.spec.DESKeySpec;
-
+import java.util.Observable;
+import java.util.Observer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -13,20 +13,23 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.event.EventHandler;
+
 
 /**
  * App da Batalha de Pokemon
  * 
  * @author vicente322
  * 
- * @version 2022-11-26
+ * @version 2022-11-27
  */
 
-public class App extends Application{
+public class App extends Application implements Observer{
     private Button hnd1Btn, hnd2Btn, hnd1CloseBtn, hnd2CloseBtn;
     private Stage hnd1Stage, hnd2Stage;
     private Scene fieldScene, hnd1Scene, hnd2Scene;
     private FlowPane hnd1Pane, hnd2Pane;
+    private Label lbP1, lbP2, info1, info2;
 
     /**
      * Metodo para tratar acao do botao para abrir mao do jogador 1
@@ -124,7 +127,7 @@ public class App extends Application{
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         //Cria CardDeck e sua imagem
-        Label lbP2 = new Label("Jogador 2");
+        this.lbP2 = new Label("Jogador 2 (Vidas: 3)");
         grid.add(lbP2, 1, 0);
         CardDeck deck2 = new CardDeck(2);
         ImageView dck2CardView = ImageFactory.getInstance().createImage(deck2.draw().getImageId());
@@ -133,7 +136,7 @@ public class App extends Application{
         grid.add(dck2CardView, 1, 1);
 
         // Cria CardDeck e sua imagem
-        Label lbP1 = new Label("Jogador 1");
+        this.lbP1 = new Label("Jogador 1 (Vidas: 2)");
         grid.add(lbP1, 1, 3);
         CardDeck deck1 = new CardDeck(1);
         ImageView dck1CardView = ImageFactory.getInstance().createImage(deck1.draw().getImageId());
@@ -153,6 +156,22 @@ public class App extends Application{
         deck2View.setFitWidth(150);
         grid.add(deck2View, 0, 1);
 
+        this.info1 = new Label("HP: 40      Baralho: 17\n\nEnergias(3):\nFogo: 1\nGrama: 2\n\nStatus:\nEnvenenado\nQueimado\nParalizado\n\nPilha de Descarte(11):\nPokemon: 5\nTreinador: 1\nEnergia: 5");
+        grid.add(info1, 0, 2);
+
+        this.info2 = new Label("HP: 50      Baralho: 18\n\nEnergias(3):\nAgua: 2\nMetal: 1\n\nStatus:\nEnvenenado\nQueimado\nDormindo\n\nPilha de Descarte(7):\nPokemon: 3\nTreinador: 1\nEnergia: 3");
+        grid.add(info2, 2, 1);
+
+        Button resetBtn = new Button();
+        resetBtn.setText("Reiniciar");
+        resetBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                updateLabels();
+            }
+        });
+        grid.add(resetBtn,2,0);
+
         launchP1Hand(grid); // Uso de metodos pra deixar a leitura do codigo mais facil
         launchP2Hand(grid);
         
@@ -162,9 +181,25 @@ public class App extends Application{
         primaryStage.setScene(fieldScene);
         primaryStage.show(); 
     }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+        // TODO Auto-generated method stub
+
+    }
+
+    public void updateLabels()
+    {
+        info1.setText("HP: 20      Baralho: 16\n\nEnergias(4):\nFogo: 2\nGrama: 2\n\nStatus:\n\nQueimado\nParalizado\n\nPilha de Descarte(13):\nPokemon: 7\nTreinador: 1\nEnergia: 5");
+        info2.setText("HP: 50      Baralho: 24\n\nEnergias(0):\n\n\n\nStatus:\n\n\n\n\nPilha de Descarte(0):\nPokemon: 0\nTreinador: 0\nEnergia: 0");
+        lbP1.setText("Jogador 1 (Vidas: 4)");
+        lbP2.setText("Jogador 1 (Vidas: 4)");
+    }
 
     public static void main(String args[]){
         launch(args);
-    }    
+    }
+    
+    
 
 }

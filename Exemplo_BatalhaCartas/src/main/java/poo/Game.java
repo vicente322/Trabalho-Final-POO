@@ -1,8 +1,9 @@
 package poo;
 
+import java.beans.PropertyChangeListenerProxy;
 import java.util.*;
 
-public class Game extends Observable{
+public class Game extends PropertyChangeListener{
     private static Game game = new Game();
     private int ptsJ1,ptsJ2; //Pontos de cada jogador. Manter? Substituir por pokemons derrotados?a
     private CardDeck deckJ1,deckJ2; //Decks
