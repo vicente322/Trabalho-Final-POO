@@ -194,7 +194,7 @@ public class App extends Application implements Observer{
         gridP1.setVgap(10);
         gridP1.setPadding(new Insets(25, 25, 25, 25));
 
-        lbP1 = new Label("Jogador 1 (Vidas: 2)");
+        lbP1 = new Label("Jogador 1");
         gridP1.add(lbP1, 2, 1);
         
         CardDeck deck1 = new CardDeck(1);
@@ -247,7 +247,7 @@ public class App extends Application implements Observer{
         gridP2.setVgap(15);
         gridP2.setPadding(new Insets(25, 25, 25, 25));
 
-        lbP2 = new Label("Jogador 2 (Vidas: 3)");
+        lbP2 = new Label("Jogador 2");
         gridP2.add(lbP2, 2, 0);
         CardDeck deck2 = new CardDeck(2);
         ImageView dck2CardView = ImageFactory.getInstance().createImage(deck2.draw().getImageId());
@@ -276,7 +276,7 @@ public class App extends Application implements Observer{
         lifeBar.setHgap(5);
         ImageView c1 = ImageFactory.getInstance().createImage("fullheart");
         ImageView c2 = ImageFactory.getInstance().createImage("fullheart");
-        ImageView c3 = ImageFactory.getInstance().createImage("fullheart");
+        ImageView c3 = ImageFactory.getInstance().createImage("emptyheart");
         c1.setFitHeight(20);
         c1.setFitWidth(20);
         c2.setFitHeight(20);
@@ -351,8 +351,8 @@ public class App extends Application implements Observer{
         infoPokemon2.setText("*Nome Pokemon*    HP: 60\n\nEnergias(0):\n\n\n\nStatus:");
         infoDeck1.setText("Deck: 30\n\nPilha de Descarte(0):");
         infoDeck2.setText("Deck: 30\n\nPilha de Descarte(0):");
-        lbP1.setText(jogador1Nome + " (Vidas: 4)");
-        lbP2.setText(jogador2Nome + " (Vidas: 4)");
+        lbP1.setText(jogador1Nome);
+        lbP2.setText(jogador2Nome);
     }
 
     public static void main(String args[]){
