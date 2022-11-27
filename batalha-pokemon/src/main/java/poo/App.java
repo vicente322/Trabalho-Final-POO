@@ -1,5 +1,7 @@
 package poo;
 
+import javax.crypto.spec.DESKeySpec;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -121,25 +123,23 @@ public class App extends Application{
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        //Cria Card Aron e sua imagem
+        //Cria CardDeck e sua imagem
         Label lbP2 = new Label("Jogador 2");
         grid.add(lbP2, 1, 0);
-        PokemonCard aron = new PokemonCard("Aron", "aron-card", "aron", 60,
-                                            new Ataque("Tackle", 10), new Ataque("Metal Claw", 30));
-        ImageView aronImg = ImageFactory.getInstance().createImage(aron.getImageId());
-        aronImg.setFitHeight(250); //Ajusta altura da imagem
-        aronImg.setFitWidth(188); //Ajusta largura da imagem
-        grid.add(aronImg, 1, 1);
+        CardDeck deck2 = new CardDeck(2);
+        ImageView dck2CardView = ImageFactory.getInstance().createImage(deck2.draw().getImageId());
+        dck2CardView.setFitHeight(250); //Ajusta altura da imagem
+        dck2CardView.setFitWidth(188); //Ajusta largura da imagem
+        grid.add(dck2CardView, 1, 1);
 
-        // Cria Card Eevee e sua imagem
+        // Cria CardDeck e sua imagem
         Label lbP1 = new Label("Jogador 1");
         grid.add(lbP1, 1, 3);
-        PokemonCard eevee = new PokemonCard("Eevee", "eevee-card", "eevee", 60,
-                                            new Ataque("Tackle", 10), new Ataque("Lunge", 30));
-        ImageView eeveeImg = ImageFactory.getInstance().createImage(eevee.getImageId());
-        eeveeImg.setFitHeight(250);
-        eeveeImg.setFitWidth(188);
-        grid.add(eeveeImg, 1, 2);
+        CardDeck deck1 = new CardDeck(1);
+        ImageView dck1CardView = ImageFactory.getInstance().createImage(deck1.draw().getImageId());
+        dck1CardView.setFitHeight(250);
+        dck1CardView.setFitWidth(188);
+        grid.add(dck1CardView, 1, 2);
 
         //Cria deck do jogador 1
         ImageView deck1View = ImageFactory.getInstance().createImage("imgBck");

@@ -3,5 +3,6 @@ module-info.class
 poo\App.class
 poo\Game.class
 poo\ImageFactory.class
+poo\CardDeck.class
 poo\PokemonCard.class
 poo\Ataque.class

@@ -25,20 +25,44 @@ public class CardDeck{
 
         if (deckNum == 1){
             cartas.add(new PokemonCard("Eevee", "eevee-card", "eevee",
-                            60, new Ataque("Tackle", 10),
-                                       new Ataque("Lunge", 30)));
+                    60, new Ataque("Tackle", 10),
+                    new Ataque("Lunge", 30)));
             cartas.add(new PokemonCard("Piplup", "piplup-card", "piplup",
-                            70, new Ataque("Peck", 10),
-                                       new Ataque("Wave Splash", 20)));
+                    70, new Ataque("Peck", 10),
+                    new Ataque("Wave Splash", 20)));
         }
         else if (deckNum == 2){
             cartas.add(new PokemonCard("Aron", "aron-card", "aron",
-                                       60, new Ataque("Tackle", 10),
-                                       new Ataque("Metal Claw", 30)));
+                    60, new Ataque("Tackle", 10),
+                    new Ataque("Metal Claw", 30)));
             cartas.add(new PokemonCard("Rookidee", "rookidee-card", "rookidee",
-                                       60, new Ataque("Flap", 10),
-                                       new Ataque("Glide", 30)));
+                    60, new Ataque("Flap", 10),
+                    new Ataque("Glide", 30)));
         }
+    }
+    /**
+     * Construtor de CardDeck indicando qual deck criar.
+     * @param deckNum numero do deck que se deseja criar.
+     */
+    public CardDeck(int deckNum){
+        cartas = new ArrayList<>();
+
+        if (deckNum == 1) {
+            cartas.add(new PokemonCard("Eevee", "eevee-card", "eevee",
+                    60, new Ataque("Tackle", 10),
+                    new Ataque("Lunge", 30)));
+            cartas.add(new PokemonCard("Piplup", "piplup-card", "piplup",
+                    70, new Ataque("Peck", 10),
+                    new Ataque("Wave Splash", 20)));
+        }
+        else if (deckNum == 2) {
+            cartas.add(new PokemonCard("Aron", "aron-card", "aron",
+                    60, new Ataque("Tackle", 10),
+                    new Ataque("Metal Claw", 30)));
+            cartas.add(new PokemonCard("Rookidee", "rookidee-card", "rookidee",
+                    60, new Ataque("Flap", 10),
+                    new Ataque("Glide", 30)));
+        }        
     }
     /**
      * 
