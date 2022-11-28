@@ -13,9 +13,10 @@ import javafx.scene.layout.HBox;
  * @version 2022-11-27
  */
 
-public class DeckView extends HBox implements CardObserver, Observer{
+public class DeckView extends HBox implements Observer, CardObserver{
       private int player;
       private CardDeck cDeck;
+      private Card selectedCard;
 
 
       public DeckView(int nroPlayer){
@@ -31,11 +32,25 @@ public class DeckView extends HBox implements CardObserver, Observer{
                   cDeck = Game.getInstance().getDeckP2();
             }
             cDeck.addObserver(this);
+
+            for(Card card : cDeck.getCards()){
+                  CardView cv = new CardView(card, 300);
+                  cv.setCardObserver(this);
+                  this.getChildren().add(cv);
+            }
       }
 
       @Override
       public void update(Observable o, Object arg) {
-            // TODO Auto-generated method stub
+            
+            GameEvent ge = (GameEvent)arg;
+
+            if (ge.getTarget() != GameEvent.Target.Deck){
+                  return;
+            }
+            if (ge.getAction() == GameEvent.Action.Draw){
+
+            }
             
       }
 
@@ -44,6 +59,7 @@ public class DeckView extends HBox implements CardObserver, Observer{
             // TODO Auto-generated method stub
             
       }
+      
       
 
 }

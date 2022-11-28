@@ -80,14 +80,14 @@ public class Game extends Observable{
 
             if (cartaAcionada == cardOnFieldP1){
                   if (player != 1){
-                        ge = new GameEvent(GameEvent.Target.App, GameEvent.Action.NotMyCard, "");
+                        // ge = new GameEvent(GameEvent.Target.App, GameEvent.Action.NotMyCard, "");
                         setChanged();
                         notifyObservers();
                         //Acoes na carta do adversário
                         // zoom?
                   }
                   else {
-                        ge = new GameEvent(GameEvent.Target.App, GameEvent.Action.FieldCard, "");
+                        // ge = new GameEvent(GameEvent.Target.App, GameEvent.Action.FieldCard, "");
                   }
             }
             // else if (hand.contains(cartaAcionada)){

@@ -198,13 +198,12 @@ public class App extends Application implements Observer{
         gridP1.add(lbP1, 2, 1);
         
         CardDeck deck1 = new CardDeck(1);
-        CardView fieldCard = new CardView(deck1.draw());
-        fieldCard.setStyle("-fx-border-width: 225; -fx-border-height: 300");
+        CardView fieldCard = new CardView(deck1.draw(), 300);
         gridP1.add(fieldCard, 2, 0);
 
         ImageView deck1View = ImageFactory.getInstance().createImage("imgBck");
         deck1View.setFitHeight(200);
-        deck1View.setFitWidth(150);
+        deck1View.setPreserveRatio(true);
         gridP1.add(deck1View, 3, 0);
 
         infoPokemon1 = new Label(
@@ -248,11 +247,11 @@ public class App extends Application implements Observer{
 
         lbP2 = new Label("Jogador 2");
         gridP2.add(lbP2, 2, 0);
+
         CardDeck deck2 = new CardDeck(2);
-        ImageView dck2CardView = ImageFactory.getInstance().createImage(deck2.draw().getImageId());
-        dck2CardView.setFitHeight(300); // Ajusta altura da imagem
-        dck2CardView.setFitWidth(225); // Ajusta largura da imagem
-        gridP2.add(dck2CardView, 2, 1);
+
+        CardView fieldCard = new CardView(deck2.draw(), 300);
+        gridP2.add(fieldCard, 2, 1);
 
         ImageView deck2View = ImageFactory.getInstance().createImage("imgBck");
         deck2View.setFitHeight(200);
@@ -290,19 +289,25 @@ public class App extends Application implements Observer{
         grid.add(gridP2, 0, 1);
 
     }
-
+    /**
+     * Metodo que guarda instrucoes dos comandos da barra superior
+     * @param grid GridPane principal onde ficara a barra de comandos
+     */
     public void launchTopCommands(GridPane grid){
         GridPane gridTopCmd = new GridPane();
         gridTopCmd.setHgap(50);
         gridTopCmd.setVgap(10);
         gridTopCmd.setPadding(new Insets(25, 25, 25, 25));
         
+        Button nextBtn = new Button("Passar turno");
+        // nextBtn.setOnAction(PASSAR TURNO);
+        gridTopCmd.add(nextBtn, 0, 0);
+
         Button changeNameBtn = new Button("Mudar Nomes");
         changeNameBtn.setOnAction(e -> launchNameWindow());
         gridTopCmd.add(changeNameBtn, 1, 0);
 
-        Button resetBtn = new Button();
-        resetBtn.setText("Reiniciar");
+        Button resetBtn = new Button("Reiniciar");
         resetBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -310,6 +315,10 @@ public class App extends Application implements Observer{
             }
         });
         gridTopCmd.add(resetBtn, 2, 0);
+
+        Button exitBtn = new Button("Sair");
+        // exitBtn.setOnAction(FECHAR TUDO);
+        gridTopCmd.add(exitBtn, 3, 0);
 
         grid.add(gridTopCmd, 0, 0);
 

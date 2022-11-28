@@ -18,14 +18,14 @@ public class CardView extends Button implements Observer{
       private CardView thisCard;
       private CardObserver observer;
 
-      public CardView(Card aCard){
+      public CardView(Card aCard, int btnHeight){
             super("");
             card = aCard;
             card.addObserver(this);
             thisCard = this;
 
             ImageView img = ImageFactory.getInstance().createImage(aCard.getImageId());
-            img.setFitHeight(300);
+            img.setFitHeight(btnHeight);
             img.setPreserveRatio(true);
 
             super.setGraphic(img);
