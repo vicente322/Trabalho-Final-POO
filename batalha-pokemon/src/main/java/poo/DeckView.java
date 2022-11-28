@@ -45,12 +45,7 @@ public class DeckView extends HBox implements Observer, CardObserver{
             
             GameEvent ge = (GameEvent)arg;
 
-            if (ge.getTarget() != GameEvent.Target.Deck){
-                  return;
-            }
-            if (ge.getAction() == GameEvent.Action.Draw){
-
-            }
+            
             
       }
 

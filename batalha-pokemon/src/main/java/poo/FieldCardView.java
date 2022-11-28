@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 public class FieldCardView extends HBox implements CardObserver, Observer{
       private int player;
       private FieldCard fieldCard;
+      private CardView cv;
 
       public FieldCardView(int nroPlayer){
             player = nroPlayer;
@@ -29,11 +30,19 @@ public class FieldCardView extends HBox implements CardObserver, Observer{
             }
 
             fieldCard.addObserver(this);
+
+            cv =  new CardView(fieldCard.getCard(), 300);
+            cv.setCardObserver(this);
+            this.getChildren().add(cv);
+      }
+
+      public CardView getCardView(){
+            return cv;
       }
 
       @Override
       public void cardSelected(CardView card) {
-            Game.getInstance().play(fieldCard);
+            Game.getInstance().play(fieldCard);            
       }
       
 

@@ -31,18 +31,20 @@ public class CardView extends Button implements Observer{
             super.setGraphic(img);
 
             this.setOnAction(e -> {
-                  System.out.println(card.getNome());
-                  System.out.println(card.getId());
+                  if (observer != null){
+                        observer.cardSelected(thisCard);
+                  }
             });
       }
 
       @Override
       public void update(Observable o, Object arg) {
-            GameEvent ge = null;
 
             if (arg == null){
                   return;
             }
+
+            GameEvent ge = (GameEvent)arg;           
             
             
       }

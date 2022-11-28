@@ -194,9 +194,12 @@ public class App extends Application implements Observer{
         lbP1 = new Label("Jogador 1");
         gridP1.add(lbP1, 2, 1);
         
+
+        
         CardDeck deck1 = new CardDeck(1);
-        CardView fieldCard = new CardView(deck1.draw(), 200);
-        gridP1.add(fieldCard, 2, 0);
+
+        FieldCardView fieldCardView1 = new FieldCardView(1);
+        gridP1.add(fieldCardView1, 2, 0);
 
         ImageView deck1View = ImageFactory.getInstance().createImage("imgBck");
         deck1View.setFitHeight(200);
@@ -247,8 +250,8 @@ public class App extends Application implements Observer{
 
         CardDeck deck2 = new CardDeck(2);
 
-        CardView fieldCard = new CardView(deck2.draw(), 200);
-        gridP2.add(fieldCard, 2, 1);
+        FieldCardView fieldCardView2 = new FieldCardView(2);
+        gridP2.add(fieldCardView2, 2, 1);
 
         ImageView deck2View = ImageFactory.getInstance().createImage("imgBck");
         deck2View.setFitHeight(200);
@@ -350,7 +353,42 @@ public class App extends Application implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        // TODO Auto-generated method stub
+        
+        if (arg == null){
+            return;
+        }
+
+        GameEvent ge = (GameEvent) arg;
+
+        if (ge.getTarget() == GameEvent.Target.App){
+
+            switch(ge.getAction()){
+                case PLayerFieldOption:
+                    GridPane pOpPane = new GridPane();
+                    pOpPane.setAlignment(Pos.CENTER);
+                    pOpPane.setVgap(10);
+                    pOpPane.setStyle("-fx-background-color:tan");
+                    pOpPane.setMinSize(100, 200);
+
+                    Button ataque1 = new Button("Ataque 1");
+                    pOpPane.add(ataque1, 0, 0);
+                    Button ataque2 = new Button("Ataque 2");
+                    pOpPane.add(ataque2, 0, 1);
+                    Button zoom = new Button("Zoom");
+                    pOpPane.add(zoom, 0, 2);
+                    Button cancel = new Button("Cancelar");
+                    pOpPane.add(cancel, 0, 3);
+
+                    Scene pOpScene = new Scene(pOpPane);
+                    Stage pOpStage = new Stage();
+                    pOpStage.setScene(pOpScene);
+                    pOpStage.setTitle("Options");
+                    pOpStage.show();
+
+            }
+
+
+        }
 
     }
 

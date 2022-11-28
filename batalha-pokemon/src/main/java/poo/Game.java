@@ -63,6 +63,13 @@ public class Game extends Observable{
       }
       /**
        * 
+       * @return Numero do plaeyr atual
+       */
+      public int getPlayer(){
+            return player;
+      }
+      /**
+       * 
        * @return Deck do player 1
        */
       public CardDeck getDeckP1(){
@@ -108,20 +115,20 @@ public class Game extends Observable{
             GameEvent ge = null;
 
             if ((FieldCard)objetoAcionado == fieldCardP1){
-                  if (player != 1){
-                        // ge = new GameEvent(GameEvent.Target.App, GameEvent.Action.NotMyCard, "");
+                  if (player == 1){
+                        ge = new GameEvent(GameEvent.Target.App, GameEvent.Action.PLayerFieldOption, "1");
                         setChanged();
-                        notifyObservers();
-                        //Acoes na carta do adversário
-                        // zoom?
-                  }
-                  else {
-                        // ge = new GameEvent(GameEvent.Target.App, GameEvent.Action.FieldCard, "");
+                        notifyObservers((Object)ge);
                   }
             }
-            // else if (hand.contains(cartaAcionada)){
-                  // ge = new GameEvent(GameEvent.Target.App, GameEvent.Action.HandCard, "");
-            // }
+            else if ((FieldCard)objetoAcionado == fieldCardP2){
+                  if (player == 2) {
+                        ge = new GameEvent(GameEvent.Target.App, GameEvent.Action.PLayerFieldOption, "2");
+                        setChanged();
+                        notifyObservers((Object) ge);
+                  }
+            }
+            
 
       }
 
