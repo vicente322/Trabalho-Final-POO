@@ -80,8 +80,8 @@ public class App extends Application implements Observer{
     public void trataBtnCloseConfirm(ActionEvent e) {
         jogador1Nome = jogador1.getText();
         jogador2Nome = jogador2.getText();
-        lbP1.setText(jogador1Nome + " (Vidas: 4)");
-        lbP2.setText(jogador2Nome + " (Vidas: 4)");
+        lbP1.setText(jogador1Nome);
+        lbP2.setText(jogador2Nome);
         confirmNameStage.close();
     }
     /**
@@ -198,10 +198,9 @@ public class App extends Application implements Observer{
         gridP1.add(lbP1, 2, 1);
         
         CardDeck deck1 = new CardDeck(1);
-        ImageView dck1CardView = ImageFactory.getInstance().createImage(deck1.draw().getImageId());
-        dck1CardView.setFitHeight(300);
-        dck1CardView.setFitWidth(225);
-        gridP1.add(dck1CardView, 2, 0);
+        CardView fieldCard = new CardView(deck1.draw());
+        fieldCard.setStyle("-fx-border-width: 225; -fx-border-height: 300");
+        gridP1.add(fieldCard, 2, 0);
 
         ImageView deck1View = ImageFactory.getInstance().createImage("imgBck");
         deck1View.setFitHeight(200);
@@ -318,6 +317,8 @@ public class App extends Application implements Observer{
    
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Game.getInstance().addObserver(this);
+
         primaryStage.setTitle("JavaFX - Batalha Pokemon");
         jogador1Nome = "Jogador 1";
         jogador2Nome = "Jogador 2";
@@ -329,7 +330,6 @@ public class App extends Application implements Observer{
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        launchNameWindow();
         launchP1Field(grid);
         launchP2Field(grid);
         launchTopCommands(grid);
@@ -338,6 +338,8 @@ public class App extends Application implements Observer{
         fieldScene = new Scene(grid);
         primaryStage.setScene(fieldScene);
         primaryStage.show();
+
+        launchNameWindow();
     }
 
     @Override
