@@ -31,9 +31,8 @@ public class CardView extends Button implements Observer{
             super.setGraphic(img);
 
             this.setOnAction(e -> {
-                  if (observer != null){
-                        observer.cardSelected(thisCard);
-                  }
+                  System.out.println(card.getNome());
+                  System.out.println(card.getId());
             });
       }
 

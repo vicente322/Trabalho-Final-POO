@@ -14,7 +14,7 @@ import java.util.Observable;
 public class Game extends Observable{
       private static Game game = new Game();
       private CardDeck deckP1, deckP2;
-      private Card cardOnFieldP1, cardOnFieldP2; //Vao virar PokemonCard. Por hora ainda nao por ser tirado direto do deck pode dar erro.
+      private FieldCard fieldCardP1, fieldCardP2; //Vao virar PokemonCard. Por hora ainda nao por ser tirado direto do deck pode dar erro.
       private int player, p1Life, p2Life;
       private int initialLife = 3;
 
@@ -31,8 +31,23 @@ public class Game extends Observable{
       private Game(){
             deckP1 = new CardDeck(1);
             deckP2 = new CardDeck(2);
-            cardOnFieldP1 = deckP1.draw();
-            cardOnFieldP2 = deckP2.draw();
+
+            Card c1 = null;
+            while (!(c1 instanceof PokemonCard)){
+                  deckP1.addCard(c1);
+                  deckP1.shuffle();
+                  c1 = deckP1.draw();
+            }
+            fieldCardP1 = new FieldCard((PokemonCard)c1);
+
+            Card c2 = null;
+            while (!(c2 instanceof PokemonCard)){
+                  deckP1.addCard(c2);
+                  deckP1.shuffle();
+                  c2 = deckP1.draw();
+            }
+            fieldCardP2 = new FieldCard((PokemonCard)c2);
+
             p1Life = initialLife;
             p2Life = initialLife;
             player = 1;
@@ -64,7 +79,7 @@ public class Game extends Observable{
        * 
        * @return Vidas do player 1
        */
-      public int getP1Life(){
+      public int getP1Life() {
             return p1Life;
       }
       /**
@@ -74,11 +89,25 @@ public class Game extends Observable{
       public int getP2Life(){
             return p2Life;
       }
+      /**
+       * 
+       * @return Field Card do jogador 1
+       */
+      public FieldCard getFieldP1(){
+            return fieldCardP1;
+      }
+      /**
+       * 
+       * @return Field Card do jogador 2
+       */
+      public FieldCard getFieldP2(){
+            return fieldCardP2;
+      }
 
-      public void play(Card cartaAcionada){
+      public void play(Object objetoAcionado){
             GameEvent ge = null;
 
-            if (cartaAcionada == cardOnFieldP1){
+            if ((FieldCard)objetoAcionado == fieldCardP1){
                   if (player != 1){
                         // ge = new GameEvent(GameEvent.Target.App, GameEvent.Action.NotMyCard, "");
                         setChanged();

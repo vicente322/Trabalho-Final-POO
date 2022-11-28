@@ -6,6 +6,7 @@ poo\Game.class
 poo\App$1.class
 poo\PokemonCard.class
 poo\Ataque.class
+poo\FieldCardView.class
 poo\CardView.class
 poo\GameEvent$Action.class
 poo\FieldCard.class
