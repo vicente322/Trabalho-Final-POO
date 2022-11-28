@@ -8,6 +8,7 @@ import java.util.Random;
 /**
  * 
  * @author @vicente322
+ * @author @alvarocgm
  * 
  * @version 2022-11-26
  */
@@ -25,16 +26,11 @@ public class CardDeck extends Observable{
         int deckNum = r.nextInt(2) + 1;
 
         if (deckNum == 1){
-            cartas.add(new PokemonCard("Eevee", "eevee-card1", "eevee",
-                    60,Tipo.Normal,1,Tipo.Fighting,null, new Ataque("Tackle", 10, 0, 1, Tipo.Normal),
-                    new Ataque("Lunge", 30, 1,2, Tipo.Normal)));
-            cartas.add(new PokemonCard("Eevee", "eevee-card2", "eevee",
-                    60,Tipo.Normal,1,Tipo.Fighting,null, new Ataque("Tackle", 10, 0, 1, Tipo.Normal),
-                    new Ataque("Lunge", 30, 1,2, Tipo.Normal)));
+            cartas.add(new PokemonCard("Eevee", "eevee-card1", "eevee", 60,Tipo.Normal,1,Tipo.Fighting,null, new Ataque("Tackle", 10, 0, 1, Tipo.Normal), new Ataque("Lunge", 30, 1,2, Tipo.Normal)));
+            cartas.add(new PokemonCard("Eevee", "eevee-card2", "eevee", 60,Tipo.Normal,1,Tipo.Fighting,null, new Ataque("Tackle", 10, 0, 1, Tipo.Normal), new Ataque("Lunge", 30, 1,2, Tipo.Normal)));
             cartas.add(new PokemonCard("Vulpix", "vulpix-card1", "vulpix", 60, Tipo.Fire, 1, Tipo.Water, null, new Ataque("Singe", 0, 2, 1, Tipo.Fire)));
             cartas.add(new PokemonCard("Vulpix", "vulpix-card2", "vulpix", 60, Tipo.Fire, 1, Tipo.Water, null, new Ataque("Singe", 0, 2, 1, Tipo.Fire)));
-            cartas.add(new PokemonCard("Ninetales", "ninetales-card", "ninetales", 120, Tipo.Fire, 1, Tipo.Water, 
-            "Vulpix", new Ataque("Hex", 30, 3, 1, Tipo.Fire), new Ataque("Flickering Flames", 90, 4, 3, Tipo.Fire)));
+            cartas.add(new PokemonCard("Ninetales", "ninetales-card", "ninetales", 120, Tipo.Fire, 1, Tipo.Water,  "Vulpix", new Ataque("Hex", 30, 3, 1, Tipo.Fire), new Ataque("Flickering Flames", 90, 4, 3, Tipo.Fire)));
             cartas.add(new PokemonCard("Bellsprout", "bellsprout-card1", "bellsprout", 60, Tipo.Grass, 1, Tipo.Water, null, new Ataque("Blot", 20, 5, 2, Tipo.Grass)));
             cartas.add(new PokemonCard("Bellsprout", "bellsprout-card2", "bellsprout", 60, Tipo.Grass, 1, Tipo.Water, null, new Ataque("Blot", 20, 5, 2, Tipo.Grass)));
             cartas.add(new PokemonCard("Weepibell", "weepibell-card", "weepinbell", 80, Tipo.Grass, 2, Tipo.Fire, "Bellsprout", new Ataque("Burning Venom", 0, 6, 1, Tipo.Grass), new Ataque("Ram", 30, 0, 2, Tipo.Normal)));
@@ -62,16 +58,12 @@ public class CardDeck extends Observable{
             cartas.add(new Energia("Grass Energy", "grassEnergy-card5", "grassenergy", Tipo.Grass));
         }
         else if (deckNum == 2){
-            cartas.add(new PokemonCard("Aron", "aron-card1", "aron",60, Tipo.Steel, 1, Tipo.Fire, null, new Ataque("Tackle", 10, 0, 1, Tipo.Normal),
-                    new Ataque("Metal Claw", 30, 0, 3, Tipo.Normal )));
-                                  cartas.add(new PokemonCard("Aron", "aron-card2", "aron",60, Tipo.Steel, 1, Tipo.Fire, null, new Ataque("Tackle", 10, 0, 1, Tipo.Normal),
-                    new Ataque("Metal Claw", 30, 0, 3, Tipo.Normal )));
-            cartas.add(new PokemonCard("Rookidee", "rookidee-card1", "rookidee",60, Tipo.Normal, 1, Tipo.Electric, null, new Ataque("Flap", 10, 0, 1, Tipo.Normal),
-                    new Ataque("Glide", 30, 0, 2, Tipo.Normal)));
-                    cartas.add(new PokemonCard("Rookidee", "rookidee-card2", "rookidee",60, Tipo.Normal, 1, Tipo.Electric, null, new Ataque("Flap", 10, 0, 1, Tipo.Normal),
-                    new Ataque("Glide", 30, 0, 2, Tipo.Normal)));
-            cartas.add(new PokemonCard("Piplup", "piplup-card1","piplup", 70, 0, 1, Tipo.Water, 1, Tipo.Electric, null, new Ataque("Peck", 10, 0, 1, Tipo.Water), new Ataque("Wave Splash", 20, 0, 2, Tipo.Water)));
-            cartas.add(new PokemonCard("Piplup", "piplup-card2","piplup", 70, 0, 1, Tipo.Water, 1, Tipo.Electric, null, new Ataque("Peck", 10, 0, 1, Tipo.Water), new Ataque("Wave Splash", 20, 0, 2, Tipo.Water)));
+            cartas.add(new PokemonCard("Aron", "aron-card1", "aron",60, Tipo.Steel, 1, Tipo.Fire, null, new Ataque("Tackle", 10, 0, 1, Tipo.Normal), new Ataque("Metal Claw", 30, 0, 3, Tipo.Normal )));
+            cartas.add(new PokemonCard("Aron", "aron-card2", "aron",60, Tipo.Steel, 1, Tipo.Fire, null, new Ataque("Tackle", 10, 0, 1, Tipo.Normal), new Ataque("Metal Claw", 30, 0, 3, Tipo.Normal )));
+            cartas.add(new PokemonCard("Rookidee", "rookidee-card1", "rookidee",60, Tipo.Normal, 1, Tipo.Electric, null, new Ataque("Flap", 10, 0, 1, Tipo.Normal), new Ataque("Glide", 30, 0, 2, Tipo.Normal)));
+            cartas.add(new PokemonCard("Rookidee", "rookidee-card2", "rookidee",60, Tipo.Normal, 1, Tipo.Electric, null, new Ataque("Flap", 10, 0, 1, Tipo.Normal), new Ataque("Glide", 30, 0, 2, Tipo.Normal)));
+            cartas.add(new PokemonCard("Piplup", "piplup-card1","piplup", 70, Tipo.Water, 1, Tipo.Electric, null, new Ataque("Peck", 10, 0, 1, Tipo.Water), new Ataque("Wave Splash", 20, 0, 2, Tipo.Water)));
+            cartas.add(new PokemonCard("Piplup", "piplup-card2", "piplup", 70, Tipo.Water, 1, Tipo.Electric, null, new Ataque("Peck", 10, 0, 1, Tipo.Water), new Ataque("Wave Splash", 20, 0, 2, Tipo.Water)));
             cartas.add(new PokemonCard("Starly", "starly-card1", "starly", 60, Tipo.Normal, 1, Tipo.Electric, null, new Ataque("Claw", 30, 0, 1, Tipo.Normal)));
             cartas.add(new PokemonCard("Starly", "starly-card2", "starly", 60, Tipo.Normal, 1, Tipo.Electric, null, new Ataque("Claw", 30, 0, 1, Tipo.Normal)));
             cartas.add(new PokemonCard("Alolan Sandshrew", "alolanSandshrew-card1", "alolansandshrew", 60, Tipo.Water, 1, Tipo.Steel, null, new Ataque("Fury Swipes", 10, 16, 0, Tipo.Normal)));
@@ -96,8 +88,6 @@ public class CardDeck extends Observable{
             cartas.add(new Energia("Steel Energy", "steelenergy-card3", "steelenergy", Tipo.Steel));
             cartas.add(new Energia("Steel Energy", "steelenergy-card4", "steelenergy", Tipo.Steel));
             cartas.add(new Energia("Steel Energy", "steelenergy-card5", "steelenergy", Tipo.Steel));
-
-
         }
 
         Collections.shuffle(cartas);
@@ -110,12 +100,8 @@ public class CardDeck extends Observable{
         cartas = new ArrayList<>();
 
         if (deckNum == 1) {
-            cartas.add(new PokemonCard("Eevee", "eevee-card1", "eevee",
-                    60,Tipo.Normal,1,Tipo.Fighting,null, new Ataque("Tackle", 10, 0, 1, Tipo.Normal),
-                    new Ataque("Lunge", 30, 1,2, Tipo.Normal)));
-            cartas.add(new PokemonCard("Eevee", "eevee-card2", "eevee",
-                    60,Tipo.Normal,1,Tipo.Fighting,null, new Ataque("Tackle", 10, 0, 1, Tipo.Normal),
-                    new Ataque("Lunge", 30, 1,2, Tipo.Normal)));
+            cartas.add(new PokemonCard("Eevee", "eevee-card1", "eevee", 60,Tipo.Normal,1,Tipo.Fighting,null, new Ataque("Tackle", 10, 0, 1, Tipo.Normal), new Ataque("Lunge", 30, 1,2, Tipo.Normal)));
+            cartas.add(new PokemonCard("Eevee", "eevee-card2", "eevee", 60,Tipo.Normal,1,Tipo.Fighting,null, new Ataque("Tackle", 10, 0, 1, Tipo.Normal), new Ataque("Lunge", 30, 1,2, Tipo.Normal)));
             cartas.add(new PokemonCard("Vulpix", "vulpix-card1", "vulpix", 60, Tipo.Fire, 1, Tipo.Water, null, new Ataque("Singe", 0, 2, 1, Tipo.Fire)));
             cartas.add(new PokemonCard("Vulpix", "vulpix-card2", "vulpix", 60, Tipo.Fire, 1, Tipo.Water, null, new Ataque("Singe", 0, 2, 1, Tipo.Fire)));
             cartas.add(new PokemonCard("Ninetales", "ninetales-card", "ninetales", 120, Tipo.Fire, 1, Tipo.Water, 
@@ -147,16 +133,12 @@ public class CardDeck extends Observable{
             cartas.add(new Energia("Grass Energy", "grassEnergy-card5", "grassenergy", Tipo.Grass));
         }
         else if (deckNum == 2) {
-            cartas.add(new PokemonCard("Aron", "aron-card1", "aron",60, Tipo.Steel, 1, Tipo.Fire, null, new Ataque("Tackle", 10, 0, 1, Tipo.Normal),
-                    new Ataque("Metal Claw", 30, 0, 3, Tipo.Normal )));
-                                  cartas.add(new PokemonCard("Aron", "aron-card2", "aron",60, Tipo.Steel, 1, Tipo.Fire, null, new Ataque("Tackle", 10, 0, 1, Tipo.Normal),
-                    new Ataque("Metal Claw", 30, 0, 3, Tipo.Normal )));
-            cartas.add(new PokemonCard("Rookidee", "rookidee-card1", "rookidee",60, Tipo.Normal, 1, Tipo.Electric, null, new Ataque("Flap", 10, 0, 1, Tipo.Normal),
-                    new Ataque("Glide", 30, 0, 2, Tipo.Normal)));
-                    cartas.add(new PokemonCard("Rookidee", "rookidee-card2", "rookidee",60, Tipo.Normal, 1, Tipo.Electric, null, new Ataque("Flap", 10, 0, 1, Tipo.Normal),
-                    new Ataque("Glide", 30, 0, 2, Tipo.Normal)));
-            cartas.add(new PokemonCard("Piplup", "piplup-card1","piplup", 70, 0, 1, Tipo.Water, 1, Tipo.Electric, null, new Ataque("Peck", 10, 0, 1, Tipo.Water), new Ataque("Wave Splash", 20, 0, 2, Tipo.Water)));
-            cartas.add(new PokemonCard("Piplup", "piplup-card2","piplup", 70, 0, 1, Tipo.Water, 1, Tipo.Electric, null, new Ataque("Peck", 10, 0, 1, Tipo.Water), new Ataque("Wave Splash", 20, 0, 2, Tipo.Water)));
+            cartas.add(new PokemonCard("Aron", "aron-card1", "aron",60, Tipo.Steel, 1, Tipo.Fire, null, new Ataque("Tackle", 10, 0, 1, Tipo.Normal), new Ataque("Metal Claw", 30, 0, 3, Tipo.Normal )));
+            cartas.add(new PokemonCard("Aron", "aron-card2", "aron",60, Tipo.Steel, 1, Tipo.Fire, null, new Ataque("Tackle", 10, 0, 1, Tipo.Normal), new Ataque("Metal Claw", 30, 0, 3, Tipo.Normal )));
+            cartas.add(new PokemonCard("Rookidee", "rookidee-card1", "rookidee",60, Tipo.Normal, 1, Tipo.Electric, null, new Ataque("Flap", 10, 0, 1, Tipo.Normal), new Ataque("Glide", 30, 0, 2, Tipo.Normal)));
+            cartas.add(new PokemonCard("Rookidee", "rookidee-card2", "rookidee",60, Tipo.Normal, 1, Tipo.Electric, null, new Ataque("Flap", 10, 0, 1, Tipo.Normal), new Ataque("Glide", 30, 0, 2, Tipo.Normal)));
+            cartas.add(new PokemonCard("Piplup", "piplup-card1", "piplup", 70, Tipo.Water, 1, Tipo.Electric, null, new Ataque("Peck", 10, 0, 1, Tipo.Water), new Ataque("Wave Splash", 20, 0, 2, Tipo.Water)));
+            cartas.add(new PokemonCard("Piplup", "piplup-card2", "piplup", 70, Tipo.Water, 1, Tipo.Electric, null, new Ataque("Peck", 10, 0, 1, Tipo.Water), new Ataque("Wave Splash", 20, 0, 2, Tipo.Water)));
             cartas.add(new PokemonCard("Starly", "starly-card1", "starly", 60, Tipo.Normal, 1, Tipo.Electric, null, new Ataque("Claw", 30, 0, 1, Tipo.Normal)));
             cartas.add(new PokemonCard("Starly", "starly-card2", "starly", 60, Tipo.Normal, 1, Tipo.Electric, null, new Ataque("Claw", 30, 0, 1, Tipo.Normal)));
             cartas.add(new PokemonCard("Alolan Sandshrew", "alolanSandshrew-card1", "alolansandshrew", 60, Tipo.Water, 1, Tipo.Steel, null, new Ataque("Fury Swipes", 10, 16, 0, Tipo.Normal)));

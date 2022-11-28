@@ -11,10 +11,9 @@ public class PokemonCard extends Card{
     
     private int defaultHP;
     private int currentHP;
-    // private Tipo tipo;
+    private Tipo tipo;
     private Ataque ataque1;
     private Ataque ataque2;
-    /*
     private int custoRecuo;
     private Tipo fraquezaTipo;
     private Tipo resistenciaTipo;
@@ -23,40 +22,28 @@ public class PokemonCard extends Card{
     private boolean queimado;
     private boolean envenenado;
     private String status3;
-    */
+    
 
-    /**
-     * Construtor de carta de pokemon. Elementos incompletos para testar por partes.
-     * @param nome Nome da carta
-     * @param anId Id da Carta
-     * @param anImageId Id da imagem da carta
-     * @param defaultHP HP base
-     * @param ataque1 Ataque 1 do pokemon
-     * @param ataque2 Ataque 2 do pokemon
-     */
-    public PokemonCard(String nome, String anId, String anImageId, int defaultHP, Ataque ataque1, Ataque ataque2) {
-        super(nome, anId, anImageId);
+    
 
-    }
-
-    /*
+    
     public PokemonCard (String nome, String anId, String anImageId, int defaultHP, Tipo tipo,
                         int custoRecuo, Tipo fraquezaTipo, Tipo resistenciaTipo, int resistenciaValor,
                         String evoluiDe, Ataque ataque1, Ataque ataque2){
         super(nome,anId,anImageId);
         this.defaultHP = defaultHP;
         this.currentHP = defaultHP;
-        // this.tipo = tipo;
-        // this.custoRecuo = custoRecuo;
-        // this.fraquezaTipo = fraquezaTipo;
-        // this.resistenciaTipo = resistenciaTipo;
-        // this.resistenciaValor = resistenciaValor;
-        // this.evoluiDe = evoluiDe;
-        // this.ataque1 = ataque1;
-        // this.ataque2=ataque2;
-        // this.queimado=false;
-        // this.envenenado=false;
-        // this.status3=null;
+        this.tipo = tipo;
+        this.custoRecuo = custoRecuo;
+        this.fraquezaTipo = fraquezaTipo;
+        this.resistenciaTipo = resistenciaTipo;
+        this.resistenciaValor = resistenciaValor;
+        this.evoluiDe = evoluiDe;
+        this.ataque1 = ataque1;
+        this.ataque2=ataque2;
+        this.queimado=false;
+        this.envenenado=false;
+        this.status3=null;
     }
 
     public PokemonCard (String nome, String anId, String anImageId, int defaultHP, Tipo tipo,
@@ -66,17 +53,17 @@ public class PokemonCard extends Card{
         super(nome,anId,anImageId);
         this.defaultHP = defaultHP;
         this.currentHP = defaultHP;
-        // this.tipo = tipo;
-        // this.custoRecuo = custoRecuo;
-        // this.fraquezaTipo = fraquezaTipo;
-        // this.resistenciaTipo = resistenciaTipo;
-        // this.resistenciaValor = resistenciaValor;
-        // this.evoluiDe = evoluiDe;
-        // this.ataque1 = ataque1;
-        // this.ataque2=null;
-        // this.queimado=false;
-        // this.envenenado=false;
-        // this.status3=null;
+        this.tipo = tipo;
+        this.custoRecuo = custoRecuo;
+        this.fraquezaTipo = fraquezaTipo;
+        this.resistenciaTipo = resistenciaTipo;
+        this.resistenciaValor = resistenciaValor;
+        this.evoluiDe = evoluiDe;
+        this.ataque1 = ataque1;
+        this.ataque2=null;
+        this.queimado=false;
+        this.envenenado=false;
+        this.status3=null;
     }
 
     public PokemonCard (String nome,String anId,String anImageId,int defaultHP,Tipo tipo,int custoRecuo,Tipo fraquezaTipo,String evoluiDe,Ataque ataque1, Ataque ataque2)
@@ -84,17 +71,17 @@ public class PokemonCard extends Card{
         super(nome,anId,anImageId);
         this.defaultHP = defaultHP;
         this.currentHP = defaultHP;
-        // this.tipo = tipo;
-        // this.custoRecuo = custoRecuo;
-        // this.fraquezaTipo = fraquezaTipo;
-        // this.resistenciaTipo = null;
-        // this.resistenciaValor = 0;
-        // this.evoluiDe = evoluiDe;
-        // this.ataque1 = ataque1;
-        // this.ataque2=ataque2;
-        // this.queimado=false;
-        // this.envenenado=false;
-        // this.status3=null;
+        this.tipo = tipo;
+        this.custoRecuo = custoRecuo;
+        this.fraquezaTipo = fraquezaTipo;
+        this.resistenciaTipo = null;
+        this.resistenciaValor = 0;
+        this.evoluiDe = evoluiDe;
+        this.ataque1 = ataque1;
+        this.ataque2=ataque2;
+        this.queimado=false;
+        this.envenenado=false;
+        this.status3=null;
     }
 
     public PokemonCard (String nome,String anId,String anImageId,int defaultHP,Tipo tipo,int custoRecuo,Tipo fraquezaTipo,String evoluiDe,Ataque ataque1)
@@ -102,19 +89,18 @@ public class PokemonCard extends Card{
         super(nome,anId,anImageId);
         this.defaultHP = defaultHP;
         this.currentHP = defaultHP;
-        // this.tipo = tipo;
-        // this.custoRecuo = custoRecuo;
-        // this.fraquezaTipo = fraquezaTipo;
-        // this.resistenciaTipo = null;
-        // this.resistenciaValor = 0;
-        // this.evoluiDe = evoluiDe;
-        // this.ataque1 = ataque1;
-        // this.ataque2=null;
-        // this.queimado=false;
-        // this.envenenado=false;
-        // this.status3=null;
+        this.tipo = tipo;
+        this.custoRecuo = custoRecuo;
+        this.fraquezaTipo = fraquezaTipo;
+        this.resistenciaTipo = null;
+        this.resistenciaValor = 0;
+        this.evoluiDe = evoluiDe;
+        this.ataque1 = ataque1;
+        this.ataque2=null;
+        this.queimado=false;
+        this.envenenado=false;
+        this.status3=null;
     }
-    */
     
     /**
      * 
@@ -152,7 +138,7 @@ public class PokemonCard extends Card{
         return ataque2;
     }
 
-    /*
+    
     public int getCustoRecuo(){
         return custoRecuo;
     }
@@ -177,7 +163,7 @@ public class PokemonCard extends Card{
     public String getStatus3(){
         return status3;
     }
-    */
+    
 
     /**
      * 
@@ -198,7 +184,6 @@ public class PokemonCard extends Card{
         }
     }
     
-    /*
     public void setQueimado(){
         queimado=true;
     }
@@ -225,7 +210,6 @@ public class PokemonCard extends Card{
         curaStatus3();
         return this;
     }
-    */
     
     @Override
     public String toString() {
