@@ -36,6 +36,8 @@ public class PokemonCard extends Card{
      */
     public PokemonCard(String nome, String anId, String anImageId, int defaultHP, Ataque ataque1, Ataque ataque2) {
         super(nome, anId, anImageId);
+        this.ataque1 = ataque1;
+        this.ataque2 = ataque2;
 
     }
 
