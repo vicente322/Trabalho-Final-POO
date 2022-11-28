@@ -1,6 +1,7 @@
 poo\GameEvent$Target.class
 poo\DeckView.class
 poo\App.class
+poo\Hand.class
 poo\Game.class
 poo\App$1.class
 poo\PokemonCard.class
