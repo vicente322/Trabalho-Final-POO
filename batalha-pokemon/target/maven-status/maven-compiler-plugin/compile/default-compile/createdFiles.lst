@@ -8,6 +8,7 @@ poo\PokemonCard.class
 poo\Ataque.class
 poo\CardView.class
 poo\GameEvent$Action.class
+poo\FieldCard.class
 poo\Card.class
 module-info.class
 poo\ImageFactory.class

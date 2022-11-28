@@ -182,10 +182,7 @@ public class App extends Application implements Observer{
      * O quinto bloco adiciona Label para dar informacoes do deck e da pilha de descarte
      * 
      * O sexto bloco/linha adiciona o botao da mao do jogador
-     * 
-     * COISA A SEREM ADICIONADAS:
-     * - Vidas do jogador em coracoes
-     * 
+     *  
      */
     public void launchP1Field(GridPane grid){
         
