@@ -303,6 +303,7 @@ public class App extends Application implements Observer{
         Button nextBtn = new Button("Passar turno");
         nextBtn.setOnAction(e -> {
             Game.getInstance().nextPlayer();
+            updateLabels();
         });
         gridTopCmd.add(nextBtn, 0, 0);
 
