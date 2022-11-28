@@ -2,7 +2,6 @@ package poo;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Observable;
 import java.util.Random;
 
 /**
@@ -12,7 +11,7 @@ import java.util.Random;
  * @version 2022-11-26
  */
 
-public class CardDeck extends Observable{
+public class CardDeck{
     private ArrayList<Card> cartas;
 
     /**
@@ -40,8 +39,6 @@ public class CardDeck extends Observable{
                     60, new Ataque("Flap", 10),
                     new Ataque("Glide", 30)));
         }
-
-        Collections.shuffle(cartas);
     }
     /**
      * Construtor de CardDeck indicando qual deck criar.
@@ -65,9 +62,7 @@ public class CardDeck extends Observable{
             cartas.add(new PokemonCard("Rookidee", "rookidee-card", "rookidee",
                     60, new Ataque("Flap", 10),
                     new Ataque("Glide", 30)));
-        }
-        
-        Collections.shuffle(cartas);
+        }        
     }
     /**
      * 

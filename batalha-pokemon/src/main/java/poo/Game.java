@@ -1,22 +1,16 @@
 package poo;
 
-import java.util.Observable;
-
 /**
- * Classe Game
- * Gerencia o back-end do jogo
  * 
  * @author @vicente322
  * 
- * @version 2022-11-27
+ * @version 2022-11-26
  */
 
-public class Game extends Observable{
+public class Game {
       private static Game game = new Game();
-      private CardDeck deckP1, deckP2;
-      private Card cardOnFieldP1, cardOnFieldP2; //Vao virar PokemonCard. Por hora ainda nao por ser tirado direto do deck pode dar erro.
-      private int player, p1Life, p2Life;
-      private int initialLife = 3;
+      private Card pkmn1, pkmn2;
+      private int player;
 
       /**
        * 
@@ -29,12 +23,10 @@ public class Game extends Observable{
        * Construtor de Game
        */
       private Game(){
-            deckP1 = new CardDeck(1);
-            deckP2 = new CardDeck(2);
-            cardOnFieldP1 = deckP1.draw();
-            cardOnFieldP2 = deckP2.draw();
-            p1Life = initialLife;
-            p2Life = initialLife;
+            pkmn1 = new PokemonCard("Aron", "aron-card", "aron", 60,
+                                    new Ataque("Tackle", 10), new Ataque("Metal Claw", 30));
+            pkmn2 = new PokemonCard("Eevee", "eevee-card", "eevee", 60,
+                                    new Ataque("Tackle", 10), new Ataque("Lunge", 30));
             player = 1;
       }
       /**
@@ -48,51 +40,39 @@ public class Game extends Observable{
       }
       /**
        * 
-       * @return Deck do player 1
+       * @return Carta Pokemon do jogador 1
        */
-      public CardDeck getDeckP1(){
-            return deckP1;
+      public Card getCardP1(){
+            return pkmn1;
       }
       /**
        * 
-       * @return Deck do player 2
+       * @return Carta Pokemon do jogador 2
        */
-      public CardDeck getDeckP2(){
-            return deckP2;
-      }
-      /**
-       * 
-       * @return Vidas do player 1
-       */
-      public int getP1Life(){
-            return p1Life;
-      }
-      /**
-       * 
-       * @return Vidas do player 2
-       */
-      public int getP2Life(){
-            return p2Life;
+      public Card getCardP2(){
+            return pkmn2;
       }
 
-      public void play(Card cartaAcionada){
-            GameEvent ge = null;
+      public void play(){
 
-            if (cartaAcionada == cardOnFieldP1){
-                  if (player != 1){
-                        // ge = new GameEvent(GameEvent.Target.App, GameEvent.Action.NotMyCard, "");
-                        setChanged();
-                        notifyObservers();
-                        //Acoes na carta do adversário
-                        // zoom?
-                  }
-                  else {
-                        // ge = new GameEvent(GameEvent.Target.App, GameEvent.Action.FieldCard, "");
-                  }
+            //Compra carta
+
+            //Faz acao 
+
+            if (player == 1){
+                  
+                  
+
+
             }
-            // else if (hand.contains(cartaAcionada)){
-                  // ge = new GameEvent(GameEvent.Target.App, GameEvent.Action.HandCard, "");
-            // }
+            else {
+
+            }
+
+
+
+            //Termina turno
+
 
       }
 
