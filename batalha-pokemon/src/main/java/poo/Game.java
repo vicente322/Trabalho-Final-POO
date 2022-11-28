@@ -55,7 +55,7 @@ public class Game extends Observable{
       /**
        * Alterna o jogador
        */
-      private void nextPlayer(){
+      public void nextPlayer(){
             player++;
             if (player == 3){
                   player = 1;
@@ -109,6 +109,10 @@ public class Game extends Observable{
        */
       public FieldCard getFieldP2(){
             return fieldCardP2;
+      }
+
+      public void reset(){
+            //TO DO
       }
 
       public void play(Object objetoAcionado){
