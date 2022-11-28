@@ -61,6 +61,9 @@ public class ImageFactory{
             case "waterenergy" : return("/WaterEnergy.png");
             case "steelenergy" : return("/SteelEnergy.png");
             case "imgBck" : return("/Back.png");
+            case "fullheart" : return("/fullHeart.png");
+            case "halfheart": return ("/halfHeart.png");
+            case "emptyheart": return ("/emptyHeart.png");
             default: throw new IllegalArgumentException("Invalid image Id");
         }
     }

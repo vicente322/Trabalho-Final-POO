@@ -1,15 +1,17 @@
 package poo;
 
 /**
- * 
+ * Classe GameEvent
+ * Gera estruturas para comunicar entre as classes
+ *  
  * @author @vicente322
  * 
  * @version 2022-11-27
  */
 
 public class GameEvent {
-      public enum Target {Deck,App};
-      public enum Action {NotMyCard, FieldCard, HandCard};
+      public enum Target {Deck,FieldCard};
+      public enum Action {Draw};
       
       private Target target;
       private Action action;

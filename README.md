@@ -28,6 +28,6 @@ efeito da carta". Isso quer dizer so uma acao por turno?
 
 - Interface deve permitir:
       - Reiniciar o jogo
-      - Colocar os nomes dos jogadores
+      - Colocar os nomes dos jogadores (FEITO)
       - Verificar "vidas"
       - Embaralhar e sacar cartas
