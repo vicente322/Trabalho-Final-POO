@@ -49,28 +49,7 @@ public class GameEvent {
       public String getArg(){
             return arg;
       }
-      /**
-       * 
-       * @param target novo Alvo do GameEvent
-       */
-      public void setTarget(Target target){
-            this.target = target;
-      }
-      /**
-       * 
-       * @param action Nova acao do GameEvent
-       */
-      public void setAction(Action action){
-            this.action = action;
-      }
-      /**
-       * 
-       * @param arg Novo Argumento do GameEvent
-       */
-      public void setArg(String arg){
-            this.arg = arg;
-      }
-      
+            
       public String toString(){
             return target + ":" + action + ":" + arg;
       }
