@@ -35,11 +35,7 @@ public class FieldCardView extends HBox implements CardObserver, Observer{
       public void cardSelected(CardView card) {
             Game.getInstance().play(fieldCard);
       }
-
-
-
-
-
+      
 
       @Override
       public void update(Observable o, Object arg) {

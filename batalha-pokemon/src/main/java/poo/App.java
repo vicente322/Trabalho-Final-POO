@@ -195,7 +195,7 @@ public class App extends Application implements Observer{
         gridP1.add(lbP1, 2, 1);
         
         CardDeck deck1 = new CardDeck(1);
-        CardView fieldCard = new CardView(deck1.draw(), 300);
+        CardView fieldCard = new CardView(deck1.draw(), 200);
         gridP1.add(fieldCard, 2, 0);
 
         ImageView deck1View = ImageFactory.getInstance().createImage("imgBck");
@@ -247,7 +247,7 @@ public class App extends Application implements Observer{
 
         CardDeck deck2 = new CardDeck(2);
 
-        CardView fieldCard = new CardView(deck2.draw(), 300);
+        CardView fieldCard = new CardView(deck2.draw(), 200);
         gridP2.add(fieldCard, 2, 1);
 
         ImageView deck2View = ImageFactory.getInstance().createImage("imgBck");
