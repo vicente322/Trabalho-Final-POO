@@ -131,6 +131,7 @@ public class App extends Application implements Observer{
         GridPane hnd1Pane = new GridPane();
         hnd1Pane.setHgap(20);
         hnd1Pane.setStyle("-fx-background-color:blue;-fx-padding:10px;");
+        hnd1Pane.setMinSize(225, 300);
 
         Button hnd1CloseBtn = new Button("Fechar");
         hnd1CloseBtn.setOnAction(e -> trataBtnCloseHand1(e));
@@ -143,6 +144,7 @@ public class App extends Application implements Observer{
         hnd1Stage = new Stage();
         hnd1Stage.setScene(hnd1Scene);
         hnd1Stage.setTitle("Player 1 Hand");
+
     }
     /**
      * Armazena sequencia que organiza a mao do jogador 2
