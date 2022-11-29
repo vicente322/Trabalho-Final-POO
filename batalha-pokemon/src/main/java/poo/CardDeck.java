@@ -89,7 +89,11 @@ public class CardDeck extends Observable{
     }
     /**
      * Remove a carta na primeira posicao de 
-     * cartas e retorna a carta removida
+     * cartas
+     * 
+     * Se esta primeira carta for null e ainda tiverem cartas
+     * no deck, compra outra carta.
+     * 
      * @return Carta removida
      */
     public Card draw(){
