@@ -13,6 +13,7 @@ poo\GameEvent$Action.class
 poo\FieldCard.class
 poo\Card.class
 module-info.class
+poo\LifeView.class
 poo\ImageFactory.class
 poo\CardDeck.class
 poo\HandView.class

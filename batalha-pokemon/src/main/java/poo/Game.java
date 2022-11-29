@@ -117,6 +117,13 @@ public class Game extends Observable{
       }
       /**
        * 
+       * @return Vida inicial
+       */
+      public int getInitialLife(){
+            return initialLife;
+      }
+      /**
+       * 
        * @return Field Card do jogador 1
        */
       public FieldCard getFieldP1(){
