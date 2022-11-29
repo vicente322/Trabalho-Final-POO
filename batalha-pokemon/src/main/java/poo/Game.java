@@ -49,10 +49,6 @@ public class Game extends Observable{
             }
             fieldCardP2 = new FieldCard((PokemonCard)c2);
 
-            
-
-
-
             handP1 = new Hand(deckP1.draw());
 
             handP2 = new Hand(deckP2.draw());
@@ -91,9 +87,17 @@ public class Game extends Observable{
       public CardDeck getDeckP2(){
             return deckP2;
       }
+      /**
+       * 
+       * @return Hand do player 1
+       */
       public Hand getHandP1(){
             return handP1;
       }
+      /**
+       * 
+       * @return Hand do player 2
+       */
       public Hand getHandP2(){
             return handP2;
       }
@@ -125,11 +129,17 @@ public class Game extends Observable{
       public FieldCard getFieldP2(){
             return fieldCardP2;
       }
-
+      /**
+       * Metodo para resetar todos elementos do jogo
+       */
       public void reset(){
             //TO DO
       }
-
+      /**
+       * Dependendo do objeto acionado, lanca um GameEvent
+       * 
+       * @param objetoAcionado uma das partes que chamou o ply()
+       */
       public void play(Object objetoAcionado){
             GameEvent ge = null;
 
