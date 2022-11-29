@@ -246,10 +246,10 @@ public class App extends Application implements Observer{
         // lifeBar.add(c3, 2, 0);
         // gridP1.add(lifeBar, 3, 1);
 
-
-        LifeView life = new LifeView(1,25);
-        gridP1.add(life, 3, 1);            
+        LifeView lives = new LifeView(1,25);        
+        gridP1.add(lives, 3, 1);            
         grid.add(gridP1, 0, 2);
+        lives.setSpacing(10);
 
     }
 
