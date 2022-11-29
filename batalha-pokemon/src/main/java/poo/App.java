@@ -14,7 +14,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.event.EventHandler;
-import javafx.scene.layout.HBox;
 
 /**
  * App da Batalha de Pokemon
@@ -29,9 +28,8 @@ import javafx.scene.layout.HBox;
 public class App extends Application implements Observer{
     private FieldCardView fieldCardP1, fieldCardP2;
     private HandView handViewP1, handViewP2;
-    private Button hnd2Btn, hnd2CloseBtn, confirmNamesBtn;
+    private Button  hnd1Btn, hnd2Btn;
     private Stage hnd1Stage, hnd2Stage, confirmNameStage, pOpStage;
-    private Scene fieldScene, hnd2Scene, confirmNameScene;
     private Label playerTurn, lbP1, lbP2, infoPokemon1, infoPokemon2, infoDeck1, infoDeck2;
     private String jogador1Nome, jogador2Nome;
     private TextField jogador1, jogador2;
@@ -41,12 +39,14 @@ public class App extends Application implements Observer{
      */
     public void launchNameWindow(){
         // Fecha a janela de informar nomes
-        confirmNamesBtn = new Button("Confirmar");
+        Button confirmNamesBtn = new Button("Confirmar");
         confirmNamesBtn.setOnAction(e -> {
             jogador1Nome = jogador1.getText();
             jogador2Nome = jogador2.getText();
             lbP1.setText(jogador1Nome);
             lbP2.setText(jogador2Nome);
+            hnd1Btn.setText("Mao de " + jogador1Nome);
+            hnd2Btn.setText("Mao de " + jogador2Nome);
             updateLabels();
             confirmNameStage.close();
         });
@@ -58,7 +58,7 @@ public class App extends Application implements Observer{
         gridNomes.setPadding(new Insets(25, 25, 25, 25));
         gridNomes.add(confirmNamesBtn,1,4);
         // Lanca Stage para inserir nomes
-        confirmNameScene = new Scene(gridNomes);
+        Scene confirmNameScene = new Scene(gridNomes);
         confirmNameStage = new Stage();
         confirmNameStage.setScene(confirmNameScene);
         confirmNameStage.setTitle("Informe seus nomes.");
@@ -81,7 +81,7 @@ public class App extends Application implements Observer{
      */
     public void launchP1Hand(GridPane grid, int btnX, int btnY){
         
-        Button hnd1Btn = new Button("Mao do Jogador 1");
+        hnd1Btn = new Button("Mao de" + jogador1Nome);
         hnd1Btn.setOnAction(e -> hnd1Stage.showAndWait());
         grid.add(hnd1Btn, btnX, btnY);
 
@@ -111,11 +111,11 @@ public class App extends Application implements Observer{
      */
     public void launchP2Hand(GridPane grid, int btnX, int btnY){
         // Cria botao da mao do jogador 2
-        hnd2Btn = new Button("Mao do Jogador 2");
+        hnd2Btn = new Button("Mao de " + jogador2Nome);
         hnd2Btn.setOnAction(e -> hnd2Stage.showAndWait());
         grid.add(hnd2Btn, btnX, btnY);
         // Fecha a janela da mao do jogador 2
-        hnd2CloseBtn = new Button("Fechar");
+        Button hnd2CloseBtn = new Button("Fechar");
         hnd2CloseBtn.setOnAction(e -> hnd2Stage.close());
 
         handViewP2 = new HandView(2);
@@ -127,31 +127,19 @@ public class App extends Application implements Observer{
         hnd2Pane.add(handViewP2, 0, 0);
         hnd2Pane.add(hnd2CloseBtn, 0, 1);
         // Lanca Stage para mao do jogador 2
-        hnd2Scene = new Scene(hnd2Pane);
+        Scene hnd2Scene = new Scene(hnd2Pane);
         hnd2Stage = new Stage();
         hnd2Stage.setScene(hnd2Scene);
         hnd2Stage.setTitle("Player 2 Hand");
     }
     /**
-     * Metodo que guarda os comandos do lado do jogador 1
-     * @param grid GridPane onde tudo sera colocado
+     * Armazena sequencia que organiza o lado do jogador 1
      * 
-     * O metodo esta divido em blocos para facilitar a visualizacao
+     * @param grid GridPane principal do App
      * 
-     * O primeiro bloco adiciona o Label do jogador 1
-     * 
-     * O segundo bloco adiciona o deck do jogador, criando uma imagem da primeira carta retirada
-     * Futuramente essa carta sera um botao para selecionar as acoes da carta (Ataque, zoom)
-     *  *****TEM QUE SER ADAPTADO PARA SOMENTE REAGIR AO GAME*****
-     * 
-     * O terceiro bloco cria uma imagem para representar o deck. Futuramente pode ser um botao para o proprio deck
-     * 
-     * O quarto bloco adiciona Label para dar informacoes da carta no campo
-     * 
-     * O quinto bloco adiciona Label para dar informacoes do deck e da pilha de descarte
-     * 
-     * O sexto bloco/linha adiciona o botao da mao do jogador
-     *  
+     * Cria um GridPane proprio onde sao colocados todos os elementos
+     * GridPane eh colocado por inteiro dentro do grid principal
+     * posteriormente
      */
     public void launchP1Field(GridPane grid){
         
@@ -209,7 +197,15 @@ public class App extends Application implements Observer{
         lives.setSpacing(10);
 
     }
-
+    /**
+     * Armazena sequencia que organiza o lado do jogador 2
+     * 
+     * @param grid GridPane principal do App
+     * 
+     *             Cria um GridPane proprio onde sao colocados todos os elementos
+     *             GridPane eh colocado por inteiro dentro do grid principal
+     *             posteriormente
+     */
     public void launchP2Field(GridPane grid){
 
         GridPane gridP2 = new GridPane();
@@ -332,7 +328,7 @@ public class App extends Application implements Observer{
         launchTopCommands(grid, primaryStage);
       
         
-        fieldScene = new Scene(grid);
+        Scene fieldScene = new Scene(grid);
         primaryStage.setScene(fieldScene);
         primaryStage.show();
 
@@ -359,6 +355,12 @@ public class App extends Application implements Observer{
                     pOpPane.setMinSize(100, 200);
 
                     Button ataque1 = new Button("Ataque 1");
+                    ataque1.setOnAction(e -> {
+                        Ataque attack;
+
+                        Game.getInstance();
+
+                    });
                     pOpPane.add(ataque1, 0, 0);
 
                     if (fieldCardP1.getFieldCard().getCard().getAtaque2() != null){
