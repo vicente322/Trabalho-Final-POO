@@ -16,7 +16,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.event.EventHandler;
 
-
 /**
  * App da Batalha de Pokemon
  * Gerencia o front-end
@@ -28,11 +27,12 @@ import javafx.event.EventHandler;
  */
 
 public class App extends Application implements Observer{
-    private Button hnd1Btn, hnd2Btn, hnd1CloseBtn, hnd2CloseBtn, confirmNamesBtn;
-    private Stage hnd1Stage, hnd2Stage, confirmNameStage;
-    private Scene fieldScene, hnd1Scene, hnd2Scene, confirmNameScene;
-    private FlowPane hnd1Pane, hnd2Pane;
-    private Label lbP1, lbP2, infoPokemon1, infoPokemon2, infoDeck1, infoDeck2;
+    private FieldCardView fieldCardP1, fieldCardP2;
+    private HandView handViewP1, handViewP2;
+    private Button hnd2Btn, hnd2CloseBtn, confirmNamesBtn;
+    private Stage hnd1Stage, hnd2Stage, confirmNameStage, pOpStage;
+    private Scene fieldScene, hnd2Scene, confirmNameScene;
+    private Label playerTurn, lbP1, lbP2, infoPokemon1, infoPokemon2, infoDeck1, infoDeck2;
     private String jogador1Nome, jogador2Nome;
     private TextField jogador1, jogador2;
 
@@ -82,6 +82,7 @@ public class App extends Application implements Observer{
         jogador2Nome = jogador2.getText();
         lbP1.setText(jogador1Nome);
         lbP2.setText(jogador2Nome);
+        updateLabels();
         confirmNameStage.close();
     }
     /**
@@ -121,23 +122,29 @@ public class App extends Application implements Observer{
      * @param grid GridPane do Stage principal
      */
     public void launchP1Hand(GridPane grid, int btnX, int btnY){
-        // Cria botao da mao do jogador 1
-        hnd1Btn = new Button("Mao do Jogador 1");
+        
+        Button hnd1Btn = new Button("Mao do Jogador 1");
         hnd1Btn.setOnAction(e -> trataBtnHand1(e));
         grid.add(hnd1Btn, btnX, btnY);
-        // Fecha a janela da mao do jogador 1
-        hnd1CloseBtn = new Button("Fechar");
-        hnd1CloseBtn.setOnAction(e -> trataBtnCloseHand1(e));
+
         // Define janela da mao do jogador 1
-        hnd1Pane = new FlowPane();
+        GridPane hnd1Pane = new GridPane();
         hnd1Pane.setHgap(20);
         hnd1Pane.setStyle("-fx-background-color:blue;-fx-padding:10px;");
-        hnd1Pane.getChildren().add(hnd1CloseBtn);
+        hnd1Pane.setMinSize(225, 300);
+
+        Button hnd1CloseBtn = new Button("Fechar");
+        hnd1CloseBtn.setOnAction(e -> trataBtnCloseHand1(e));
+        hnd1Pane.add(hnd1CloseBtn, 0, 1);
+
+        handViewP1 = new HandView(1);
+        hnd1Pane.add(handViewP1, 0, 0);
         // Lanca Stage para mao do jogador 1
-        hnd1Scene = new Scene(hnd1Pane);
+        Scene hnd1Scene = new Scene(hnd1Pane);
         hnd1Stage = new Stage();
         hnd1Stage.setScene(hnd1Scene);
         hnd1Stage.setTitle("Player 1 Hand");
+
     }
     /**
      * Armazena sequencia que organiza a mao do jogador 2
@@ -152,11 +159,15 @@ public class App extends Application implements Observer{
         // Fecha a janela da mao do jogador 2
         hnd2CloseBtn = new Button("Fechar");
         hnd2CloseBtn.setOnAction(e -> trataBtnCloseHand2(e));
+
+        handViewP2 = new HandView(2);
+
         // Define janela da mao do jogador 2
-        hnd2Pane = new FlowPane();
+        GridPane hnd2Pane = new GridPane();
         hnd2Pane.setHgap(20);
         hnd2Pane.setStyle("-fx-background-color:red;-fx-padding:10px;");
-        hnd2Pane.getChildren().add(hnd2CloseBtn);
+        hnd2Pane.add(handViewP2, 0, 0);
+        hnd2Pane.add(hnd2CloseBtn, 0, 1);
         // Lanca Stage para mao do jogador 2
         hnd2Scene = new Scene(hnd2Pane);
         hnd2Stage = new Stage();
@@ -182,10 +193,7 @@ public class App extends Application implements Observer{
      * O quinto bloco adiciona Label para dar informacoes do deck e da pilha de descarte
      * 
      * O sexto bloco/linha adiciona o botao da mao do jogador
-     * 
-     * COISA A SEREM ADICIONADAS:
-     * - Vidas do jogador em coracoes
-     * 
+     *  
      */
     public void launchP1Field(GridPane grid){
         
@@ -196,23 +204,26 @@ public class App extends Application implements Observer{
 
         lbP1 = new Label("Jogador 1");
         gridP1.add(lbP1, 2, 1);
+
         
         CardDeck deck1 = new CardDeck(1);
-        CardView fieldCard = new CardView(deck1.draw(), 300);
-        gridP1.add(fieldCard, 2, 0);
+
+        fieldCardP1 = new FieldCardView(1);
+        gridP1.add(fieldCardP1, 2, 0);
 
         ImageView deck1View = ImageFactory.getInstance().createImage("imgBck");
         deck1View.setFitHeight(200);
         deck1View.setPreserveRatio(true);
         gridP1.add(deck1View, 3, 0);
 
+        PokemonCard pc = fieldCardP1.getFieldCard().getCard();
         infoPokemon1 = new Label(
-            "*Nome Pokemon*    HP: 40\n\nEnergias(3):\nFogo: 1\nGrama: 2\n\nStatus:\nEnvenenado\nQueimado\nParalizado"
+            pc.getNome() + "    HP: " + pc.getCurrentHP()
         );
         gridP1.add(infoPokemon1, 1, 0);
 
         infoDeck1 = new Label(
-            "Deck: 14\n\nPilha de Descarte(11):\nPokemon: 5\nTreinador: 1\nEnergia: 5"
+            "Deck: " + deck1.getNCards()
         );
         gridP1.add(infoDeck1, 4, 0);
 
@@ -248,23 +259,22 @@ public class App extends Application implements Observer{
         lbP2 = new Label("Jogador 2");
         gridP2.add(lbP2, 2, 0);
 
-        CardDeck deck2 = new CardDeck(2);
-
-        CardView fieldCard = new CardView(deck2.draw(), 300);
-        gridP2.add(fieldCard, 2, 1);
+        fieldCardP2 = new FieldCardView(2);
+        gridP2.add(fieldCardP2, 2, 1);
 
         ImageView deck2View = ImageFactory.getInstance().createImage("imgBck");
         deck2View.setFitHeight(200);
         deck2View.setFitWidth(150);
         gridP2.add(deck2View, 1, 1);
 
+        PokemonCard pc = fieldCardP2.getFieldCard().getCard();
         infoPokemon2 = new Label(
-            "*Nome Pokemon*    HP: 50\n\nEnergias(4):\nFogo: 3\nGrama: 1\n\nStatus:\nEnvenenado\nParalizado"
+            pc.getNome() + "    HP: " + pc.getCurrentHP()
         );
         gridP2.add(infoPokemon2, 3, 1);
 
         infoDeck2 = new Label(
-            "Deck: 22\n\nPilha de Descarte(5):\nPokemon: 1\nTreinador: 1\nEnergia: 3"
+            "Deck: " + Game.getInstance().getDeckP2().getNCards()
         );
         gridP2.add(infoDeck2, 0, 1);
 
@@ -293,14 +303,17 @@ public class App extends Application implements Observer{
      * Metodo que guarda instrucoes dos comandos da barra superior
      * @param grid GridPane principal onde ficara a barra de comandos
      */
-    public void launchTopCommands(GridPane grid){
+    public void launchTopCommands(GridPane grid, Stage primaryStage){
         GridPane gridTopCmd = new GridPane();
         gridTopCmd.setHgap(50);
         gridTopCmd.setVgap(10);
         gridTopCmd.setPadding(new Insets(25, 25, 25, 25));
         
         Button nextBtn = new Button("Passar turno");
-        // nextBtn.setOnAction(PASSAR TURNO);
+        nextBtn.setOnAction(e -> {
+            Game.getInstance().nextPlayer();
+            updateLabels();
+        });
         gridTopCmd.add(nextBtn, 0, 0);
 
         Button changeNameBtn = new Button("Mudar Nomes");
@@ -317,8 +330,22 @@ public class App extends Application implements Observer{
         gridTopCmd.add(resetBtn, 2, 0);
 
         Button exitBtn = new Button("Sair");
-        // exitBtn.setOnAction(FECHAR TUDO);
+        exitBtn.setOnAction(e -> {
+            hnd1Stage.close();
+            hnd2Stage.close();
+            confirmNameStage.close();
+            primaryStage.close();
+        });
         gridTopCmd.add(exitBtn, 3, 0);
+
+        playerTurn = new Label();
+        if (Game.getInstance().getPlayer() == 1){
+            playerTurn.setText("Vez de " + jogador1Nome);
+        }
+        else {
+            playerTurn.setText("Vez de " + jogador2Nome);
+        }
+        gridTopCmd.add(playerTurn, 4, 0);
 
         grid.add(gridTopCmd, 0, 0);
 
@@ -341,7 +368,7 @@ public class App extends Application implements Observer{
 
         launchP1Field(grid);
         launchP2Field(grid);
-        launchTopCommands(grid);
+        launchTopCommands(grid, primaryStage);
       
         
         fieldScene = new Scene(grid);
@@ -353,23 +380,69 @@ public class App extends Application implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        // TODO Auto-generated method stub
+        
+        if (arg == null){
+            return;
+        }
+
+        GameEvent ge = (GameEvent) arg;
+
+        if (ge.getTarget() == GameEvent.Target.App){
+
+            switch(ge.getAction()){
+                case PLayerFieldOption:
+                    GridPane pOpPane = new GridPane();
+                    pOpPane.setAlignment(Pos.CENTER);
+                    pOpPane.setVgap(10);
+                    pOpPane.setStyle("-fx-background-color:tan");
+                    pOpPane.setMinSize(100, 200);
+
+                    Button ataque1 = new Button("Ataque 1");
+                    pOpPane.add(ataque1, 0, 0);
+
+                    if (fieldCardP1.getFieldCard().getCard().getAtaque2() != null){
+                        Button ataque2 = new Button("Ataque 2");
+                        pOpPane.add(ataque2, 0, 1);
+                    }
+
+                    Button zoom = new Button("Zoom");
+                    pOpPane.add(zoom, 0, 2);
+                    Button cancel = new Button("Cancelar");
+                    cancel.setOnAction(e -> pOpStage.close());
+                    pOpPane.add(cancel, 0, 3);
+
+                    Scene pOpScene = new Scene(pOpPane);
+                    pOpStage = new Stage();
+                    pOpStage.setScene(pOpScene);
+                    pOpStage.setTitle("Options");
+                    pOpStage.show();
+
+            }
+
+
+        }
 
     }
 
     public void updateLabels() {
-        infoPokemon1.setText("*Nome Pokemon*    HP: 60\n\nEnergias(0):\n\n\n\nStatus:");
-        infoPokemon2.setText("*Nome Pokemon*    HP: 60\n\nEnergias(0):\n\n\n\nStatus:");
-        infoDeck1.setText("Deck: 30\n\nPilha de Descarte(0):");
-        infoDeck2.setText("Deck: 30\n\nPilha de Descarte(0):");
+        PokemonCard pc1 = fieldCardP1.getFieldCard().getCard();
+        PokemonCard pc2 = fieldCardP2.getFieldCard().getCard();
+
+        infoPokemon1.setText(pc1.getNome() + "    HP: " + pc1.getCurrentHP());;
+        infoPokemon2.setText(pc2.getNome() + "    HP: " + pc2.getCurrentHP());
+        infoDeck1.setText("Deck: " + Game.getInstance().getDeckP1().getNCards());
+        infoDeck2.setText("Deck: " + Game.getInstance().getDeckP2().getNCards());        
         lbP1.setText(jogador1Nome);
         lbP2.setText(jogador2Nome);
+
+        if (Game.getInstance().getPlayer() == 1) {
+            playerTurn.setText("Vez de " + jogador1Nome);
+        } else {
+            playerTurn.setText("Vez de " + jogador2Nome);
+        }
     }
 
     public static void main(String args[]){
         launch(args);
     }
-    
-    
-
 }

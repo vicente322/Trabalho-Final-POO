@@ -39,7 +39,13 @@ public class CardView extends Button implements Observer{
 
       @Override
       public void update(Observable o, Object arg) {
-            // TODO Auto-generated method stub
+
+            if (arg == null){
+                  return;
+            }
+
+            GameEvent ge = (GameEvent)arg;           
+            
             
       }
       /**
