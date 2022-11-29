@@ -15,6 +15,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.event.EventHandler;
+import javafx.scene.layout.HBox;
 
 /**
  * App da Batalha de Pokemon
@@ -175,12 +176,25 @@ public class App extends Application implements Observer{
         hnd2Stage.setTitle("Player 2 Hand");
     }
     /**
-     * Armazena sequencia que organiza o lado do jogador 1
-     * @param grid GridPane principal do app
+     * Metodo que guarda os comandos do lado do jogador 1
+     * @param grid GridPane onde tudo sera colocado
      * 
-     * Cria um GridPane proprio onde sao colocados todos os elementos
-     * Esse GridPane eh colocado por inteiro dentro do grid principal
-     * posteriormente
+     * O metodo esta divido em blocos para facilitar a visualizacao
+     * 
+     * O primeiro bloco adiciona o Label do jogador 1
+     * 
+     * O segundo bloco adiciona o deck do jogador, criando uma imagem da primeira carta retirada
+     * Futuramente essa carta sera um botao para selecionar as acoes da carta (Ataque, zoom)
+     *  *****TEM QUE SER ADAPTADO PARA SOMENTE REAGIR AO GAME*****
+     * 
+     * O terceiro bloco cria uma imagem para representar o deck. Futuramente pode ser um botao para o proprio deck
+     * 
+     * O quarto bloco adiciona Label para dar informacoes da carta no campo
+     * 
+     * O quinto bloco adiciona Label para dar informacoes do deck e da pilha de descarte
+     * 
+     * O sexto bloco/linha adiciona o botao da mao do jogador
+     *  
      */
     public void launchP1Field(GridPane grid){
         
@@ -216,34 +230,29 @@ public class App extends Application implements Observer{
 
         launchP1Hand(gridP1, 1, 1);
 
-        GridPane lifeBar = new GridPane();
-        lifeBar.setHgap(5);
-        ImageView c1 = ImageFactory.getInstance().createImage("fullheart");
-        ImageView c2 = ImageFactory.getInstance().createImage("fullheart");
-        ImageView c3 = ImageFactory.getInstance().createImage("fullheart");
-        c1.setFitHeight(20);
-        c1.setFitWidth(20);
-        c2.setFitHeight(20);
-        c2.setFitWidth(20);
-        c3.setFitHeight(20);
-        c3.setFitWidth(20);
-        lifeBar.add(c1, 0, 0);
-        lifeBar.add(c2, 1, 0);
-        lifeBar.add(c3, 2, 0);
-        gridP1.add(lifeBar, 3, 1);
+        // GridPane lifeBar = new GridPane();
+        // lifeBar.setHgap(5);
+        // ImageView c1 = ImageFactory.getInstance().createImage("fullheart");
+        // ImageView c2 = ImageFactory.getInstance().createImage("fullheart");
+        // ImageView c3 = ImageFactory.getInstance().createImage("fullheart");
+        // c1.setFitHeight(20);
+        // c1.setFitWidth(20);
+        // c2.setFitHeight(20);
+        // c2.setFitWidth(20);
+        // c3.setFitHeight(20);
+        // c3.setFitWidth(20);
+        // lifeBar.add(c1, 0, 0);
+        // lifeBar.add(c2, 1, 0);
+        // lifeBar.add(c3, 2, 0);
+        // gridP1.add(lifeBar, 3, 1);
 
+
+        LifeView life = new LifeView(1,25);
+        gridP1.add(life, 3, 1);            
         grid.add(gridP1, 0, 2);
 
     }
-    /**
-     * Armazena sequencia que organiza o lado do jogador 2
-     * 
-     * @param grid GridPane principal do app
-     * 
-     *             Cria um GridPane proprio onde sao colocados todos os elementos
-     *             Esse GridPane eh colocado por inteiro dentro do grid principal
-     *             posteriormente
-     */
+
     public void launchP2Field(GridPane grid){
 
         GridPane gridP2 = new GridPane();
@@ -418,9 +427,7 @@ public class App extends Application implements Observer{
         }
 
     }
-    /**
-     * Atualiza as informacoes apresentadas no App.
-     */
+
     public void updateLabels() {
         PokemonCard pc1 = fieldCardP1.getFieldCard().getCard();
         PokemonCard pc2 = fieldCardP2.getFieldCard().getCard();
