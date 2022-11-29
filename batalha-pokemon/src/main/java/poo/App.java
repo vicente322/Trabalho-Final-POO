@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.event.EventHandler;
@@ -37,61 +36,19 @@ public class App extends Application implements Observer{
     private TextField jogador1, jogador2;
 
     /**
-     * Metodo para tratar acao do botao para abrir mao do jogador 1
-     * 
-     * @param e Evento do botao
-     *          Ao ser precionado, o botao mostra a nova tela e espera
-     */
-    public void trataBtnHand1(ActionEvent e) {
-        hnd1Stage.showAndWait();
-    }
-    /**
-     * Metodo para tratar acao do botao para fechar mao do jogador 1
-     * 
-     * @param e Evento do botao
-     *          Ao ser precionado, o botao fecha a tela
-     */
-    public void trataBtnCloseHand1(ActionEvent e) {
-        hnd1Stage.close();
-    }
-    /**
-     * Metodo para tratar acao do botao para abrir mao do jogador 2
-     * 
-     * @param e Evento do botao
-     *          Ao ser precionado, o botao mostra a nova tela e espera
-     */
-    public void trataBtnHand2(ActionEvent e) {
-        hnd2Stage.showAndWait();
-    }
-    /**
-     * Metodo para tratar acao do botao para fechar mao do jogador 2
-     * 
-     * @param e Evento do botao
-     *          Ao ser precionado, o botao fecha a tela
-     */
-    public void trataBtnCloseHand2(ActionEvent e) {
-        hnd2Stage.close();
-    }
-    /**
-     * Metodo para tratar acao do botao "Confirmar" para mudar os nomes dos jogadores
-     * @param e Evento do botao
-     *          Ao ser pressionado, atualiza os nomes de P1 e P2 e fecha a janela.
-     */
-    public void trataBtnCloseConfirm(ActionEvent e) {
-        jogador1Nome = jogador1.getText();
-        jogador2Nome = jogador2.getText();
-        lbP1.setText(jogador1Nome);
-        lbP2.setText(jogador2Nome);
-        updateLabels();
-        confirmNameStage.close();
-    }
-    /**
      * Armazena sequencia que cria e mostra a janela de inserção de nomes dos jogadores
      */
     public void launchNameWindow(){
         // Fecha a janela de informar nomes
         confirmNamesBtn = new Button("Confirmar");
-        confirmNamesBtn.setOnAction(e -> trataBtnCloseConfirm(e));
+        confirmNamesBtn.setOnAction(e -> {
+            jogador1Nome = jogador1.getText();
+            jogador2Nome = jogador2.getText();
+            lbP1.setText(jogador1Nome);
+            lbP2.setText(jogador2Nome);
+            updateLabels();
+            confirmNameStage.close();
+        });
         // Define janela de inserção de nomes
         GridPane gridNomes = new GridPane();
         gridNomes.setAlignment(Pos.CENTER);
@@ -124,7 +81,7 @@ public class App extends Application implements Observer{
     public void launchP1Hand(GridPane grid, int btnX, int btnY){
         
         Button hnd1Btn = new Button("Mao do Jogador 1");
-        hnd1Btn.setOnAction(e -> trataBtnHand1(e));
+        hnd1Btn.setOnAction(e -> hnd1Stage.showAndWait());
         grid.add(hnd1Btn, btnX, btnY);
 
         // Define janela da mao do jogador 1
@@ -134,7 +91,7 @@ public class App extends Application implements Observer{
         hnd1Pane.setMinSize(225, 300);
 
         Button hnd1CloseBtn = new Button("Fechar");
-        hnd1CloseBtn.setOnAction(e -> trataBtnCloseHand1(e));
+        hnd1CloseBtn.setOnAction(e -> hnd1Stage.close());
         hnd1Pane.add(hnd1CloseBtn, 0, 1);
 
         handViewP1 = new HandView(1);
@@ -154,11 +111,11 @@ public class App extends Application implements Observer{
     public void launchP2Hand(GridPane grid, int btnX, int btnY){
         // Cria botao da mao do jogador 2
         hnd2Btn = new Button("Mao do Jogador 2");
-        hnd2Btn.setOnAction(e -> trataBtnHand2(e));
+        hnd2Btn.setOnAction(e -> hnd2Stage.showAndWait());
         grid.add(hnd2Btn, btnX, btnY);
         // Fecha a janela da mao do jogador 2
         hnd2CloseBtn = new Button("Fechar");
-        hnd2CloseBtn.setOnAction(e -> trataBtnCloseHand2(e));
+        hnd2CloseBtn.setOnAction(e -> hnd2Stage.close());
 
         handViewP2 = new HandView(2);
 
