@@ -16,7 +16,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.event.EventHandler;
 
-
 /**
  * App da Batalha de Pokemon
  * Gerencia o front-end
@@ -29,6 +28,7 @@ import javafx.event.EventHandler;
 
 public class App extends Application implements Observer{
     private FieldCardView fieldCardP1, fieldCardP2;
+    private HandView handViewP1, handViewP2;
     private Button hnd1Btn, hnd2Btn, hnd1CloseBtn, hnd2CloseBtn, confirmNamesBtn;
     private Stage hnd1Stage, hnd2Stage, confirmNameStage, pOpStage;
     private Scene fieldScene, hnd1Scene, hnd2Scene, confirmNameScene;
@@ -130,10 +130,14 @@ public class App extends Application implements Observer{
         // Fecha a janela da mao do jogador 1
         hnd1CloseBtn = new Button("Fechar");
         hnd1CloseBtn.setOnAction(e -> trataBtnCloseHand1(e));
+
+        handViewP1 = new HandView(1);
+        
         // Define janela da mao do jogador 1
         hnd1Pane = new FlowPane();
         hnd1Pane.setHgap(20);
         hnd1Pane.setStyle("-fx-background-color:blue;-fx-padding:10px;");
+        // hnd1Pane.getChildren().add(handViewP1);
         hnd1Pane.getChildren().add(hnd1CloseBtn);
         // Lanca Stage para mao do jogador 1
         hnd1Scene = new Scene(hnd1Pane);

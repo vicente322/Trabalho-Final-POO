@@ -17,15 +17,24 @@ public class HandView extends HBox implements CardObserver, Observer{
       private Card selectedCard;
 
       public HandView(int nroPlayer){
+            super(4);
             player = nroPlayer;
             hand = null;
 
             if (player == 1){
-                  hand = Game.getInstance().get
+                  hand = Game.getInstance().getHandP1();
+            }
+            else {
+                  hand = Game.getInstance().getHandP2();
             }
 
+            hand.addObserver(this);
 
-
+            
+            CardView cv = new CardView(hand.getCards().get(0), 300);
+            cv.setCardObserver(this);
+            this.getChildren().add(cv);
+            
       }
 
       @Override

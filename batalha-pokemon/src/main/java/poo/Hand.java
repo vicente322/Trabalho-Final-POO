@@ -20,9 +20,9 @@ public class Hand extends Observable{
        * Construtor de Hand
        * @param nroPlayer Numero do jogador a quem pertence a mao
        */
-      public Hand(int nroPlayer){
+      public Hand(Card card){
             cards = new ArrayList<>();
-            player = nroPlayer;
+            cards.add(card);
       }
       /**
        * 

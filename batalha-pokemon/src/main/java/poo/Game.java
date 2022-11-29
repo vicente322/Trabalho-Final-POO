@@ -15,6 +15,7 @@ public class Game extends Observable{
       private static Game game = new Game();
       private CardDeck deckP1, deckP2;
       private FieldCard fieldCardP1, fieldCardP2; //Vao virar PokemonCard. Por hora ainda nao por ser tirado direto do deck pode dar erro.
+      private Hand handP1, handP2;
       private int player, p1Life, p2Life;
       private int initialLife = 3;
 
@@ -42,11 +43,15 @@ public class Game extends Observable{
 
             Card c2 = null;
             while (!(c2 instanceof PokemonCard)){
-                  deckP1.addCard(c2);
-                  deckP1.shuffle();
-                  c2 = deckP1.draw();
+                  deckP2.addCard(c2);
+                  deckP2.shuffle();
+                  c2 = deckP2.draw();
             }
             fieldCardP2 = new FieldCard((PokemonCard)c2);
+
+            handP1 = new Hand(deckP1.draw());
+
+            handP2 = new Hand(deckP2.draw());
 
             p1Life = initialLife;
             p2Life = initialLife;
@@ -81,6 +86,12 @@ public class Game extends Observable{
        */
       public CardDeck getDeckP2(){
             return deckP2;
+      }
+      public Hand getHandP1(){
+            return handP1;
+      }
+      public Hand getHandP2(){
+            return handP2;
       }
       /**
        * 

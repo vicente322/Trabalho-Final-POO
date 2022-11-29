@@ -15,5 +15,6 @@ poo\Card.class
 module-info.class
 poo\ImageFactory.class
 poo\CardDeck.class
+poo\HandView.class
 poo\CardObserver.class
 poo\GameEvent.class
