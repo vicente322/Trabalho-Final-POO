@@ -30,7 +30,7 @@ import javafx.event.EventHandler;
 public class App extends Application implements Observer{
     private FieldCardView fieldCardP1, fieldCardP2;
     private Button hnd1Btn, hnd2Btn, hnd1CloseBtn, hnd2CloseBtn, confirmNamesBtn;
-    private Stage hnd1Stage, hnd2Stage, confirmNameStage;
+    private Stage hnd1Stage, hnd2Stage, confirmNameStage, pOpStage;
     private Scene fieldScene, hnd1Scene, hnd2Scene, confirmNameScene;
     private FlowPane hnd1Pane, hnd2Pane;
     private Label playerTurn, lbP1, lbP2, infoPokemon1, infoPokemon2, infoDeck1, infoDeck2;
@@ -399,10 +399,11 @@ public class App extends Application implements Observer{
                     Button zoom = new Button("Zoom");
                     pOpPane.add(zoom, 0, 2);
                     Button cancel = new Button("Cancelar");
+                    cancel.setOnAction(e -> pOpStage.close());
                     pOpPane.add(cancel, 0, 3);
 
                     Scene pOpScene = new Scene(pOpPane);
-                    Stage pOpStage = new Stage();
+                    pOpStage = new Stage();
                     pOpStage.setScene(pOpScene);
                     pOpStage.setTitle("Options");
                     pOpStage.show();

@@ -31,7 +31,7 @@ public class FieldCardView extends HBox implements CardObserver, Observer{
 
             fieldCard.addObserver(this);
 
-            cv =  new CardView(fieldCard.getCard(), 300);
+            cv =  new CardView(fieldCard.getCard(), 190);
             cv.setCardObserver(this);
             this.getChildren().add(cv);
       }
