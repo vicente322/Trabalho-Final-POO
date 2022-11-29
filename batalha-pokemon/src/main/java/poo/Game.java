@@ -49,6 +49,10 @@ public class Game extends Observable{
             }
             fieldCardP2 = new FieldCard((PokemonCard)c2);
 
+            
+
+
+
             handP1 = new Hand(deckP1.draw());
 
             handP2 = new Hand(deckP2.draw());

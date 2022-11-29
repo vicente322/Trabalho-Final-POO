@@ -93,7 +93,13 @@ public class CardDeck extends Observable{
      * @return Carta removida
      */
     public Card draw(){
-        return cartas.remove(0);
+        Card c = cartas.remove(0);
+
+        while (c == null && cartas.size() > 0){
+            c = cartas.remove(0);
+        }
+
+        return c;
     }
     /**
      * Adiciona uma carta ao Deck

@@ -2,7 +2,6 @@ package poo;
 
 import java.util.Observable;
 import java.util.Observer;
-
 import javafx.scene.layout.HBox;
 
 /**
@@ -11,7 +10,6 @@ import javafx.scene.layout.HBox;
  * 
  * @version 2022-11-28
  */
-
 
 public class FieldCardView extends HBox implements CardObserver, Observer{
       private int player;
@@ -49,13 +47,9 @@ public class FieldCardView extends HBox implements CardObserver, Observer{
             Game.getInstance().play(fieldCard);            
       }
       
-
       @Override
       public void update(Observable o, Object arg) {
             // TODO Auto-generated method stub
             
-      }
-
-      
-      
+      }     
 }

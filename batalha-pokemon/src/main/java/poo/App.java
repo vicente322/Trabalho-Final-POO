@@ -29,9 +29,9 @@ import javafx.event.EventHandler;
 public class App extends Application implements Observer{
     private FieldCardView fieldCardP1, fieldCardP2;
     private HandView handViewP1, handViewP2;
-    private Button hnd1Btn, hnd2Btn, hnd1CloseBtn, hnd2CloseBtn, confirmNamesBtn;
+    private Button hnd2Btn, hnd2CloseBtn, confirmNamesBtn;
     private Stage hnd1Stage, hnd2Stage, confirmNameStage, pOpStage;
-    private Scene fieldScene, hnd1Scene, hnd2Scene, confirmNameScene;
+    private Scene fieldScene, hnd2Scene, confirmNameScene;
     private Label playerTurn, lbP1, lbP2, infoPokemon1, infoPokemon2, infoDeck1, infoDeck2;
     private String jogador1Nome, jogador2Nome;
     private TextField jogador1, jogador2;
@@ -122,24 +122,24 @@ public class App extends Application implements Observer{
      * @param grid GridPane do Stage principal
      */
     public void launchP1Hand(GridPane grid, int btnX, int btnY){
-        // Cria botao da mao do jogador 1
-        hnd1Btn = new Button("Mao do Jogador 1");
+        
+        Button hnd1Btn = new Button("Mao do Jogador 1");
         hnd1Btn.setOnAction(e -> trataBtnHand1(e));
         grid.add(hnd1Btn, btnX, btnY);
-        // Fecha a janela da mao do jogador 1
-        hnd1CloseBtn = new Button("Fechar");
-        hnd1CloseBtn.setOnAction(e -> trataBtnCloseHand1(e));
 
-        handViewP1 = new HandView(1);
-        
         // Define janela da mao do jogador 1
         GridPane hnd1Pane = new GridPane();
         hnd1Pane.setHgap(20);
         hnd1Pane.setStyle("-fx-background-color:blue;-fx-padding:10px;");
-        hnd1Pane.add(handViewP1, 0, 0);
+
+        Button hnd1CloseBtn = new Button("Fechar");
+        hnd1CloseBtn.setOnAction(e -> trataBtnCloseHand1(e));
         hnd1Pane.add(hnd1CloseBtn, 0, 1);
+
+        handViewP1 = new HandView(1);
+        hnd1Pane.add(handViewP1, 0, 0);
         // Lanca Stage para mao do jogador 1
-        hnd1Scene = new Scene(hnd1Pane);
+        Scene hnd1Scene = new Scene(hnd1Pane);
         hnd1Stage = new Stage();
         hnd1Stage.setScene(hnd1Scene);
         hnd1Stage.setTitle("Player 1 Hand");

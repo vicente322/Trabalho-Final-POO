@@ -17,7 +17,6 @@ public class HandView extends HBox implements CardObserver, Observer{
       private Card selectedCard;
 
       public HandView(int nroPlayer){
-            super(4);
             player = nroPlayer;
             hand = null;
 
@@ -36,9 +35,7 @@ public class HandView extends HBox implements CardObserver, Observer{
                         cv.setCardObserver(this);
                         this.getChildren().add(cv);
                   }                 
-            }
-            
-            
+            }          
       }
 
       @Override
@@ -51,7 +48,8 @@ public class HandView extends HBox implements CardObserver, Observer{
       
       @Override
       public void update(Observable o, Object arg) {
-            // TODO Auto-generated method stub
+            // Draw muda a HandView
+            // Jogar carta também
 
       }
 }
