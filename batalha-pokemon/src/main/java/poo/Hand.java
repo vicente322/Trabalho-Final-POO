@@ -15,6 +15,7 @@ import java.util.Observable;
 public class Hand extends Observable{
       private ArrayList<Card> cards;
       private int player;
+      private Card selected;
 
       /**
        * Construtor de Hand
@@ -23,6 +24,7 @@ public class Hand extends Observable{
       public Hand(Card card){
             cards = new ArrayList<>();
             cards.add(card);
+            selected = null;
       }
       /**
        * 
@@ -44,7 +46,15 @@ public class Hand extends Observable{
        * @return ArrayList de cartas da mao
        */
       public ArrayList<Card> getCards(){
-            return cards;
+            return(cards);
+      }
+
+      public void setSelectedCard(Card card){
+            selected = card;
+      }
+
+      public Card getSelecteCard(){
+            return selected;
       }
 
 

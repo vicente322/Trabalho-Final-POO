@@ -32,7 +32,6 @@ public class App extends Application implements Observer{
     private Button hnd1Btn, hnd2Btn, hnd1CloseBtn, hnd2CloseBtn, confirmNamesBtn;
     private Stage hnd1Stage, hnd2Stage, confirmNameStage, pOpStage;
     private Scene fieldScene, hnd1Scene, hnd2Scene, confirmNameScene;
-    private FlowPane hnd1Pane, hnd2Pane;
     private Label playerTurn, lbP1, lbP2, infoPokemon1, infoPokemon2, infoDeck1, infoDeck2;
     private String jogador1Nome, jogador2Nome;
     private TextField jogador1, jogador2;
@@ -134,11 +133,11 @@ public class App extends Application implements Observer{
         handViewP1 = new HandView(1);
         
         // Define janela da mao do jogador 1
-        hnd1Pane = new FlowPane();
+        GridPane hnd1Pane = new GridPane();
         hnd1Pane.setHgap(20);
         hnd1Pane.setStyle("-fx-background-color:blue;-fx-padding:10px;");
-        // hnd1Pane.getChildren().add(handViewP1);
-        hnd1Pane.getChildren().add(hnd1CloseBtn);
+        hnd1Pane.add(handViewP1, 0, 0);
+        hnd1Pane.add(hnd1CloseBtn, 0, 1);
         // Lanca Stage para mao do jogador 1
         hnd1Scene = new Scene(hnd1Pane);
         hnd1Stage = new Stage();
@@ -158,11 +157,15 @@ public class App extends Application implements Observer{
         // Fecha a janela da mao do jogador 2
         hnd2CloseBtn = new Button("Fechar");
         hnd2CloseBtn.setOnAction(e -> trataBtnCloseHand2(e));
+
+        handViewP2 = new HandView(2);
+
         // Define janela da mao do jogador 2
-        hnd2Pane = new FlowPane();
+        GridPane hnd2Pane = new GridPane();
         hnd2Pane.setHgap(20);
         hnd2Pane.setStyle("-fx-background-color:red;-fx-padding:10px;");
-        hnd2Pane.getChildren().add(hnd2CloseBtn);
+        hnd2Pane.add(handViewP2, 0, 0);
+        hnd2Pane.add(hnd2CloseBtn, 0, 1);
         // Lanca Stage para mao do jogador 2
         hnd2Scene = new Scene(hnd2Pane);
         hnd2Stage = new Stage();

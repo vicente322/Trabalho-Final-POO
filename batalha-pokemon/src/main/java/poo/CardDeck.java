@@ -31,6 +31,8 @@ public class CardDeck extends Observable{
             cartas.add(new PokemonCard("Piplup", "piplup-card", "piplup",
                     70, new Ataque("Peck", 10),
                     new Ataque("Wave Splash", 20)));
+            cartas.add(new PokemonCard("Bellsprout", "bellsprout-card", "bellsprout",
+                    60, new Ataque("Blot", 20), null));
         }
         else if (deckNum == 2){
             cartas.add(new PokemonCard("Aron", "aron-card", "aron",
@@ -39,6 +41,9 @@ public class CardDeck extends Observable{
             cartas.add(new PokemonCard("Rookidee", "rookidee-card", "rookidee",
                     60, new Ataque("Flap", 10),
                     new Ataque("Glide", 30)));
+            cartas.add(new PokemonCard("Magmar", "magmar-card", "magmar",
+                    90, new Ataque("Low Kick", 20),
+                    new Ataque("Fiery Punch", 70)));
         }
 
         Collections.shuffle(cartas);

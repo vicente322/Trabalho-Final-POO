@@ -29,17 +29,23 @@ public class HandView extends HBox implements CardObserver, Observer{
             }
 
             hand.addObserver(this);
-
             
-            CardView cv = new CardView(hand.getCards().get(0), 300);
-            cv.setCardObserver(this);
-            this.getChildren().add(cv);
+            for (Card card : hand.getCards()){
+                  if (card != null){
+                        CardView cv = new CardView(card, 300);
+                        cv.setCardObserver(this);
+                        this.getChildren().add(cv);
+                  }                 
+            }
+            
             
       }
 
       @Override
       public void cardSelected(CardView card) {
-            // TODO Auto-generated method stub
+            hand.setSelectedCard(card.getCard());
+            selectedCard = card.getCard();
+            Game.getInstance().play(hand);
             
       }
       
