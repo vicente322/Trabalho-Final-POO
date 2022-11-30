@@ -66,6 +66,7 @@ public class ImageFactory{
             case "emptyheart": return ("/emptyHeart.png");
             case "coinFront": return ("/coinFront.png");
             case "coinBack": return ("/coinBack.png");
+            case "pokeBall": return ("/pokeBall.png");
             default: throw new IllegalArgumentException("Invalid image Id");
         }
     }

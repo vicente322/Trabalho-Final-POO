@@ -16,7 +16,7 @@ public class Game extends Observable{
       private CardDeck deckP1, deckP2;
       private FieldCard fieldCardP1, fieldCardP2; //Vao virar PokemonCard. Por hora ainda nao por ser tirado direto do deck pode dar erro.
       private int player, p1Life, p2Life;
-      private int initialLife = 4;
+      private final int initialLife = 4;
       private int energiasFire, energiasWater, energiasSteel, energiasGrass;
       private int descPok1, descTrei1, descEner1, descPok2, descTrei2, descEner2;
       private List<Card> listDeck1,listDeck2;
@@ -95,7 +95,7 @@ public class Game extends Observable{
                   hand2.addCard(listDeck2.remove(0));
             }
 
-            nullCard = new PokemonCard("null","null","imgBck",10,Tipo.Normal,"nada",new Ataque("null",0));
+            nullCard = new PokemonCard("null","null","imgBck",1,Tipo.Normal,"nada",new Ataque("null",0));
 
             Card c1 = null;
             fieldCardP1 = new FieldCard((PokemonCard)nullCard);

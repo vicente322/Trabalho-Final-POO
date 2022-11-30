@@ -12,11 +12,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import javafx.event.EventHandler;
 import javafx.scene.control.ComboBox;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import java.util.*;
 
@@ -33,16 +33,19 @@ import java.util.*;
 
 public class App extends Application implements Observer{
     private FieldCardView fieldCardP1, fieldCardP2;
-    private Button hnd1Btn, hnd2Btn, hnd1CloseBtn, hnd2CloseBtn, confirmNamesBtn,flipBtn,flipFecharBtn, closePopUpBtn;
-    private Stage hnd1Stage, hnd2Stage, confirmNameStage, coinFlipStage, tripleCoinFlipStage, popUpStage;
-    private Scene fieldScene, hnd1Scene, hnd2Scene, confirmNameScene, coinFlipScene, tripleCoinFlipScene, popUpScene;
-    private GridPane grid, hnd1Pane, hnd2Pane, gridCoin, gridCoinTriple, popUpGrid;
-    private Label playerTurn, lbP1, lbP2, infoPokemon1, infoPokemon2, infoDeck1, infoDeck2,popUpLabel;
+    private Button hnd1Btn, hnd2Btn, confirmNamesBtn,flipBtn,flipFecharBtn;
+    private Button hnd1CloseBtn,hnd1UseBtn,hnd1ShowBtn,hnd1Atk1Btn,hnd1Atk2Btn,hnd1RecuarBtn;
+    private Button hnd2CloseBtn,hnd2UseBtn,hnd2ShowBtn,hnd2Atk1Btn,hnd2Atk2Btn,hnd2RecuarBtn;
+    private Stage hnd1Stage, hnd2Stage, confirmNameStage, coinFlipStage, tripleCoinFlipStage;
+    private Scene fieldScene, hnd1Scene, hnd2Scene, confirmNameScene, coinFlipScene, tripleCoinFlipScene;
+    private GridPane grid, hnd1Pane, hnd2Pane, gridCoin, gridCoinTriple;
+    private Label playerTurn, lbP1, lbP2, infoPokemon1, infoPokemon2, infoDeck1, infoDeck2;
     private String jogador1Nome, jogador2Nome;
     private TextField jogador1, jogador2;
     private ImageView cartaMaoP1, cartaJogoP1, cartaJogoP1Copia, cartaMaoP2, cartaJogoP2, cartaJogoP2Copia, coin, coin1, coin2, coin3,c1p1,c2p1,c3p1,c4p1,c1p2,c2p2,c3p2,c4p2;
     private ComboBox<String> cb1, cb2;
-    private boolean acabou,turnFinished,reachedLoop,flipped,fimPorCartas,fimPorBasicos;
+    private boolean acabou,turnFinished,reachedLoop,flipped,fimPorCartas,fimPorBasicos,firstTurnAux,wroteNames,checkStatusDamage;
+    private Alert popUp;
     private int numberOfHeads, winnerIfTie;
 
     /**
@@ -99,8 +102,12 @@ public class App extends Application implements Observer{
         jogador2Nome = jogador2.getText();
         lbP1.setText(jogador1Nome);
         lbP2.setText(jogador2Nome);
-        updateLabels();
+        if (reachedLoop)
+        {
+            updateLabels();
+        }
         confirmNameStage.close();
+        wroteNames = true;
     }
 
     public void trataBtnUsarCartaP1(ActionEvent e,String str) {
@@ -118,7 +125,20 @@ public class App extends Application implements Observer{
                     hand.removeCard(c);
                     Game.getInstance().setHandP1(hand);
                     cb1.getItems().remove(str);
-                    hnd1Stage.close();
+                    if (!reachedLoop)
+                    {
+                        hnd1Stage.close();
+                    }
+                    else if (checkStatusDamage)
+                    {
+                        hnd1Stage.close();
+                        updateLabels();
+                    }
+                    else
+                    {
+                        updateLabels();
+                    }
+                    firstTurnAux = true;
                 }
                 else if (copyCard.getEvoluiDe().equals(Game.getInstance().getFieldP1().getCard().getNome()))
                 {
@@ -131,6 +151,11 @@ public class App extends Application implements Observer{
                     cb1.getItems().remove(str);
                     updateLabels();
                 }
+                else if (!copyCard.getEvoluiDe().equals(Game.getInstance().getFieldP1().getCard().getNome())&&!Game.getInstance().getFieldP1().getCard().getNome().equals("null"))
+                {
+                    popUp.setContentText("Este Pokémon não evolui de seu Pokémon ativo.");
+                    popUp.showAndWait();
+                }
             }
             else if (c instanceof TreinadorCard && Game.getInstance().getFieldP1().getCard().getNome()!="null")
             {
@@ -138,7 +163,7 @@ public class App extends Application implements Observer{
                 System.out.println(c.getImageId() + " JOGOU TREINADOR");
                 int i = copyCard.getIdEfeito();
                 if (i==18) {ativaHauP1();}
-                else if (i==19) {Game.getInstance().getFieldP1().getCard().heal(20);}
+                else if (i==19) {Game.getInstance().getFieldP1().getCard().heal(30);}
                 else if (i==20)
                 {
                     Game.getInstance().getFieldP1().getCard().curaEnvenenado();
@@ -161,6 +186,11 @@ public class App extends Application implements Observer{
                 Game.getInstance().setHandP1(hand);
                 cb1.getItems().remove(str);
                 updateLabels();
+            }
+            else if (c instanceof EnergiaCard && Game.getInstance().getEnergizou())
+            {
+                popUp.setContentText("Você já energizou um Pokémon neste turno.");
+                popUp.showAndWait();
             }
         }
     }
@@ -188,7 +218,20 @@ public class App extends Application implements Observer{
                     hand.removeCard(c);
                     Game.getInstance().setHandP2(hand);
                     cb2.getItems().remove(str);
-                    hnd2Stage.close();
+                    if (!reachedLoop)
+                    {
+                        hnd2Stage.close();
+                    }
+                    else if (checkStatusDamage)
+                    {
+                        hnd2Stage.close();
+                        updateLabels();
+                    }
+                    else
+                    {
+                        updateLabels();
+                    }
+                    firstTurnAux=true;
                 }
                 else if (copyCard.getEvoluiDe().equals(Game.getInstance().getFieldP2().getCard().getNome()))
                 {
@@ -201,6 +244,11 @@ public class App extends Application implements Observer{
                     cb2.getItems().remove(str);
                     updateLabels();
                 }
+                else if (!copyCard.getEvoluiDe().equals(Game.getInstance().getFieldP2().getCard().getNome())&&!Game.getInstance().getFieldP2().getCard().getNome().equals("null"))
+                {
+                    popUp.setContentText("Este Pokémon não evolui de seu Pokémon ativo.");
+                    popUp.showAndWait();
+                }
             }
             else if (c instanceof TreinadorCard && Game.getInstance().getFieldP2().getCard().getNome()!="null")
             {
@@ -208,7 +256,7 @@ public class App extends Application implements Observer{
                 System.out.println(c.getImageId() + " JOGOU TREINADOR");
                 int i = copyCard.getIdEfeito();
                 if (i==18) {ativaHauP2();}
-                else if (i==19) {Game.getInstance().getFieldP2().getCard().heal(20);}
+                else if (i==19) {Game.getInstance().getFieldP2().getCard().heal(30);}
                 else if (i==20)
                 {
                     Game.getInstance().getFieldP2().getCard().curaEnvenenado();
@@ -232,6 +280,11 @@ public class App extends Application implements Observer{
                 cb2.getItems().remove(str);
                 updateLabels();
             }
+            else if (c instanceof EnergiaCard && Game.getInstance().getEnergizou())
+            {
+                popUp.setContentText("Você já energizou um Pokémon neste turno.");
+                popUp.showAndWait();
+            }
         }
     }
 
@@ -253,18 +306,23 @@ public class App extends Application implements Observer{
             turnFinished = true;
             hnd1Stage.close();
         }
-        else if (!Game.getInstance().getFieldP1().getCard().getNome().equals("null")&&status3.equalsIgnoreCase("Confuso"))
+        else if (!Game.getInstance().getFieldP1().getCard().getNome().equals("null")&&verificaUsarAtaqueP1(atk)&&status3.equalsIgnoreCase("Confuso"))
         {
             flipped = false;
             while(!flipped)
             {
                 numberOfHeads = 0;
-                coinFlipStage.showAndWait();
+                trataOpenCoinFlipWindow(null);
             }
             if (numberOfHeads==1) {Game.getInstance().getFieldP2().getCard().damage(findDanoAtaqueP1(atk));}
             else {Game.getInstance().getFieldP1().getCard().damage(30);}
             turnFinished = true;
             hnd1Stage.close();
+        }
+        else if (!Game.getInstance().getFieldP1().getCard().getNome().equals("null")&&!verificaUsarAtaqueP1(atk))
+        {
+            popUp.setContentText("Você não possui energia suficiente para usar este ataque.");
+            popUp.showAndWait();
         }
     }
 
@@ -278,18 +336,23 @@ public class App extends Application implements Observer{
             turnFinished = true;
             hnd2Stage.close();
         }
-        else if (!Game.getInstance().getFieldP1().getCard().getNome().equals("null")&&status3.equalsIgnoreCase("Confuso"))
+        else if (!Game.getInstance().getFieldP1().getCard().getNome().equals("null")&&verificaUsarAtaqueP2(atk)&&status3.equalsIgnoreCase("Confuso"))
         {
             flipped = false;
             while(!flipped)
             {
                 numberOfHeads = 0;
-                coinFlipStage.showAndWait();
+                trataOpenCoinFlipWindow(null);
             }
             if (numberOfHeads==1) {Game.getInstance().getFieldP1().getCard().damage(findDanoAtaqueP2(atk));}
             else {Game.getInstance().getFieldP2().getCard().damage(30);}
             turnFinished = true;
-            hnd1Stage.close();
+            hnd2Stage.close();
+        }
+        else if (!Game.getInstance().getFieldP2().getCard().getNome().equals("null")&&!verificaUsarAtaqueP2(atk))
+        {
+            popUp.setContentText("Você não possui energia suficiente para usar este ataque.");
+            popUp.showAndWait();
         }
     }
 
@@ -305,19 +368,29 @@ public class App extends Application implements Observer{
                 turnFinished = true;
                 hnd1Stage.close();
             }
-            else if (!Game.getInstance().getFieldP1().getCard().getNome().equals("null")&&status3.equalsIgnoreCase("Confuso"))
+            else if (verificaUsarAtaqueP1(atk)&&status3.equalsIgnoreCase("Confuso"))
             {
                 flipped = false;
                 while(!flipped)
                 {
                     numberOfHeads = 0;
-                    coinFlipStage.showAndWait();
+                    trataOpenCoinFlipWindow(null);
                 }
                 if (numberOfHeads==1) {Game.getInstance().getFieldP2().getCard().damage(findDanoAtaqueP1(atk));}
                 else {Game.getInstance().getFieldP1().getCard().damage(30);}
                 turnFinished = true;
                 hnd1Stage.close();
             }
+            else if (!Game.getInstance().getFieldP1().getCard().getNome().equals("null")&&!verificaUsarAtaqueP1(atk))
+            {
+                popUp.setContentText("Você não possui energia suficiente para usar este ataque.");
+                popUp.showAndWait();
+            }
+        }
+        else if (!Game.getInstance().getFieldP1().getCard().getNome().equals("null"))
+        {
+                popUp.setContentText("O seu Pokémon ativo não possui um segundo ataque.");
+                popUp.showAndWait();
         }
     }
 
@@ -333,19 +406,29 @@ public class App extends Application implements Observer{
                 turnFinished = true;
                 hnd2Stage.close();
             }
-            else if (!Game.getInstance().getFieldP1().getCard().getNome().equals("null")&&status3.equalsIgnoreCase("Confuso"))
+            else if (verificaUsarAtaqueP2(atk)&&status3.equalsIgnoreCase("Confuso"))
             {
                 flipped = false;
                 while(!flipped)
                 {
                     numberOfHeads = 0;
-                    coinFlipStage.showAndWait();
+                    trataOpenCoinFlipWindow(null);
                 }
                 if (numberOfHeads==1) {Game.getInstance().getFieldP1().getCard().damage(findDanoAtaqueP2(atk));}
                 else {Game.getInstance().getFieldP2().getCard().damage(30);}
                 turnFinished = true;
-                hnd1Stage.close();
+                hnd2Stage.close();
             }
+            else if (!Game.getInstance().getFieldP2().getCard().getNome().equals("null")&&!verificaUsarAtaqueP2(atk))
+            {
+                popUp.setContentText("Você não possui energia suficiente para usar este ataque.");
+                popUp.showAndWait();
+            }
+        }
+        else if (!Game.getInstance().getFieldP2().getCard().getNome().equals("null"))
+        {
+            popUp.setContentText("O seu Pokémon ativo não possui um segundo ataque.");
+            popUp.showAndWait();
         }
     }
 
@@ -363,6 +446,16 @@ public class App extends Application implements Observer{
             Game.getInstance().clearEnergiasP1();
             updateLabels();
         }
+        else if (!Game.getInstance().getFieldP1().getCard().getNome().equals("null")&&Game.getInstance().getEnergiasP1()<custo)
+        {
+            popUp.setContentText("Você não possui energia suficiente para recuar.");
+            popUp.showAndWait();
+        }
+        else if (!Game.getInstance().getFieldP1().getCard().getNome().equals("null")&&(status3.equalsIgnoreCase("Paralizado")||status3.equalsIgnoreCase("Dormindo")))
+        {
+            popUp.setContentText("Você não pode recuar pois seu Pokémon está " + Game.getInstance().getFieldP1().getCard().getStatus3().toLowerCase() + ".");
+            popUp.showAndWait();
+        }
     }
 
     public void tratarBtnRecuarP2(ActionEvent e)
@@ -379,28 +472,28 @@ public class App extends Application implements Observer{
             Game.getInstance().clearEnergiasP2();
             updateLabels();
         }
+        else if (!Game.getInstance().getFieldP2().getCard().getNome().equals("null")&&Game.getInstance().getEnergiasP2()<custo)
+        {
+            popUp.setContentText("Você não possui energia suficiente para recuar.");
+            popUp.showAndWait();
+        }
+        else if (!Game.getInstance().getFieldP2().getCard().getNome().equals("null")&&(status3.equalsIgnoreCase("Paralizado")||status3.equalsIgnoreCase("Dormindo")))
+        {
+            popUp.setContentText("Você não pode recuar pois seu Pokémon está " + Game.getInstance().getFieldP2().getCard().getStatus3().toLowerCase() + ".");
+            popUp.showAndWait();
+        }
     }
 
     public void launchPopUp()
     {
-        closePopUpBtn = new Button("OK");
-        closePopUpBtn.setOnAction(e->{popUpStage.close();});
-        popUpGrid = new GridPane();
-
-        popUpGrid.add(closePopUpBtn,0,1);
+        popUp = new Alert(AlertType.INFORMATION);
+        popUp.setHeaderText("Operação Inválida");
+        popUp.setContentText("popUp");
         
-        popUpLabel = new Label("PopUp");
-        popUpGrid.add(popUpLabel,0,0);
-
-        popUpGrid.setAlignment(Pos.CENTER);
-        popUpGrid.setHgap(10);
-        popUpGrid.setVgap(10);
-        popUpGrid.setPadding(new Insets(25, 25, 25, 25));
-
-        popUpScene = new Scene(popUpGrid);
-        popUpStage = new Stage();
-        popUpStage.setScene(popUpScene);
-        popUpStage.setTitle("Aviso");
+        ImageView img = ImageFactory.getInstance().createImage("pokeBall");
+        img.setFitHeight(50);
+        img.setFitWidth(50);
+        popUp.setGraphic(img);
     }
 
     public void launchCoinFlipWindow(){
@@ -431,7 +524,6 @@ public class App extends Application implements Observer{
 
     public void trataCoinFlip(ActionEvent e)
     {
-        Random r = new Random();
         int i = (int)Math.round(Math.random());
         if (!flipped)
         {
@@ -455,6 +547,60 @@ public class App extends Application implements Observer{
             coinFlipStage.close();
             tripleCoinFlipStage.close();
         }
+    }
+
+    public void trataOpenCoinFlipWindow(ActionEvent e)
+    {
+        hnd1Atk1Btn.setDisable(true);
+        hnd1Atk2Btn.setDisable(true);
+        hnd1UseBtn.setDisable(true);
+        hnd1CloseBtn.setDisable(true);
+        hnd1RecuarBtn.setDisable(true);
+        hnd2Atk1Btn.setDisable(true);
+        hnd2Atk2Btn.setDisable(true);
+        hnd2UseBtn.setDisable(true);
+        hnd2CloseBtn.setDisable(true);
+        hnd2RecuarBtn.setDisable(true);
+
+        coinFlipStage.showAndWait();//lul
+
+        hnd1Atk1Btn.setDisable(false);
+        hnd1Atk2Btn.setDisable(false);
+        hnd1UseBtn.setDisable(false);
+        hnd1CloseBtn.setDisable(false);
+        hnd1RecuarBtn.setDisable(false);
+        hnd2Atk1Btn.setDisable(false);
+        hnd2Atk2Btn.setDisable(false);
+        hnd2UseBtn.setDisable(false);
+        hnd2CloseBtn.setDisable(false);
+        hnd2RecuarBtn.setDisable(false);
+    }
+
+    public void trataOpenTripleCoinFlipWindow(ActionEvent e)
+    {
+        hnd1Atk1Btn.setDisable(true);
+        hnd1Atk2Btn.setDisable(true);
+        hnd1UseBtn.setDisable(true);
+        hnd1CloseBtn.setDisable(true);
+        hnd1RecuarBtn.setDisable(true);
+        hnd2Atk1Btn.setDisable(true);
+        hnd2Atk2Btn.setDisable(true);
+        hnd2UseBtn.setDisable(true);
+        hnd2CloseBtn.setDisable(true);
+        hnd2RecuarBtn.setDisable(true);
+
+        tripleCoinFlipStage.showAndWait();//lul
+
+        hnd1Atk1Btn.setDisable(false);
+        hnd1Atk2Btn.setDisable(false);
+        hnd1UseBtn.setDisable(false);
+        hnd1CloseBtn.setDisable(false);
+        hnd1RecuarBtn.setDisable(false);
+        hnd2Atk1Btn.setDisable(false);
+        hnd2Atk2Btn.setDisable(false);
+        hnd2UseBtn.setDisable(false);
+        hnd2CloseBtn.setDisable(false);
+        hnd2RecuarBtn.setDisable(false);
     }
 
     public void launchTripleCoinFlipWindow(){
@@ -495,7 +641,6 @@ public class App extends Application implements Observer{
 
     public void trataCoinFlipTriple(ActionEvent e)
     {
-        Random r = new Random();
         int i1 = (int)Math.round(Math.random());
         int i2 = (int)Math.round(Math.random());
         int i3 = (int)Math.round(Math.random());
@@ -566,7 +711,11 @@ public class App extends Application implements Observer{
         jogador2 = new TextField();
         gridNomes.add(jogador2,1,3);
 
-        confirmNameStage.show();
+        wroteNames = false;
+        while (!wroteNames)
+        {
+            confirmNameStage.showAndWait();
+        }
     }
     /**
      * Armazena sequencia que organiza a mao do jogador 1
@@ -577,7 +726,6 @@ public class App extends Application implements Observer{
         // Cria botao da mao do jogador 1
         hnd1Btn = new Button("Mao do Jogador 1");
         hnd1Btn.setOnAction(e -> trataBtnHand1(e));
-        grid.add(hnd1Btn, btnX, btnY);
         // Fecha a janela da mao do jogador 1
         hnd1CloseBtn = new Button("Encerrar Turno");
         hnd1CloseBtn.setOnAction(e -> trataBtnCloseHand1(e));
@@ -592,16 +740,16 @@ public class App extends Application implements Observer{
         cb1 = new ComboBox<String>(FXCollections.observableList(cardsP1));
         hnd1Pane.add(cb1,1,1);
 
-        Button hnd1UseBtn = new Button("Usar");
+        hnd1UseBtn = new Button("Usar");
         hnd1UseBtn.setOnAction(e -> trataBtnUsarCartaP1(e, cb1.getValue()));
         hnd1Pane.add(hnd1UseBtn,2,2);
 
-        Button hnd1ShowBtn = new Button("Mostrar");
+        hnd1ShowBtn = new Button("Mostrar");
         hnd1ShowBtn.setOnAction(e -> trataBtnShowCartaP1(e, cb1.getValue()));
         hnd1Pane.add(hnd1ShowBtn,2,3);
 
         cartaMaoP1 = ImageFactory.getInstance().createImage("imgBck");
-        cartaMaoP1.setFitHeight(200);
+        cartaMaoP1.setFitHeight(350);
         cartaMaoP1.setPreserveRatio(true);
         hnd1Pane.add(cartaMaoP1,2,1);
 
@@ -611,19 +759,19 @@ public class App extends Application implements Observer{
         hnd1Pane.add(labCartasMao,2,0);
 
         cartaJogoP1Copia = ImageFactory.getInstance().createImage(Game.getInstance().getFieldP1().getCard().getImageId());
-        cartaJogoP1Copia.setFitHeight(200);
+        cartaJogoP1Copia.setFitHeight(350);
         cartaJogoP1Copia.setPreserveRatio(true);
         hnd1Pane.add(cartaJogoP1Copia,0,1);
 
-        Button hnd1Atk1Btn = new Button("Ataque 1");
+        hnd1Atk1Btn = new Button("Ataque 1");
         hnd1Atk1Btn.setOnAction(e->tratarBtnAtk1P1(e));
         hnd1Pane.add(hnd1Atk1Btn,0,2);
 
-        Button hnd1Atk2Btn = new Button("Ataque 2");
+        hnd1Atk2Btn = new Button("Ataque 2");
         hnd1Atk2Btn.setOnAction(e->tratarBtnAtk2P1(e));
         hnd1Pane.add(hnd1Atk2Btn,0,3);
 
-        Button hnd1RecuarBtn = new Button("Recuar");
+        hnd1RecuarBtn = new Button("Recuar");
         hnd1RecuarBtn.setOnAction(e->tratarBtnRecuarP1(e));
         hnd1Pane.add(hnd1RecuarBtn,0,4);
 
@@ -642,7 +790,6 @@ public class App extends Application implements Observer{
         // Cria botao da mao do jogador 2
         hnd2Btn = new Button("Mao do Jogador 2");
         hnd2Btn.setOnAction(e -> trataBtnHand2(e));
-        grid.add(hnd2Btn, btnX, btnY);
         // Fecha a janela da mao do jogador 1
         hnd2CloseBtn = new Button("Encerrar Turno");
         hnd2CloseBtn.setOnAction(e -> trataBtnCloseHand2(e));
@@ -650,45 +797,45 @@ public class App extends Application implements Observer{
         hnd2Pane = new GridPane();
         hnd2Pane.setHgap(20);
         hnd2Pane.setVgap(10);
-        hnd2Pane.setStyle("-fx-background-color:blue;-fx-padding:10px;");
+        hnd2Pane.setStyle("-fx-background-color:red;-fx-padding:10px;");
         hnd2Pane.add(hnd2CloseBtn,2,4);
 
         List<String> cardsP2 = Game.getInstance().getHandP2().getCardNomes();
         cb2 = new ComboBox<String>(FXCollections.observableList(cardsP2));
         hnd2Pane.add(cb2,1,1);
 
-        Button hnd2UseBtn = new Button("Usar");
+        hnd2UseBtn = new Button("Usar");
         hnd2UseBtn.setOnAction(e -> trataBtnUsarCartaP2(e, cb2.getValue()));
         hnd2Pane.add(hnd2UseBtn,2,2);
 
-        Button hnd2ShowBtn = new Button("Mostrar");
+        hnd2ShowBtn = new Button("Mostrar");
         hnd2ShowBtn.setOnAction(e -> trataBtnShowCartaP2(e, cb2.getValue()));
         hnd2Pane.add(hnd2ShowBtn,2,3);
 
         cartaMaoP2 = ImageFactory.getInstance().createImage("imgBck");
-        cartaMaoP2.setFitHeight(200);
+        cartaMaoP2.setFitHeight(350);
         cartaMaoP2.setPreserveRatio(true);
         hnd2Pane.add(cartaMaoP2,2,1);
 
         Label labCartaAtual = new Label("Pokémon Ativo:");
-        hnd1Pane.add(labCartaAtual,0,0);
+        hnd2Pane.add(labCartaAtual,0,0);
         Label labCartasMao = new Label("Sua Mão:");
-        hnd1Pane.add(labCartasMao,2,0);
+        hnd2Pane.add(labCartasMao,2,0);
 
         cartaJogoP2Copia = ImageFactory.getInstance().createImage(Game.getInstance().getFieldP2().getCard().getImageId());
-        cartaJogoP2Copia.setFitHeight(200);
+        cartaJogoP2Copia.setFitHeight(350);
         cartaJogoP2Copia.setPreserveRatio(true);
         hnd2Pane.add(cartaJogoP2Copia,0,1);
 
-        Button hnd2Atk1Btn = new Button("Ataque 1");
+        hnd2Atk1Btn = new Button("Ataque 1");
         hnd2Atk1Btn.setOnAction(e->tratarBtnAtk1P2(e));
         hnd2Pane.add(hnd2Atk1Btn,0,2);
 
-        Button hnd2Atk2Btn = new Button("Ataque 2");
+        hnd2Atk2Btn = new Button("Ataque 2");
         hnd2Atk2Btn.setOnAction(e->tratarBtnAtk2P2(e));
         hnd2Pane.add(hnd2Atk2Btn,0,3);
 
-        Button hnd2RecuarBtn = new Button("Recuar");
+        hnd2RecuarBtn = new Button("Recuar");
         hnd2RecuarBtn.setOnAction(e->tratarBtnRecuarP2(e));
         hnd2Pane.add(hnd2RecuarBtn,0,4);
 
@@ -742,9 +889,13 @@ public class App extends Application implements Observer{
 
         PokemonCard pc = fieldCardP1.getFieldCard().getCard();
 
-
+        int hp1 = Game.getInstance().getFieldP1().getCard().getCurrentHP();
+        String hp1Str = "    HP: " + Integer.toString(hp1);
+        String nome1 = Game.getInstance().getFieldP1().getCard().getNome();
+        if (nome1.equals("null")){nome1 = "";}
+        if (hp1 == 1) {hp1Str = "";}
         infoPokemon1 = new Label(
-            pc.getNome() + "    HP: " + pc.getCurrentHP() + "\n\nEnergias(" + Game.getInstance().getEnergiasP1() +"):\nFire: "
+            nome1 + hp1Str + "\n\nEnergias(" + Game.getInstance().getEnergiasP1() +"):\nFire: "
             + Game.getInstance().getEnergias(Tipo.Fire) + "\nGrass: " + Game.getInstance().getEnergias(Tipo.Grass) +
             "\n\nStatus:" + Game.getInstance().getFieldP1().getCard().getStatusText() +
             "\n\nPilha de Descarte(" + Game.getInstance().getTotalDescarteP1() + "):\nPokémon: " + Game.getInstance().getDescPokP1()
@@ -761,10 +912,10 @@ public class App extends Application implements Observer{
 
         GridPane lifeBar = new GridPane();
         lifeBar.setHgap(5);
-        ImageView c1p1 = ImageFactory.getInstance().createImage("fullheart");
-        ImageView c2p1 = ImageFactory.getInstance().createImage("fullheart");
-        ImageView c3p1 = ImageFactory.getInstance().createImage("fullheart");
-        ImageView c4p1 = ImageFactory.getInstance().createImage("fullheart");
+        c1p1 = ImageFactory.getInstance().createImage("fullheart");
+        c2p1 = ImageFactory.getInstance().createImage("fullheart");
+        c3p1 = ImageFactory.getInstance().createImage("fullheart");
+        c4p1 = ImageFactory.getInstance().createImage("fullheart");
         c1p1.setFitHeight(20);
         c1p1.setFitWidth(20);
         c2p1.setFitHeight(20);
@@ -804,9 +955,15 @@ public class App extends Application implements Observer{
         deck2View.setFitWidth(150);
         gridP2.add(deck2View, 1, 1);
 
+        int hp2 = Game.getInstance().getFieldP2().getCard().getCurrentHP();
+        String hp2Str = "    HP: " + Integer.toString(hp2);
+        String nome2 = Game.getInstance().getFieldP2().getCard().getNome();
+        if (nome2.equals("null")){nome2 = "";}
+        if (hp2 == 1) {hp2Str = "";}
+        
         PokemonCard pc = fieldCardP2.getFieldCard().getCard();
         infoPokemon2 = new Label(
-            pc.getNome() + "    HP: " + pc.getCurrentHP() + "\n\nEnergias(" + Game.getInstance().getEnergiasP2() +"):\nSteel: "
+            nome2 + hp2Str + "\n\nEnergias(" + Game.getInstance().getEnergiasP2() +"):\nSteel: "
             + Game.getInstance().getEnergias(Tipo.Steel) + "\nWater: " + Game.getInstance().getEnergias(Tipo.Water) +
             "\n\nStatus:" + Game.getInstance().getFieldP2().getCard().getStatusText() + 
             "\n\nPilha de Descarte(" + Game.getInstance().getTotalDescarteP2() + "):\nPokémon: " + Game.getInstance().getDescPokP2()
@@ -853,14 +1010,17 @@ public class App extends Application implements Observer{
         gridTopCmd.setHgap(50);
         gridTopCmd.setVgap(10);
         gridTopCmd.setPadding(new Insets(25, 25, 25, 25));
-        
-        Button nextBtn = new Button("Passar turno");
-        nextBtn.setOnAction(e -> {
-            Game.getInstance().nextPlayer();
-            updateLabels();
-        });
-        gridTopCmd.add(nextBtn, 0, 0);
 
+        Button reembaralharBtn = new Button("Reembaralhar");
+        reembaralharBtn.setOnAction(e->{
+            Collections.shuffle(Game.getInstance().getListDeckP1());
+            Collections.shuffle(Game.getInstance().getListDeckP2());
+            popUp.setContentText("Os decks foram reembaralhados");
+            popUp.setHeaderText("Reembaralhar");
+            popUp.showAndWait();
+            popUp.setHeaderText("Operação Inválida");
+        });
+        gridTopCmd.add(reembaralharBtn,0,0);
         Button changeNameBtn = new Button("Mudar Nomes");
         changeNameBtn.setOnAction(e -> launchNameWindow());
         gridTopCmd.add(changeNameBtn, 1, 0);
@@ -871,6 +1031,7 @@ public class App extends Application implements Observer{
             turnFinished=true;
             flipped = true;
             reachedLoop=true;
+            wroteNames=true;
             primaryStage.close();
             hnd1Stage.close();
             hnd2Stage.close();
@@ -926,6 +1087,8 @@ public class App extends Application implements Observer{
         winnerIfTie = 0;
         fimPorBasicos = false;
         fimPorCartas = false;
+        flipped = true;
+        checkStatusDamage = false;
 
         primaryStage.setTitle("JavaFX - Batalha Pokemon");
         jogador1Nome = "Jogador 1";
@@ -953,25 +1116,40 @@ public class App extends Application implements Observer{
         launchTripleCoinFlipWindow();
         launchPopUp();
 
-        popUpLabel.setText("Vez de " + jogador1Nome);
-        popUpStage.showAndWait();
+        popUp.setContentText("Vez de " + jogador1Nome);
+        popUp.setHeaderText("Início de Jogo");
+        popUp.showAndWait();
+        popUp.setHeaderText("Operação Inválida");
 
-        trataBtnHand1(null);
+        firstTurnAux = false;
+        while(!firstTurnAux)
+        {
+            trataBtnHand1(null);
+        }
         
-        popUpLabel.setText("Vez de " + jogador2Nome);
-        popUpStage.showAndWait();
+        popUp.setContentText("Vez de " + jogador2Nome);
+        popUp.setHeaderText("Troca de turno");
+        popUp.showAndWait();
+        popUp.setHeaderText("Operação Inválida");
 
         playerTurn.setText("Vez de " + jogador2Nome);
 
-        trataBtnHand2(null);
+        firstTurnAux = false;
+        while(!firstTurnAux)
+        {
+            trataBtnHand2(null);
+        }
 
         updateLabels();
 
-        popUpLabel.setText("Vez de " + jogador1Nome);
-        popUpStage.showAndWait();
+        popUp.setContentText("Vez de " + jogador1Nome);
+        popUp.setHeaderText("Troca de turno");
+        popUp.showAndWait();
+        popUp.setHeaderText("Operação Inválida");
 
         turnFinished=false;
         reachedLoop=true;
+        acabou = false;
         playerTurn.setText("Vez de " + jogador1Nome);
         while (!acabou)
         {
@@ -1002,11 +1180,12 @@ public class App extends Application implements Observer{
             else if (Game.getInstance().getPlayer()==1&&!turnFinished)
             {
                 playerTurn.setText("Vez de " + jogador1Nome);
+                checkStatusDamage = false;
                 Card c = Game.getInstance().getListDeckP1().remove(0);
                 Game.getInstance().getHandP1().addCard(c);
                 cb1.getItems().add(c.getNome());
                 cb1.getItems().remove("null");
-                while(!turnFinished)
+                while(!turnFinished||Game.getInstance().getFieldP1().getCard().getNome().equals("null")||!flipped)
                 {
                     trataBtnHand1(null);
                     updateLabels();
@@ -1025,24 +1204,32 @@ public class App extends Application implements Observer{
             }
             else if (Game.getInstance().getPlayer()==1)
             {
-                if(Game.getInstance().getFieldP2().getCard().getNome().equals("null"))
+                boolean pass = true;
+                checkStatusDamage = true;
+                while(Game.getInstance().getFieldP2().getCard().getNome().equals("null"))
                 {
-                    popUpLabel.setText(jogador2Nome + ", selecione um Pokémon ativo");
-                    popUpStage.showAndWait();
+                    pass = false;
+                    popUp.setContentText(jogador2Nome + ", selecione um Pokémon ativo");
+                    popUp.showAndWait();
                     trataBtnHand2(null);
                     updateLabels();
+                    hnd2Stage.close();
                 }
-                if(Game.getInstance().getFieldP1().getCard().getNome().equals("null"))
+                while(Game.getInstance().getFieldP1().getCard().getNome().equals("null"))
                 {
-                    popUpLabel.setText(jogador1Nome + ", selecione um Pokémon ativo");
-                    popUpStage.showAndWait();
+                    pass = false;
+                    popUp.setContentText(jogador1Nome + ", selecione um Pokémon ativo");
+                    popUp.showAndWait();
                     trataBtnHand1(null);
                     updateLabels();
+                    hnd1Stage.close();
                 }
-                else 
+                if(pass)
                 {
-                    popUpLabel.setText("Vez de " + jogador2Nome);
-                    popUpStage.showAndWait();
+                    popUp.setContentText("Vez de " + jogador2Nome);
+                    popUp.setHeaderText("Troca de turno");
+                    popUp.showAndWait();
+                    popUp.setHeaderText("Operação Inválida");
                 }
                 turnFinished=false;
                 Game.getInstance().nextPlayer();
@@ -1050,11 +1237,12 @@ public class App extends Application implements Observer{
             else if (Game.getInstance().getPlayer()==2&&!turnFinished)
             {
                 playerTurn.setText("Vez de " + jogador2Nome);
+                checkStatusDamage = false;
                 Card c = Game.getInstance().getListDeckP2().remove(0);
                 Game.getInstance().getHandP2().addCard(c);
                 cb2.getItems().add(c.getNome());
                 cb2.getItems().remove("null");
-                while(!turnFinished)
+                while(!turnFinished||Game.getInstance().getFieldP2().getCard().getNome().equals("null")||!flipped)
                 {
                     trataBtnHand2(null);
                     updateLabels();
@@ -1073,25 +1261,32 @@ public class App extends Application implements Observer{
             }
             else if (Game.getInstance().getPlayer()==2)
             {
-                acabou = Game.getInstance().getFimDeJogo();
-                if(Game.getInstance().getFieldP1().getCard().getNome().equals("null"))
+                boolean pass = true;
+                checkStatusDamage = true;
+                while(Game.getInstance().getFieldP1().getCard().getNome().equals("null"))
                 {
-                    popUpLabel.setText(jogador1Nome + ", selecione um Pokémon ativo");
-                    popUpStage.showAndWait();
+                    pass=false;
+                    popUp.setContentText(jogador1Nome + ", selecione um Pokémon ativo");
+                    popUp.showAndWait();
                     trataBtnHand1(null);
                     updateLabels();
+                    hnd1Stage.close();
                 }
-                if(Game.getInstance().getFieldP2().getCard().getNome().equals("null"))
+                while(Game.getInstance().getFieldP2().getCard().getNome().equals("null"))
                 {
-                    popUpLabel.setText(jogador2Nome + ", selecione um Pokémon ativo");
-                    popUpStage.showAndWait();
+                    pass=false;
+                    popUp.setContentText(jogador2Nome + ", selecione um Pokémon ativo");
+                    popUp.showAndWait();
                     trataBtnHand2(null);
                     updateLabels();
+                    hnd2Stage.close();
                 }
-                else
+                if(pass)
                 {
-                    popUpLabel.setText("Vez de " + jogador1Nome);
-                    popUpStage.showAndWait();
+                    popUp.setContentText("Vez de " + jogador1Nome);
+                    popUp.setHeaderText("Troca de turno");
+                    popUp.showAndWait();
+                    popUp.setHeaderText("Operação Inválida");
                 }
                 turnFinished=false;
                 Game.getInstance().nextPlayer();
@@ -1103,18 +1298,62 @@ public class App extends Application implements Observer{
         {
             System.out.println("O jogador " + winnerIfTie + "venceu");
             System.out.println("fim por vidas");
-        }
-        else if (fimPorBasicos||fimPorCartas)
-        {
-            if (Game.getInstance().getPlayer()==1)
+            if (checkStatusDamage)
             {
-                System.out.println("O jogador 2 venceu");
-                System.out.println("fim basico ou cartas");
+                if (winnerIfTie==1)
+                {
+                    popUp.setHeaderText("O jogador " + jogador2Nome + " venceu!!");
+                    popUp.setContentText(jogador1Nome + " perdeu todas as suas vidas!");
+                }
+                else 
+                {
+                    popUp.setHeaderText("O jogador " + jogador1Nome + " venceu!!");
+                    popUp.setContentText(jogador2Nome + " perdeu todas as suas vidas!");
+                }
             }
             else
             {
-                System.out.println("O jogador 1 venceu");
-                System.out.println("fim basico ou cartas");
+                if (winnerIfTie==1)
+                {
+                    popUp.setHeaderText("O jogador " + jogador1Nome + " venceu!!");
+                    popUp.setContentText(jogador2Nome + " perdeu todas as suas vidas!");
+                }
+                else 
+                {
+                    popUp.setHeaderText("O jogador " + jogador2Nome + " venceu!!");
+                    popUp.setContentText(jogador1Nome + " perdeu todas as suas vidas!");
+                }
+            }
+            popUp.showAndWait();
+        }
+        else if (fimPorBasicos)
+        {
+            if (Game.getInstance().getPlayer()==1)
+            {
+                popUp.setHeaderText("O jogador "+ jogador2Nome +" venceu!!");
+                popUp.setContentText(jogador1Nome + " não possui Pokémons básicos para jogar!");
+                popUp.showAndWait();
+            }
+            else
+            {
+                popUp.setHeaderText("O jogador "+ jogador1Nome +" venceu!!");
+                popUp.setContentText(jogador2Nome + " não possui Pokémons básicos para jogar!");
+                popUp.showAndWait();
+            }
+        }
+        else if (fimPorCartas)
+        {
+            if (Game.getInstance().getPlayer()==1)
+            {
+                popUp.setHeaderText("O jogador "+ jogador2Nome +" venceu!!");
+                popUp.setContentText("Acabaram as cartas do deck de " + jogador1Nome + "!");
+                popUp.showAndWait();
+            }
+            else
+            {
+                popUp.setHeaderText("O jogador "+ jogador1Nome +" venceu!!");
+                popUp.setContentText("Acabaram as cartas do deck de " + jogador2Nome + "!");
+                popUp.showAndWait();
             }
         }
     }
@@ -1168,13 +1407,25 @@ public class App extends Application implements Observer{
         PokemonCard pc1 = fieldCardP1.getFieldCard().getCard();
         PokemonCard pc2 = fieldCardP2.getFieldCard().getCard();
 
-        infoPokemon1.setText(Game.getInstance().getFieldP1().getCard().getNome() + "    HP: " + Game.getInstance().getFieldP1().getCard().getCurrentHP() + "\n\nEnergias(" + Game.getInstance().getEnergiasP1() +"):\nFire: "
+        int hp1 = Game.getInstance().getFieldP1().getCard().getCurrentHP();
+        int hp2 = Game.getInstance().getFieldP2().getCard().getCurrentHP();
+        String hp1Str = "    HP: " + Integer.toString(hp1);
+        String hp2Str = "    HP: " + Integer.toString(hp2);
+        if (hp1 == 1) {hp1Str = "";}
+        if (hp2 == 1) {hp2Str = "";}
+
+        String nome1 = Game.getInstance().getFieldP1().getCard().getNome();
+        String nome2 = Game.getInstance().getFieldP2().getCard().getNome();
+        if (nome1.equals("null")){nome1 = "";}
+        if (nome2.equals("null")){nome2 = "";}
+
+        infoPokemon1.setText(nome1 + hp1Str + "\n\nEnergias(" + Game.getInstance().getEnergiasP1() +"):\nFire: "
         + Game.getInstance().getEnergias(Tipo.Fire) + "\nGrass: " + Game.getInstance().getEnergias(Tipo.Grass)+ 
         "\n\nStatus:" + Game.getInstance().getFieldP1().getCard().getStatusText() +
         "\n\nPilha de Descarte(" + Game.getInstance().getTotalDescarteP1() + "):\nPokémon: " + Game.getInstance().getDescPokP1()
         + "\nTreinador: " + Game.getInstance().getDescTreiP1() + "\nEnergia: " + Game.getInstance().getDescEnerP1());
 
-        infoPokemon2.setText(Game.getInstance().getFieldP2().getCard().getNome() + "    HP: " + Game.getInstance().getFieldP2().getCard().getCurrentHP() + "\n\nEnergias(" + Game.getInstance().getEnergiasP2() +"):\nSteel: "
+        infoPokemon2.setText(nome2 + hp2Str + "\n\nEnergias(" + Game.getInstance().getEnergiasP2() +"):\nSteel: "
         + Game.getInstance().getEnergias(Tipo.Steel) + "\nWater: " + Game.getInstance().getEnergias(Tipo.Water) + 
         "\n\nStatus:" + Game.getInstance().getFieldP2().getCard().getStatusText() +
         "\n\nPilha de Descarte(" + Game.getInstance().getTotalDescarteP2() + "):\nPokémon: " + Game.getInstance().getDescPokP2()
@@ -1264,7 +1515,7 @@ public class App extends Application implements Observer{
             while(!flipped)
             {
                 numberOfHeads = 0;
-                coinFlipStage.showAndWait();
+                trataOpenCoinFlipWindow(null);
             }
             dano*=numberOfHeads;
         }
@@ -1278,7 +1529,7 @@ public class App extends Application implements Observer{
             while(!flipped)
             {
                 numberOfHeads = 0;
-                coinFlipStage.showAndWait();
+                trataOpenCoinFlipWindow(null);
             }
             dano+=(20*numberOfHeads);
         }
@@ -1313,7 +1564,7 @@ public class App extends Application implements Observer{
             while(!flipped)
             {
                 numberOfHeads = 0;
-                tripleCoinFlipStage.showAndWait();
+                trataOpenTripleCoinFlipWindow(null);
             }
             dano*=numberOfHeads;
         }
@@ -1323,7 +1574,7 @@ public class App extends Application implements Observer{
             while(!flipped)
             {
                 numberOfHeads = 0;
-                coinFlipStage.showAndWait();
+                trataOpenCoinFlipWindow(null);
             }
             dano+=(40*numberOfHeads);
         }
@@ -1333,7 +1584,7 @@ public class App extends Application implements Observer{
             while(!flipped)
             {
                 numberOfHeads = 0;
-                coinFlipStage.showAndWait();
+                trataOpenCoinFlipWindow(null);
             }
             dano+=(30*numberOfHeads);
         }
@@ -1343,7 +1594,7 @@ public class App extends Application implements Observer{
             while(!flipped)
             {
                 numberOfHeads = 0;
-                coinFlipStage.showAndWait();
+                trataOpenCoinFlipWindow(null);
             }
             if(numberOfHeads==1) {Game.getInstance().getFieldP1().getCard().setStatus3("Paralizado");}
         }
@@ -1367,7 +1618,7 @@ public class App extends Application implements Observer{
             while(!flipped)
             {
                 numberOfHeads = 0;
-                coinFlipStage.showAndWait();
+                trataOpenCoinFlipWindow(null);
             }
             dano*=numberOfHeads;
         }
@@ -1381,7 +1632,7 @@ public class App extends Application implements Observer{
             while(!flipped)
             {
                 numberOfHeads = 0;
-                coinFlipStage.showAndWait();
+                trataOpenCoinFlipWindow(null);
             }
             dano+=(20*numberOfHeads);
         }
@@ -1416,7 +1667,7 @@ public class App extends Application implements Observer{
             while(!flipped)
             {
                 numberOfHeads = 0;
-                tripleCoinFlipStage.showAndWait();
+                trataOpenTripleCoinFlipWindow(null);
             }
             dano*=numberOfHeads;
         }
@@ -1426,7 +1677,7 @@ public class App extends Application implements Observer{
             while(!flipped)
             {
                 numberOfHeads = 0;
-                coinFlipStage.showAndWait();
+                trataOpenCoinFlipWindow(null);
             }
             dano+=(40*numberOfHeads);
         }
@@ -1436,7 +1687,7 @@ public class App extends Application implements Observer{
             while(!flipped)
             {
                 numberOfHeads = 0;
-                coinFlipStage.showAndWait();
+                trataOpenCoinFlipWindow(null);
             }
             dano+=(30*numberOfHeads);
         }
@@ -1446,7 +1697,7 @@ public class App extends Application implements Observer{
             while(!flipped)
             {
                 numberOfHeads = 0;
-                coinFlipStage.showAndWait();
+                trataOpenCoinFlipWindow(null);
             }
             if(numberOfHeads==1) {Game.getInstance().getFieldP2().getCard().setStatus3("Paralizado");}
         }
@@ -1465,7 +1716,7 @@ public class App extends Application implements Observer{
             while(!flipped)
             {
                 numberOfHeads = 0;
-                coinFlipStage.showAndWait();
+                trataOpenCoinFlipWindow(null);
             }
             if (numberOfHeads==1) {Game.getInstance().getFieldP1().getCard().curaStatus3();}
         }
@@ -1479,7 +1730,7 @@ public class App extends Application implements Observer{
             while(!flipped)
             {
                 numberOfHeads = 0;
-                coinFlipStage.showAndWait();
+                trataOpenCoinFlipWindow(null);
             }
             if (numberOfHeads==1) {Game.getInstance().getFieldP2().getCard().curaStatus3();}
         }
@@ -1512,7 +1763,7 @@ public class App extends Application implements Observer{
                 while(!flipped)
                 {
                     numberOfHeads = 0;
-                    coinFlipStage.showAndWait();
+                    trataOpenCoinFlipWindow(null);
                 }
                 if (numberOfHeads==1) {Game.getInstance().getFieldP1().getCard().curaQueimado();}
             }
@@ -1530,7 +1781,7 @@ public class App extends Application implements Observer{
                 while(!flipped)
                 {
                     numberOfHeads = 0;
-                    coinFlipStage.showAndWait();
+                    trataOpenCoinFlipWindow(null);
                 }
                 if (numberOfHeads==1) {Game.getInstance().getFieldP2().getCard().curaQueimado();}
             }
