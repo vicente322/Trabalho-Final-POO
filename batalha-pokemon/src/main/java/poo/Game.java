@@ -152,14 +152,18 @@ public class Game extends Observable{
 
             if ((FieldCard)objetoAcionado == fieldCardP1){
                   if (player == 1){
-                        ge = new GameEvent(GameEvent.Target.App, GameEvent.Action.PLayerFieldOption, "1");
+                        ge = new GameEvent(GameEvent.Target.App,
+                                          GameEvent.Action.PLayerFieldOption,
+                                          "1");
                         setChanged();
                         notifyObservers((Object)ge);
                   }
             }
             else if ((FieldCard)objetoAcionado == fieldCardP2){
                   if (player == 2) {
-                        ge = new GameEvent(GameEvent.Target.App, GameEvent.Action.PLayerFieldOption, "2");
+                        ge = new GameEvent(GameEvent.Target.App,
+                                          GameEvent.Action.PLayerFieldOption,
+                                          "2");
                         setChanged();
                         notifyObservers((Object) ge);
                   }

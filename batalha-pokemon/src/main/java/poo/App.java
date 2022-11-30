@@ -358,7 +358,12 @@ public class App extends Application implements Observer{
                     ataque1.setOnAction(e -> {
                         Ataque attack;
 
-                        Game.getInstance();
+                        if (ge.getArg().equals("1")){
+                            attack = Game.getInstance().getFieldP1()
+                                         .getCard().getAtaque1();
+
+                            Game.
+                        }
 
                     });
                     pOpPane.add(ataque1, 0, 0);
