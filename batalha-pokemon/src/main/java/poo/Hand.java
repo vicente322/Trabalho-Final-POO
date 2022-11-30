@@ -47,6 +47,46 @@ public class Hand extends Observable{
             return cards;
       }
 
+      public ArrayList<String> getCardNomes(){
+            ArrayList<String> lst = new ArrayList<>();
+            for (Card c:cards)
+            {
+                  lst.add(c.getNome());
+            }
+            return lst;
+      }
+
+      public Card getCardByName(String name)
+      {
+            for (Card c:cards)
+            {
+                  if (c.getNome().equals(name))
+                  {
+                        return c;
+                  }
+            }
+            return null;
+      }
+
+      //RETORNAR FALSE SE MAO NÃO CONTEM POKEMON BASICO
+      public boolean checkContainsBasic()
+      {
+            for (Card c:cards)
+            {
+                  if(c instanceof PokemonCard)
+                  {
+                        PokemonCard copyCard = (PokemonCard)c;
+                        if (copyCard.getEvoluiDe().equals("nada")) {return true;}
+                  }
+            }
+            return false;
+      }
+
+      public Card handRemoveFirst()
+      {
+            return cards.remove(0);
+      }
+
 
 
 }
