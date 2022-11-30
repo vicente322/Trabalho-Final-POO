@@ -107,7 +107,6 @@ public class App extends Application implements Observer{
             updateLabels();
         }
         confirmNameStage.close();
-        wroteNames = true;
     }
 
     public void trataBtnUsarCartaP1(ActionEvent e,String str) {
@@ -686,7 +685,9 @@ public class App extends Application implements Observer{
      * Armazena sequencia que cria e mostra a janela de inserção de nomes dos jogadores
      */
     public void launchNameWindow(){
-        // Fecha a janela de informar nomes
+        if (!confirmNameStage.isShowing())
+        {
+            // Fecha a janela de informar nomes
         confirmNamesBtn = new Button("Confirmar");
         confirmNamesBtn.setOnAction(e -> trataBtnCloseConfirm(e));
         // Define janela de inserção de nomes
@@ -698,7 +699,6 @@ public class App extends Application implements Observer{
         gridNomes.add(confirmNamesBtn,1,4);
         // Lanca Stage para inserir nomes
         confirmNameScene = new Scene(gridNomes);
-        confirmNameStage = new Stage();
         confirmNameStage.setScene(confirmNameScene);
         confirmNameStage.setTitle("Informe seus nomes.");
 
@@ -711,10 +711,12 @@ public class App extends Application implements Observer{
         jogador2 = new TextField();
         gridNomes.add(jogador2,1,3);
 
-        wroteNames = false;
-        while (!wroteNames)
+        confirmNameStage.showAndWait();
+        }
+        else
         {
-            confirmNameStage.showAndWait();
+            confirmNameStage.setAlwaysOnTop(true);
+            confirmNameStage.setAlwaysOnTop(false);
         }
     }
     /**
@@ -1031,7 +1033,7 @@ public class App extends Application implements Observer{
             turnFinished=true;
             flipped = true;
             reachedLoop=true;
-            wroteNames=true;
+            firstTurnAux=false;
             primaryStage.close();
             hnd1Stage.close();
             hnd2Stage.close();
@@ -1110,6 +1112,9 @@ public class App extends Application implements Observer{
         primaryStage.setScene(fieldScene);
         primaryStage.show();
 
+        confirmNameStage = new Stage();
+        coinFlipStage = new Stage();
+        tripleCoinFlipStage = new Stage();
         launchNameWindow();
 
         launchCoinFlipWindow();
@@ -1162,7 +1167,7 @@ public class App extends Application implements Observer{
                 acabou = true;
                 fimPorCartas = true;
             }
-            else if(Game.getInstance().getPlayer()==1&&Game.getInstance().getFieldP1().getCard().getNome().equals("null")&&!Game.getInstance().getHandP1().checkContainsBasic())
+            else if(Game.getInstance().getFieldP1().getCard().getNome().equals("null")&&!Game.getInstance().getHandP1().checkContainsBasic())
             {
                 acabou = true;
                 fimPorBasicos = true;
@@ -1172,7 +1177,7 @@ public class App extends Application implements Observer{
                 acabou = true;
                 fimPorCartas = true;
             }
-            else if(Game.getInstance().getPlayer()==2&&Game.getInstance().getFieldP2().getCard().getNome().equals("null")&&!Game.getInstance().getHandP2().checkContainsBasic())
+            else if(Game.getInstance().getFieldP2().getCard().getNome().equals("null")&&!Game.getInstance().getHandP2().checkContainsBasic())
             {
                 acabou = true;
                 fimPorBasicos = true;
@@ -1294,6 +1299,9 @@ public class App extends Application implements Observer{
         }
 
         //VERIFICA VENCEDOR
+        turnFinished = true;
+        hnd1Stage.close();
+        hnd2Stage.close();
         if (!fimPorBasicos&&!fimPorCartas)
         {
             System.out.println("O jogador " + winnerIfTie + "venceu");
@@ -1330,14 +1338,14 @@ public class App extends Application implements Observer{
         {
             if (Game.getInstance().getPlayer()==1)
             {
-                popUp.setHeaderText("O jogador "+ jogador2Nome +" venceu!!");
-                popUp.setContentText(jogador1Nome + " não possui Pokémons básicos para jogar!");
+                popUp.setHeaderText("O jogador "+ jogador1Nome +" venceu!!");
+                popUp.setContentText(jogador2Nome + " não possui Pokémons básicos para jogar!");
                 popUp.showAndWait();
             }
             else
             {
-                popUp.setHeaderText("O jogador "+ jogador1Nome +" venceu!!");
-                popUp.setContentText(jogador2Nome + " não possui Pokémons básicos para jogar!");
+                popUp.setHeaderText("O jogador "+ jogador2Nome +" venceu!!");
+                popUp.setContentText(jogador1Nome + " não possui Pokémons básicos para jogar!");
                 popUp.showAndWait();
             }
         }
