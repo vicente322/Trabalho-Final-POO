@@ -43,7 +43,6 @@ public class Game extends Observable{
             deckP1 = new CardDeck(1);
             deckP2 = new CardDeck(2);
             listDeck1 = CardDeck.createDeck1();
-            System.out.println(listDeck1);
             listDeck2 = CardDeck.createDeck2();
             Collections.shuffle(listDeck1);
             Collections.shuffle(listDeck2);
@@ -275,6 +274,7 @@ public class Game extends Observable{
             if (fieldCardP1.getCard().getCurrentHP()<=0)
             {
                   p1Life--;
+                  System.out.println(fieldCardP1.getCard().getNome() + " desmaia! (-1 Vida)");
                   setCardP1(nullCard);
                   descPok1++;
                   clearEnergiasP1();
@@ -329,6 +329,7 @@ public class Game extends Observable{
             if (fieldCardP2.getCard().getCurrentHP()<=0)
             {
                   p2Life--;
+                  System.out.println(fieldCardP2.getCard().getNome() + " desmaia! (-1 Vida)");
                   setCardP2(nullCard);
                   descPok2++;
                   clearEnergiasP2();

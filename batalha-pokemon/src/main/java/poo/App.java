@@ -110,7 +110,7 @@ public class App extends Application implements Observer{
     }
 
     public void trataBtnUsarCartaP1(ActionEvent e,String str) {
-        if (str==null) {System.out.println("Invalido");}
+        if (str==null) {System.out.println("Ação Inválida!");}
         else {
             Hand hand = Game.getInstance().getHandP1();
             Card c = Game.getInstance().getHandP1().getCardByName(str);
@@ -119,11 +119,11 @@ public class App extends Application implements Observer{
                 PokemonCard copyCard = (PokemonCard)c;
                 if(copyCard.getEvoluiDe().equals("nada")&&Game.getInstance().getFieldP1().getCard().getNome().equals("null"))
                 {
-                    System.out.println(c.getImageId() + "JOGOU BASICO");
                     Game.getInstance().setCardP1(copyCard);
                     hand.removeCard(c);
                     Game.getInstance().setHandP1(hand);
-                    cb1.getItems().remove(str);
+                    cb1.getItems().clear();
+                    cb1.getItems().addAll(hand.getCardNomes());
                     if (!reachedLoop)
                     {
                         hnd1Stage.close();
@@ -131,23 +131,26 @@ public class App extends Application implements Observer{
                     else if (checkStatusDamage)
                     {
                         hnd1Stage.close();
+                        System.out.println(jogador1Nome + " jogou " + copyCard.getNome() + "!");
                         updateLabels();
                     }
                     else
                     {
                         updateLabels();
+                        System.out.println(jogador1Nome + " jogou " + copyCard.getNome() + "!");
                     }
                     firstTurnAux = true;
                 }
                 else if (copyCard.getEvoluiDe().equals(Game.getInstance().getFieldP1().getCard().getNome()))
                 {
-                    System.out.println(c.getImageId() + " JOGOU EVOLUCAO");
+                    System.out.println(jogador1Nome + " evoluiu " + Game.getInstance().getFieldP1().getCard().getNome() + " para " + copyCard.getNome() + "!");
                     copyCard.damageNoWeakness(Game.getInstance().getFieldP1().getCard().getDamageTaken());
                     Game.getInstance().addDescartePokemon(1);
                     Game.getInstance().setCardP1(copyCard);
                     hand.removeCard(c);
                     Game.getInstance().setHandP1(hand);
-                    cb1.getItems().remove(str);
+                    cb1.getItems().clear();
+                    cb1.getItems().addAll(hand.getCardNomes());
                     updateLabels();
                 }
                 else if (!copyCard.getEvoluiDe().equals(Game.getInstance().getFieldP1().getCard().getNome())&&!Game.getInstance().getFieldP1().getCard().getNome().equals("null"))
@@ -159,31 +162,46 @@ public class App extends Application implements Observer{
             else if (c instanceof TreinadorCard && Game.getInstance().getFieldP1().getCard().getNome()!="null")
             {
                 TreinadorCard copyCard = (TreinadorCard)c;
-                System.out.println(c.getImageId() + " JOGOU TREINADOR");
+                System.out.print(jogador1Nome + " ativou " + copyCard.getNome() + "!");
                 int i = copyCard.getIdEfeito();
-                if (i==18) {ativaHauP1();}
-                else if (i==19) {Game.getInstance().getFieldP1().getCard().heal(30);}
+                if (i==18) 
+                {
+                    System.out.print("\n" + jogador1Nome + " compra " + ativaHauP1() + " carta(s)!");
+                }
+                else if (i==19) 
+                {
+                    System.out.print(" (+"+ Game.getInstance().getFieldP1().getCard().heal(30) +" HP)");
+                }
                 else if (i==20)
                 {
+                    boolean envenenado = Game.getInstance().getFieldP1().getCard().getEnvenenado();
+                    boolean queimado = Game.getInstance().getFieldP1().getCard().getEnvenenado();
+                    String status3 = Game.getInstance().getFieldP1().getCard().getStatus3();
+                    if (envenenado) {System.out.print("\n" + Game.getInstance().getFieldP1().getCard().getNome() + "não está mais envenenado!");}
+                    if (queimado) {System.out.print("\n" + Game.getInstance().getFieldP1().getCard().getNome() + "não está mais queimado!");}
+                    if (!status3.equals("none")) {System.out.print("\n" + Game.getInstance().getFieldP1().getCard().getNome() + "não está mais " + status3.toLowerCase() +"!");}
                     Game.getInstance().getFieldP1().getCard().curaEnvenenado();
                     Game.getInstance().getFieldP1().getCard().curaQueimado();
                     Game.getInstance().getFieldP1().getCard().curaStatus3();
                 }
+                System.out.println();
                 hand.removeCard(c);
                 Game.getInstance().addDescarteTreinador(1);
                 Game.getInstance().setHandP1(hand);
-                cb1.getItems().remove(str);
+                cb1.getItems().clear();
+                cb1.getItems().addAll(hand.getCardNomes());
                 updateLabels();
             }
             else if (c instanceof EnergiaCard && Game.getInstance().getFieldP1().getCard().getNome()!="null"&& !Game.getInstance().getEnergizou())
             {
                 EnergiaCard copyCard = (EnergiaCard)c;
-                System.out.println(c.getImageId() + " JOGOU ENERGIA");
+                System.out.println(jogador1Nome + " energizou " + Game.getInstance().getFieldP1().getCard().getNome() +" com uma " + copyCard.getNome() + "!");
                 Game.getInstance().energizou();
                 Game.getInstance().addEnergia(copyCard.getTipo());
                 hand.removeCard(c);
                 Game.getInstance().setHandP1(hand);
-                cb1.getItems().remove(str);
+                cb1.getItems().clear();
+                cb1.getItems().addAll(hand.getCardNomes());
                 updateLabels();
             }
             else if (c instanceof EnergiaCard && Game.getInstance().getEnergizou())
@@ -195,7 +213,7 @@ public class App extends Application implements Observer{
     }
 
     public void trataBtnShowCartaP1(ActionEvent e,String str) {
-        if (str==null) {System.out.println("Invalido");}
+        if (str==null) {System.out.println("Ação Inválida!");}
         else {
             Card c = Game.getInstance().getHandP1().getCardByName(str);   
             cartaMaoP1.setImage(ImageFactory.getInstance().createImage(c.getImageId()).getImage());
@@ -203,7 +221,7 @@ public class App extends Application implements Observer{
     }
 
     public void trataBtnUsarCartaP2(ActionEvent e,String str) {
-        if (str==null) {System.out.println("Invalido");}
+        if (str==null) {System.out.println("Ação Inválida!");}
         else {
             Hand hand = Game.getInstance().getHandP2();
             Card c = Game.getInstance().getHandP2().getCardByName(str);
@@ -212,11 +230,11 @@ public class App extends Application implements Observer{
                 PokemonCard copyCard = (PokemonCard)c;
                 if(copyCard.getEvoluiDe().equals("nada")&&Game.getInstance().getFieldP2().getCard().getNome().equals("null"))
                 {
-                    System.out.println(c.getImageId() + " JOGOU BASICO");
                     Game.getInstance().setCardP2(copyCard);
                     hand.removeCard(c);
                     Game.getInstance().setHandP2(hand);
-                    cb2.getItems().remove(str);
+                    cb2.getItems().clear();
+                    cb2.getItems().addAll(hand.getCardNomes());
                     if (!reachedLoop)
                     {
                         hnd2Stage.close();
@@ -224,23 +242,26 @@ public class App extends Application implements Observer{
                     else if (checkStatusDamage)
                     {
                         hnd2Stage.close();
+                        System.out.println(jogador2Nome + " jogou " + copyCard.getNome() + "!");
                         updateLabels();
                     }
                     else
                     {
                         updateLabels();
+                        System.out.println(jogador2Nome + " jogou " + copyCard.getNome() + "!");
                     }
                     firstTurnAux=true;
                 }
                 else if (copyCard.getEvoluiDe().equals(Game.getInstance().getFieldP2().getCard().getNome()))
                 {
-                    System.out.println(c.getImageId() + " JOGOU EVOLUCAO");
+                    System.out.println(jogador2Nome + " evoluiu " + Game.getInstance().getFieldP2().getCard().getNome() + " para " + copyCard.getNome() + "!");
                     copyCard.damageNoWeakness(Game.getInstance().getFieldP2().getCard().getDamageTaken());
                     Game.getInstance().addDescartePokemon(2);
                     Game.getInstance().setCardP2(copyCard);
                     hand.removeCard(c);
                     Game.getInstance().setHandP2(hand);
-                    cb2.getItems().remove(str);
+                    cb2.getItems().clear();
+                    cb2.getItems().addAll(hand.getCardNomes());
                     updateLabels();
                 }
                 else if (!copyCard.getEvoluiDe().equals(Game.getInstance().getFieldP2().getCard().getNome())&&!Game.getInstance().getFieldP2().getCard().getNome().equals("null"))
@@ -252,31 +273,46 @@ public class App extends Application implements Observer{
             else if (c instanceof TreinadorCard && Game.getInstance().getFieldP2().getCard().getNome()!="null")
             {
                 TreinadorCard copyCard = (TreinadorCard)c;
-                System.out.println(c.getImageId() + " JOGOU TREINADOR");
+                System.out.print(jogador2Nome + " ativou " + copyCard.getNome() + "!");
                 int i = copyCard.getIdEfeito();
-                if (i==18) {ativaHauP2();}
-                else if (i==19) {Game.getInstance().getFieldP2().getCard().heal(30);}
+                if (i==18)
+                {
+                    System.out.print("\n" + jogador2Nome + " compra " + ativaHauP2() + " carta(s)!");
+                }
+                else if (i==19)
+                {
+                    System.out.print(" (+"+ Game.getInstance().getFieldP2().getCard().heal(30) +" HP)");
+                }
                 else if (i==20)
                 {
+                    boolean envenenado = Game.getInstance().getFieldP2().getCard().getEnvenenado();
+                    boolean queimado = Game.getInstance().getFieldP2().getCard().getEnvenenado();
+                    String status3 = Game.getInstance().getFieldP2().getCard().getStatus3();
+                    if (envenenado) {System.out.print("\n" + Game.getInstance().getFieldP2().getCard().getNome() + "não está mais envenenado!");}
+                    if (queimado) {System.out.print("\n" + Game.getInstance().getFieldP2().getCard().getNome() + "não está mais queimado!");}
+                    if (!status3.equals("none")) {System.out.print("\n" + Game.getInstance().getFieldP2().getCard().getNome() + "não está mais " + status3.toLowerCase() +"!");}
                     Game.getInstance().getFieldP2().getCard().curaEnvenenado();
                     Game.getInstance().getFieldP2().getCard().curaQueimado();
                     Game.getInstance().getFieldP2().getCard().curaStatus3();
                 }
+                System.out.println();
                 hand.removeCard(c);
                 Game.getInstance().addDescarteTreinador(2);
                 Game.getInstance().setHandP2(hand);
-                cb2.getItems().remove(str);
+                cb2.getItems().clear();
+                cb2.getItems().addAll(hand.getCardNomes());
                 updateLabels();
             }
             else if (c instanceof EnergiaCard && Game.getInstance().getFieldP2().getCard().getNome()!="null" && !Game.getInstance().getEnergizou())
             {
                 EnergiaCard copyCard = (EnergiaCard)c;
-                System.out.println(c.getImageId() + " JOGOU ENERGIA");
+                System.out.println(jogador2Nome + " energizou " + Game.getInstance().getFieldP2().getCard().getNome() +" com uma " + copyCard.getNome() + "!");
                 Game.getInstance().energizou();
                 Game.getInstance().addEnergia(copyCard.getTipo());
                 hand.removeCard(c);
                 Game.getInstance().setHandP2(hand);
-                cb2.getItems().remove(str);
+                cb2.getItems().clear();
+                cb2.getItems().addAll(hand.getCardNomes());
                 updateLabels();
             }
             else if (c instanceof EnergiaCard && Game.getInstance().getEnergizou())
@@ -288,7 +324,7 @@ public class App extends Application implements Observer{
     }
 
     public void trataBtnShowCartaP2(ActionEvent e,String str) {
-        if (str==null) {System.out.println("Invalido");}
+        if (str==null) {System.out.println("Ação Inválida!");}
         else {
             Card c = Game.getInstance().getHandP2().getCardByName(str);   
             cartaMaoP2.setImage(ImageFactory.getInstance().createImage(c.getImageId()).getImage());
@@ -301,6 +337,7 @@ public class App extends Application implements Observer{
         String status3 = Game.getInstance().getFieldP1().getCard().getStatus3();
         if (!Game.getInstance().getFieldP1().getCard().getNome().equals("null")&&verificaUsarAtaqueP1(atk)&&status3.equalsIgnoreCase("none"))
         {
+            System.out.print(Game.getInstance().getFieldP1().getCard().getNome() + " atacou com " + atk.getNome() + "! ");
             Game.getInstance().getFieldP2().getCard().damage(findDanoAtaqueP1(atk));
             turnFinished = true;
             hnd1Stage.close();
@@ -313,14 +350,27 @@ public class App extends Application implements Observer{
                 numberOfHeads = 0;
                 trataOpenCoinFlipWindow(null);
             }
-            if (numberOfHeads==1) {Game.getInstance().getFieldP2().getCard().damage(findDanoAtaqueP1(atk));}
-            else {Game.getInstance().getFieldP1().getCard().damage(30);}
+            if (numberOfHeads==1) 
+            {
+                System.out.print(Game.getInstance().getFieldP1().getCard().getNome() + " atacou com " + atk.getNome() + "! ");
+                Game.getInstance().getFieldP2().getCard().damage(findDanoAtaqueP1(atk));
+            }
+            else 
+            {
+                Game.getInstance().getFieldP1().getCard().damage(30);
+                System.out.println(Game.getInstance().getFieldP1().getCard().getNome() + " estava confuso e se bateu! (-30 HP)");
+            }
             turnFinished = true;
             hnd1Stage.close();
         }
         else if (!Game.getInstance().getFieldP1().getCard().getNome().equals("null")&&!verificaUsarAtaqueP1(atk))
         {
             popUp.setContentText("Você não possui energia suficiente para usar este ataque.");
+            popUp.showAndWait();
+        }
+        else if (!Game.getInstance().getFieldP1().getCard().getNome().equals("null")&&(status3.equalsIgnoreCase("paralizado")||status3.equalsIgnoreCase("dormindo")))
+        {
+            popUp.setContentText("Você não pode atacar pois seu Pokémon está " +  status3.toLowerCase() + ".");
             popUp.showAndWait();
         }
     }
@@ -331,6 +381,7 @@ public class App extends Application implements Observer{
         String status3 = Game.getInstance().getFieldP2().getCard().getStatus3();
         if(!Game.getInstance().getFieldP2().getCard().getNome().equals("null")&&verificaUsarAtaqueP2(atk)&&status3.equalsIgnoreCase("none"))
         {
+            System.out.print(Game.getInstance().getFieldP2().getCard().getNome() + " atacou com " + atk.getNome() + "! ");
             Game.getInstance().getFieldP1().getCard().damage(findDanoAtaqueP2(atk));
             turnFinished = true;
             hnd2Stage.close();
@@ -343,14 +394,28 @@ public class App extends Application implements Observer{
                 numberOfHeads = 0;
                 trataOpenCoinFlipWindow(null);
             }
-            if (numberOfHeads==1) {Game.getInstance().getFieldP1().getCard().damage(findDanoAtaqueP2(atk));}
-            else {Game.getInstance().getFieldP2().getCard().damage(30);}
+            if (numberOfHeads==1) 
+            {
+                System.out.print(Game.getInstance().getFieldP2().getCard().getNome() + " atacou com " + atk.getNome() + "! ");
+                Game.getInstance().getFieldP1().getCard().damage(findDanoAtaqueP2(atk));
+            }
+            else 
+            {
+                Game.getInstance().getFieldP2().getCard().damage(30);
+                System.out.println(Game.getInstance().getFieldP2().getCard().getNome() + " estava confuso e se bateu! (-30 HP)");
+
+            }
             turnFinished = true;
             hnd2Stage.close();
         }
         else if (!Game.getInstance().getFieldP2().getCard().getNome().equals("null")&&!verificaUsarAtaqueP2(atk))
         {
             popUp.setContentText("Você não possui energia suficiente para usar este ataque.");
+            popUp.showAndWait();
+        }
+        else if (!Game.getInstance().getFieldP2().getCard().getNome().equals("null")&&(status3.equalsIgnoreCase("paralizado")||status3.equalsIgnoreCase("dormindo")))
+        {
+            popUp.setContentText("Você não pode atacar pois seu Pokémon está " +  status3.toLowerCase() + ".");
             popUp.showAndWait();
         }
     }
@@ -363,6 +428,7 @@ public class App extends Application implements Observer{
             String status3 = Game.getInstance().getFieldP1().getCard().getStatus3();
             if(verificaUsarAtaqueP1(atk)&&status3.equalsIgnoreCase("none"))
             {
+                System.out.print(Game.getInstance().getFieldP1().getCard().getNome() + " atacou com " + atk.getNome() + "! ");
                 Game.getInstance().getFieldP2().getCard().damage(findDanoAtaqueP1(atk));
                 turnFinished = true;
                 hnd1Stage.close();
@@ -375,14 +441,27 @@ public class App extends Application implements Observer{
                     numberOfHeads = 0;
                     trataOpenCoinFlipWindow(null);
                 }
-                if (numberOfHeads==1) {Game.getInstance().getFieldP2().getCard().damage(findDanoAtaqueP1(atk));}
-                else {Game.getInstance().getFieldP1().getCard().damage(30);}
+                if (numberOfHeads==1) 
+                {
+                    System.out.print(Game.getInstance().getFieldP1().getCard().getNome() + " atacou com " + atk.getNome() + "! ");
+                    Game.getInstance().getFieldP2().getCard().damage(findDanoAtaqueP1(atk));
+                }
+                else 
+                {
+                    Game.getInstance().getFieldP1().getCard().damage(30);
+                    System.out.println(Game.getInstance().getFieldP1().getCard().getNome() + " estava confuso e se bateu! (-30 HP)");
+                }
                 turnFinished = true;
                 hnd1Stage.close();
             }
-            else if (!Game.getInstance().getFieldP1().getCard().getNome().equals("null")&&!verificaUsarAtaqueP1(atk))
+            else if (!verificaUsarAtaqueP1(atk))
             {
                 popUp.setContentText("Você não possui energia suficiente para usar este ataque.");
+                popUp.showAndWait();
+            }
+            else if ((status3.equalsIgnoreCase("paralizado")||status3.equalsIgnoreCase("dormindo")))
+            {
+                popUp.setContentText("Você não pode atacar pois seu Pokémon está " +  status3.toLowerCase() + ".");
                 popUp.showAndWait();
             }
         }
@@ -401,6 +480,7 @@ public class App extends Application implements Observer{
             String status3 = Game.getInstance().getFieldP2().getCard().getStatus3();
             if(verificaUsarAtaqueP2(atk)&&status3.equalsIgnoreCase("none"))
             {
+                System.out.print(Game.getInstance().getFieldP2().getCard().getNome() + " atacou com " + atk.getNome() + "! ");
                 Game.getInstance().getFieldP1().getCard().damage(findDanoAtaqueP2(atk));
                 turnFinished = true;
                 hnd2Stage.close();
@@ -413,14 +493,27 @@ public class App extends Application implements Observer{
                     numberOfHeads = 0;
                     trataOpenCoinFlipWindow(null);
                 }
-                if (numberOfHeads==1) {Game.getInstance().getFieldP1().getCard().damage(findDanoAtaqueP2(atk));}
-                else {Game.getInstance().getFieldP2().getCard().damage(30);}
+                if (numberOfHeads==1) 
+                {
+                    System.out.print(Game.getInstance().getFieldP2().getCard().getNome() + " atacou com " + atk.getNome() + "!");
+                    Game.getInstance().getFieldP1().getCard().damage(findDanoAtaqueP2(atk));
+                }
+                else 
+                {
+                    Game.getInstance().getFieldP2().getCard().damage(30);
+                    System.out.println(Game.getInstance().getFieldP2().getCard().getNome() + " estava confuso e se bateu! (-30 HP)");
+                }
                 turnFinished = true;
                 hnd2Stage.close();
             }
-            else if (!Game.getInstance().getFieldP2().getCard().getNome().equals("null")&&!verificaUsarAtaqueP2(atk))
+            else if (!verificaUsarAtaqueP2(atk))
             {
                 popUp.setContentText("Você não possui energia suficiente para usar este ataque.");
+                popUp.showAndWait();
+            }
+            else if ((status3.equalsIgnoreCase("paralizado")||status3.equalsIgnoreCase("dormindo")))
+            {
+                popUp.setContentText("Você não pode atacar pois seu Pokémon está " +  status3.toLowerCase() + ".");
                 popUp.showAndWait();
             }
         }
@@ -438,6 +531,7 @@ public class App extends Application implements Observer{
         if (!Game.getInstance().getFieldP1().getCard().getNome().equals("null")&&Game.getInstance().getEnergiasP1()>=custo&&!(status3.equalsIgnoreCase("Paralizado")||status3.equalsIgnoreCase("Dormindo")))
         {
             Card c = Game.getInstance().getFieldP1().getCard().curaTudo();
+            System.out.println(jogador1Nome + " recuou " + c.getNome() + "!");
             Game.getInstance().getHandP1().addCard(c);
             cb1.getItems().add(c.getNome());
             cb1.getItems().remove("null");
@@ -464,6 +558,7 @@ public class App extends Application implements Observer{
         if (!Game.getInstance().getFieldP2().getCard().getNome().equals("null")&&Game.getInstance().getEnergiasP2()>=custo&&!(status3.equalsIgnoreCase("Paralizado")||status3.equalsIgnoreCase("Dormindo")))
         {
             Card c = Game.getInstance().getFieldP2().getCard().curaTudo();
+            System.out.println(jogador2Nome + " recuou " + c.getNome() + "!");
             Game.getInstance().getHandP2().addCard(c);
             cb2.getItems().add(c.getNome());
             cb2.getItems().remove("null");
@@ -561,7 +656,7 @@ public class App extends Application implements Observer{
         hnd2CloseBtn.setDisable(true);
         hnd2RecuarBtn.setDisable(true);
 
-        coinFlipStage.showAndWait();//lul
+        coinFlipStage.showAndWait();
 
         hnd1Atk1Btn.setDisable(false);
         hnd1Atk2Btn.setDisable(false);
@@ -588,7 +683,7 @@ public class App extends Application implements Observer{
         hnd2CloseBtn.setDisable(true);
         hnd2RecuarBtn.setDisable(true);
 
-        tripleCoinFlipStage.showAndWait();//lul
+        tripleCoinFlipStage.showAndWait();
 
         hnd1Atk1Btn.setDisable(false);
         hnd1Atk2Btn.setDisable(false);
@@ -1015,12 +1110,15 @@ public class App extends Application implements Observer{
 
         Button reembaralharBtn = new Button("Reembaralhar");
         reembaralharBtn.setOnAction(e->{
-            Collections.shuffle(Game.getInstance().getListDeckP1());
-            Collections.shuffle(Game.getInstance().getListDeckP2());
-            popUp.setContentText("Os decks foram reembaralhados");
-            popUp.setHeaderText("Reembaralhar");
-            popUp.showAndWait();
-            popUp.setHeaderText("Operação Inválida");
+            if (reachedLoop)
+            {
+                Collections.shuffle(Game.getInstance().getListDeckP1());
+                Collections.shuffle(Game.getInstance().getListDeckP2());
+                popUp.setContentText("Os decks foram reembaralhados");
+                popUp.setHeaderText("Reembaralhar");
+                popUp.showAndWait();
+                popUp.setHeaderText("Operação Inválida");
+            }
         });
         gridTopCmd.add(reembaralharBtn,0,0);
         Button changeNameBtn = new Button("Mudar Nomes");
@@ -1121,6 +1219,8 @@ public class App extends Application implements Observer{
         launchTripleCoinFlipWindow();
         launchPopUp();
 
+        System.out.println("Turno de " + jogador1Nome + ": ");
+        playerTurn.setText("Vez de " + jogador1Nome);
         popUp.setContentText("Vez de " + jogador1Nome);
         popUp.setHeaderText("Início de Jogo");
         popUp.showAndWait();
@@ -1131,21 +1231,26 @@ public class App extends Application implements Observer{
         {
             trataBtnHand1(null);
         }
+        System.out.println(jogador1Nome + " jogou um Pokémon!\n");
         
+        System.out.println("Turno de " + jogador2Nome + ": ");
+        playerTurn.setText("Vez de " + jogador2Nome);
         popUp.setContentText("Vez de " + jogador2Nome);
         popUp.setHeaderText("Troca de turno");
         popUp.showAndWait();
         popUp.setHeaderText("Operação Inválida");
-
-        playerTurn.setText("Vez de " + jogador2Nome);
 
         firstTurnAux = false;
         while(!firstTurnAux)
         {
             trataBtnHand2(null);
         }
+        System.out.println(jogador2Nome + " jogou um Pokémon!\n");
 
         updateLabels();
+
+        System.out.println(jogador1Nome + " jogou " + Game.getInstance().getFieldP1().getCard().getNome() +"!");
+        System.out.println(jogador2Nome + " jogou " + Game.getInstance().getFieldP2().getCard().getNome() +"!\n");
 
         popUp.setContentText("Vez de " + jogador1Nome);
         popUp.setHeaderText("Troca de turno");
@@ -1155,7 +1260,6 @@ public class App extends Application implements Observer{
         turnFinished=false;
         reachedLoop=true;
         acabou = false;
-        playerTurn.setText("Vez de " + jogador1Nome);
         while (!acabou)
         {
             if(Game.getInstance().getFimDeJogo())
@@ -1184,6 +1288,7 @@ public class App extends Application implements Observer{
             }
             else if (Game.getInstance().getPlayer()==1&&!turnFinished)
             {
+                System.out.println("Turno de " + jogador1Nome + ": ");
                 playerTurn.setText("Vez de " + jogador1Nome);
                 checkStatusDamage = false;
                 Card c = Game.getInstance().getListDeckP1().remove(0);
@@ -1195,7 +1300,11 @@ public class App extends Application implements Observer{
                     trataBtnHand1(null);
                     updateLabels();
                 }
-                if (Game.getInstance().getFieldP1().getCard().getStatus3().equalsIgnoreCase("Paralizado")) {Game.getInstance().getFieldP1().getCard().curaStatus3();}
+                if (Game.getInstance().getFieldP1().getCard().getStatus3().equalsIgnoreCase("Paralizado")) 
+                {
+                    Game.getInstance().getFieldP1().getCard().curaStatus3();
+                    System.out.println(Game.getInstance().getFieldP1().getCard().getNome() + " estava paralizado e não conseguiu atacar!");
+                }
                 p1CuraDormindo();
                 p2EffectPoison();
                 p1EffectPoison();
@@ -1238,10 +1347,12 @@ public class App extends Application implements Observer{
                 }
                 turnFinished=false;
                 Game.getInstance().nextPlayer();
+                System.out.println();
             }
             else if (Game.getInstance().getPlayer()==2&&!turnFinished)
             {
                 playerTurn.setText("Vez de " + jogador2Nome);
+                System.out.println("Turno de " + jogador2Nome + ": ");
                 checkStatusDamage = false;
                 Card c = Game.getInstance().getListDeckP2().remove(0);
                 Game.getInstance().getHandP2().addCard(c);
@@ -1252,7 +1363,11 @@ public class App extends Application implements Observer{
                     trataBtnHand2(null);
                     updateLabels();
                 }
-                if (Game.getInstance().getFieldP2().getCard().getStatus3().equalsIgnoreCase("Paralizado")) {Game.getInstance().getFieldP2().getCard().curaStatus3();}
+                if (Game.getInstance().getFieldP2().getCard().getStatus3().equalsIgnoreCase("Paralizado")) 
+                {
+                    Game.getInstance().getFieldP2().getCard().curaStatus3();
+                    System.out.println(Game.getInstance().getFieldP2().getCard().getNome() + " estava paralizado e não conseguiu atacar!");
+                }
                 p2CuraDormindo();
                 p2EffectPoison();
                 p1EffectPoison();
@@ -1295,6 +1410,7 @@ public class App extends Application implements Observer{
                 }
                 turnFinished=false;
                 Game.getInstance().nextPlayer();
+                System.out.println();
             }
         }
 
@@ -1304,19 +1420,19 @@ public class App extends Application implements Observer{
         hnd2Stage.close();
         if (!fimPorBasicos&&!fimPorCartas)
         {
-            System.out.println("O jogador " + winnerIfTie + "venceu");
-            System.out.println("fim por vidas");
             if (checkStatusDamage)
             {
                 if (winnerIfTie==1)
                 {
                     popUp.setHeaderText("O jogador " + jogador2Nome + " venceu!!");
                     popUp.setContentText(jogador1Nome + " perdeu todas as suas vidas!");
+                    System.out.println(jogador1Nome + " perdeu todas as suas vidas! " +jogador2Nome + " vence o jogo!\n");
                 }
                 else 
                 {
                     popUp.setHeaderText("O jogador " + jogador1Nome + " venceu!!");
                     popUp.setContentText(jogador2Nome + " perdeu todas as suas vidas!");
+                    System.out.println(jogador2Nome + " perdeu todas as suas vidas! " +jogador1Nome + " vence o jogo!\n");
                 }
             }
             else
@@ -1325,11 +1441,13 @@ public class App extends Application implements Observer{
                 {
                     popUp.setHeaderText("O jogador " + jogador1Nome + " venceu!!");
                     popUp.setContentText(jogador2Nome + " perdeu todas as suas vidas!");
+                    System.out.println(jogador2Nome + " perdeu todas as suas vidas! " +jogador1Nome + " vence o jogo!\n");
                 }
                 else 
                 {
                     popUp.setHeaderText("O jogador " + jogador2Nome + " venceu!!");
                     popUp.setContentText(jogador1Nome + " perdeu todas as suas vidas!");
+                    System.out.println(jogador1Nome + " perdeu todas as suas vidas! " +jogador2Nome + " vence o jogo!\n");
                 }
             }
             popUp.showAndWait();
@@ -1340,12 +1458,14 @@ public class App extends Application implements Observer{
             {
                 popUp.setHeaderText("O jogador "+ jogador1Nome +" venceu!!");
                 popUp.setContentText(jogador2Nome + " não possui Pokémons básicos para jogar!");
+                System.out.println(jogador2Nome + " não pode baixar um Pokémon básico! " +jogador1Nome + " vence o jogo!\n");
                 popUp.showAndWait();
             }
             else
             {
                 popUp.setHeaderText("O jogador "+ jogador2Nome +" venceu!!");
                 popUp.setContentText(jogador1Nome + " não possui Pokémons básicos para jogar!");
+                System.out.println(jogador1Nome + " não pode baixar um Pokémon básico! " +jogador2Nome + " vence o jogo!\n");
                 popUp.showAndWait();
             }
         }
@@ -1355,12 +1475,14 @@ public class App extends Application implements Observer{
             {
                 popUp.setHeaderText("O jogador "+ jogador2Nome +" venceu!!");
                 popUp.setContentText("Acabaram as cartas do deck de " + jogador1Nome + "!");
+                System.out.println(jogador1Nome + " não pode mais comprar cartas! " +jogador2Nome + " vence o jogo!\n");
                 popUp.showAndWait();
             }
             else
             {
                 popUp.setHeaderText("O jogador "+ jogador1Nome +" venceu!!");
                 popUp.setContentText("Acabaram as cartas do deck de " + jogador2Nome + "!");
+                System.out.println(jogador2Nome + " não pode mais comprar cartas! " +jogador1Nome + " vence o jogo!\n");
                 popUp.showAndWait();
             }
         }
@@ -1476,7 +1598,7 @@ public class App extends Application implements Observer{
         return (Game.getInstance().getEnergias(ener)>=atk.getCustoTipo()&&Game.getInstance().getEnergiasP2()>=atk.getCustoTotal());
     }
 
-    public void ativaHauP1()
+    public int ativaHauP1()
     {
         int limit;
         if (Game.getInstance().getListDeckP1().size()>=3)
@@ -1491,9 +1613,10 @@ public class App extends Application implements Observer{
             cb1.getItems().add(c.getNome());
             cb1.getItems().remove("null");
         }
+        return limit;
     }
 
-    public void ativaHauP2()
+    public int ativaHauP2()
     {
         int limit;
         if (Game.getInstance().getListDeckP2().size()>=3)
@@ -1508,15 +1631,17 @@ public class App extends Application implements Observer{
             cb2.getItems().add(c.getNome());
             cb2.getItems().remove("null");
         }
+        return limit;
     }
 
     public int findDanoAtaqueP2(Ataque atk)
     {
+        String addon = "";
         PokemonCard copyP1 = Game.getInstance().getFieldP1().getCard();
         PokemonCard copyP2 = Game.getInstance().getFieldP2().getCard();
         int dano = atk.getDano();
 
-        if (atk.getIdEfeito()==1) {Game.getInstance().getFieldP2().getCard().heal(10);}
+        if (atk.getIdEfeito()==1) {Game.getInstance().getFieldP2().getCard().heal(10); addon = "\n" + copyP2.getNome() + " se curou! (+10 HP)";}
         else if (atk.getIdEfeito()==2)
         {
             flipped = false;
@@ -1529,8 +1654,8 @@ public class App extends Application implements Observer{
         }
         else if (atk.getIdEfeito()==3) {dano+=copyP1.getDamageTaken();}
         else if (atk.getIdEfeito()==4) {dano+=(10*Game.getInstance().getDescPokP2());}
-        else if (atk.getIdEfeito()==5) {Game.getInstance().getFieldP2().getCard().damage(10);}
-        else if (atk.getIdEfeito()==6) {Game.getInstance().getFieldP1().getCard().setStatus3("Confuso");}
+        else if (atk.getIdEfeito()==5) {Game.getInstance().getFieldP2().getCard().damage(10); addon = "\n" + copyP2.getNome() + " causou dano a sí mesmo! (-10 HP)";}
+        else if (atk.getIdEfeito()==6) {Game.getInstance().getFieldP1().getCard().setStatus3("Confuso"); addon = "\n" + copyP1.getNome() + " ficou confuso!";}
         else if (atk.getIdEfeito()==7)
         {
             flipped = false;
@@ -1549,6 +1674,7 @@ public class App extends Application implements Observer{
                 Game.getInstance().getHandP2().addCard(c);
                 cb2.getItems().add(c.getNome());
                 cb2.getItems().remove("null");
+                addon = "\n" + jogador2Nome + " comprou uma carta.";
             }
         }
         else if (atk.getIdEfeito()==9)
@@ -1558,13 +1684,14 @@ public class App extends Application implements Observer{
                 dano+=90;
             }
         }
-        else if (atk.getIdEfeito()==10) {Game.getInstance().getFieldP1().getCard().setStatus3("Dormindo");}
-        else if (atk.getIdEfeito()==11) {Game.getInstance().getFieldP1().getCard().setEnvenenado();}
-        else if (atk.getIdEfeito()==12) {Game.getInstance().getFieldP1().getCard().setQueimado();}
+        else if (atk.getIdEfeito()==10) {Game.getInstance().getFieldP1().getCard().setStatus3("Dormindo"); addon = "\n" + copyP1.getNome() + " adormeceu!";}
+        else if (atk.getIdEfeito()==11) {Game.getInstance().getFieldP1().getCard().setEnvenenado(); addon = "\n" + copyP1.getNome() + " ficou envenenado!";}
+        else if (atk.getIdEfeito()==12) {Game.getInstance().getFieldP1().getCard().setQueimado(); addon = "\n" + copyP1.getNome() + " ficou queimado!";}
         else if (atk.getIdEfeito()==13)
         {
             Game.getInstance().getFieldP1().getCard().setEnvenenado();
             Game.getInstance().getFieldP1().getCard().setQueimado();
+            addon = "\n" + copyP1.getNome() + " ficou envenenado!\n" + copyP1.getNome() + " ficou queimado!";
         }
         else if (atk.getIdEfeito()==14) 
         {
@@ -1604,22 +1731,26 @@ public class App extends Application implements Observer{
                 numberOfHeads = 0;
                 trataOpenCoinFlipWindow(null);
             }
-            if(numberOfHeads==1) {Game.getInstance().getFieldP1().getCard().setStatus3("Paralizado");}
+            if(numberOfHeads==1) {Game.getInstance().getFieldP1().getCard().setStatus3("Paralizado");addon = "\n" + copyP1.getNome() + " ficou paralizado!";}
         }
 
         if (copyP1.getFraquezaTipo()==copyP2.getTipo()) {dano*=2;}
         if (copyP1.getResistenciaTipo()==copyP2.getTipo()) {dano-=copyP1.getResistenciaValor();}
 
+        if (atk.getDano()==0) {System.out.println(addon);}
+        else {System.out.println("(-" + dano + " HP)" + addon);}
         return dano;
     }
 
     public int findDanoAtaqueP1(Ataque atk)
     {
+        String addon = "";
+        boolean flipBol = true;
         PokemonCard copyP1 = Game.getInstance().getFieldP1().getCard();
         PokemonCard copyP2 = Game.getInstance().getFieldP2().getCard();
         int dano = atk.getDano();
 
-        if (atk.getIdEfeito()==1) {Game.getInstance().getFieldP1().getCard().heal(10);}
+        if (atk.getIdEfeito()==1) {Game.getInstance().getFieldP1().getCard().heal(10);addon = "\n" + copyP1.getNome() + " se curou! (+10 HP)";}
         else if (atk.getIdEfeito()==2)
         {
             flipped = false;
@@ -1632,8 +1763,8 @@ public class App extends Application implements Observer{
         }
         else if (atk.getIdEfeito()==3) {dano+=copyP2.getDamageTaken();}
         else if (atk.getIdEfeito()==4) {dano+=(10*Game.getInstance().getDescPokP1());}
-        else if (atk.getIdEfeito()==5) {Game.getInstance().getFieldP1().getCard().damage(10);}
-        else if (atk.getIdEfeito()==6) {Game.getInstance().getFieldP2().getCard().setStatus3("Confuso");}
+        else if (atk.getIdEfeito()==5) {Game.getInstance().getFieldP1().getCard().damage(10);addon = "\n" + copyP1.getNome() + " causou dano a sí mesmo! (-10 HP)";}
+        else if (atk.getIdEfeito()==6) {Game.getInstance().getFieldP2().getCard().setStatus3("Confuso");addon = "\n" + copyP2.getNome() + " ficou confuso!";}
         else if (atk.getIdEfeito()==7)
         {
             flipped = false;
@@ -1652,6 +1783,7 @@ public class App extends Application implements Observer{
                 Game.getInstance().getHandP1().addCard(c);
                 cb1.getItems().add(c.getNome());
                 cb1.getItems().remove("null");
+                addon = "\n" + jogador1Nome + " comprou uma carta.";
             }
         }
         else if (atk.getIdEfeito()==9)
@@ -1661,13 +1793,14 @@ public class App extends Application implements Observer{
                 dano+=90;
             }
         }
-        else if (atk.getIdEfeito()==10) {Game.getInstance().getFieldP2().getCard().setStatus3("Dormindo");}
-        else if (atk.getIdEfeito()==11) {Game.getInstance().getFieldP2().getCard().setEnvenenado();}
-        else if (atk.getIdEfeito()==12) {Game.getInstance().getFieldP2().getCard().setQueimado();}
+        else if (atk.getIdEfeito()==10) {Game.getInstance().getFieldP2().getCard().setStatus3("Dormindo");addon = "\n" + copyP2.getNome() + " adormeceu!";}
+        else if (atk.getIdEfeito()==11) {Game.getInstance().getFieldP2().getCard().setEnvenenado();addon = "\n" + copyP2.getNome() + " ficou envenenado!";}
+        else if (atk.getIdEfeito()==12) {Game.getInstance().getFieldP2().getCard().setQueimado();addon = "\n" + copyP2.getNome() + " ficou queimado!";}
         else if (atk.getIdEfeito()==13)
         {
             Game.getInstance().getFieldP2().getCard().setEnvenenado();
             Game.getInstance().getFieldP2().getCard().setQueimado();
+            addon = "\n" + copyP2.getNome() + " ficou envenenado!\n" + copyP2.getNome() + " ficou queimado!";
         }
         else if (atk.getIdEfeito()==14) 
         {
@@ -1707,12 +1840,14 @@ public class App extends Application implements Observer{
                 numberOfHeads = 0;
                 trataOpenCoinFlipWindow(null);
             }
-            if(numberOfHeads==1) {Game.getInstance().getFieldP2().getCard().setStatus3("Paralizado");}
+            if(numberOfHeads==1) {Game.getInstance().getFieldP2().getCard().setStatus3("Paralizado");addon = "\n" + copyP2.getNome() + " ficou paralizado!";}
         }
 
         if (copyP2.getFraquezaTipo()==copyP1.getTipo()) {dano*=2;}
         if (copyP2.getResistenciaTipo()==copyP1.getTipo()) {dano-=copyP2.getResistenciaValor();}
 
+        if (atk.getDano()==0) {System.out.println(addon);}
+        else {System.out.println("(-" + dano + " HP)" + addon);}
         return dano;
     }
 
@@ -1726,7 +1861,15 @@ public class App extends Application implements Observer{
                 numberOfHeads = 0;
                 trataOpenCoinFlipWindow(null);
             }
-            if (numberOfHeads==1) {Game.getInstance().getFieldP1().getCard().curaStatus3();}
+            if (numberOfHeads==1) 
+            {
+                Game.getInstance().getFieldP1().getCard().curaStatus3();
+                System.out.println(Game.getInstance().getFieldP1().getCard().getNome() + "acordou!");
+            }
+            else
+            {
+                System.out.println(Game.getInstance().getFieldP1().getCard().getNome() + "continua dormindo.");
+            }
         }
     }
 
@@ -1740,7 +1883,15 @@ public class App extends Application implements Observer{
                 numberOfHeads = 0;
                 trataOpenCoinFlipWindow(null);
             }
-            if (numberOfHeads==1) {Game.getInstance().getFieldP2().getCard().curaStatus3();}
+            if (numberOfHeads==1) 
+            {
+                Game.getInstance().getFieldP2().getCard().curaStatus3();
+                System.out.println(Game.getInstance().getFieldP2().getCard().getNome() + "acordou!");
+            }
+            else
+            {
+                System.out.println(Game.getInstance().getFieldP2().getCard().getNome() + "continua dormindo.");
+            }
         }
     }
 
@@ -1749,6 +1900,7 @@ public class App extends Application implements Observer{
         if (Game.getInstance().getFieldP1().getCard().getEnvenenado())
         {
             Game.getInstance().getFieldP1().getCard().damage(10);
+            System.out.println(Game.getInstance().getFieldP1().getCard().getNome() + " está envenenado! (-10 HP)");
         }
     }
 
@@ -1757,6 +1909,7 @@ public class App extends Application implements Observer{
         if (Game.getInstance().getFieldP2().getCard().getEnvenenado())
         {
             Game.getInstance().getFieldP2().getCard().damage(10);
+            System.out.println(Game.getInstance().getFieldP2().getCard().getNome() + " está envenenado! (-10 HP)");
         }
     }
 
@@ -1765,6 +1918,7 @@ public class App extends Application implements Observer{
         if(Game.getInstance().getFieldP1().getCard().getQueimado())
         {
             Game.getInstance().getFieldP1().getCard().damage(20);
+            System.out.println(Game.getInstance().getFieldP1().getCard().getNome() + " está queimado! (-20 HP)");
             if (Game.getInstance().getFieldP1().getCard().getCurrentHP()>=0)
             {
                 flipped = false;
@@ -1773,7 +1927,15 @@ public class App extends Application implements Observer{
                     numberOfHeads = 0;
                     trataOpenCoinFlipWindow(null);
                 }
-                if (numberOfHeads==1) {Game.getInstance().getFieldP1().getCard().curaQueimado();}
+                if (numberOfHeads==1) 
+                {
+                    Game.getInstance().getFieldP1().getCard().curaQueimado();
+                    System.out.println(Game.getInstance().getFieldP1().getCard().getNome() + " não está mais queimado!");
+                }
+                else
+                {
+                    System.out.println(Game.getInstance().getFieldP1().getCard().getNome() + " continua queimado.");
+                }
             }
         }
     }
@@ -1783,6 +1945,7 @@ public class App extends Application implements Observer{
         if(Game.getInstance().getFieldP2().getCard().getQueimado())
         {
             Game.getInstance().getFieldP2().getCard().damage(20);
+            System.out.println(Game.getInstance().getFieldP2().getCard().getNome() + " está queimado! (-20 HP)");
             if (Game.getInstance().getFieldP2().getCard().getCurrentHP()>=0)
             {
                 flipped = false;
@@ -1791,7 +1954,15 @@ public class App extends Application implements Observer{
                     numberOfHeads = 0;
                     trataOpenCoinFlipWindow(null);
                 }
-                if (numberOfHeads==1) {Game.getInstance().getFieldP2().getCard().curaQueimado();}
+                if (numberOfHeads==1) 
+                {
+                    Game.getInstance().getFieldP2().getCard().curaQueimado();
+                    System.out.println(Game.getInstance().getFieldP2().getCard().getNome() + " não está mais queimado!");
+                }
+                else
+                {
+                    System.out.println(Game.getInstance().getFieldP1().getCard().getNome() + " continua queimado.");
+                }
             }
         }
     }

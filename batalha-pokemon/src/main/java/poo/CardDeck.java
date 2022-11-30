@@ -57,8 +57,6 @@ public class CardDeck extends Observable{
             cartas.add(new PokemonCard("Eevee", "eevee-card", "eevee",
                     60,Tipo.Normal,"nada", new Ataque("Tackle", 10),
                     new Ataque("Lunge", 30)));
-
-                    System.out.println("NUMERO DE CARTAS:" + cartas.size());
         }
         else if (deckNum == 2) {
             cartas.add(new PokemonCard("Aron", "aron-card", "aron",
@@ -178,10 +176,10 @@ public class CardDeck extends Observable{
         Card p12 = new PokemonCard("Weepinbell","weepinbell-card","weepinbell",80,Tipo.Grass,2,Tipo.Fire,"Bellsprout",new Ataque("Burning Venom",0,13,1,1,Tipo.Grass),new Ataque("Ram",30,0,2,0,Tipo.Normal));
 
         Card t1 = new TreinadorCard("Hau","hau-card","hau",18);
-        Card t2 = new TreinadorCard("Potion","potion-card","potion",19);
+        Card t2 = new TreinadorCard("Poção","potion-card","potion",19);
 
-        Card e1 = new EnergiaCard("Fire Energy","fireenergy-card","fireenergy",Tipo.Fire);
-        Card e2 = new EnergiaCard("Grass Energy","grassenergy-card","grassenergy",Tipo.Grass);
+        Card e1 = new EnergiaCard("Energia de Fogo","fireenergy-card","fireenergy",Tipo.Fire);
+        Card e2 = new EnergiaCard("Energia de Planta","grassenergy-card","grassenergy",Tipo.Grass);
 
         ArrayList<Card> deck1= new ArrayList<>(Arrays.asList(p11,p11,p9,p1,p1,p12,p10,p10,p5,p2,p2,p4,p7,p7,p6,p3,p8,t1,t2,t2,e1,e1,e1,e1,e1,e2,e2,e2,e2,e2));
         Collections.shuffle(deck1);
@@ -202,11 +200,11 @@ public class CardDeck extends Observable{
         Card p22 = new PokemonCard("Staravia","staravia-card","staravia",80,Tipo.Normal,1,Tipo.Electric,Tipo.Fighting,20,"Starly",new Ataque("Flap",20,0,1,0,Tipo.Normal),new Ataque("Wing Attack",60,0,3,0,Tipo.Normal));
         Card p23 = new PokemonCard("Starly","starly-card","starly",60,Tipo.Normal,1,Tipo.Electric,Tipo.Fighting,30,"nada",new Ataque("Claw",30,2,1,0,Tipo.Normal));
 
-        Card e3 = new EnergiaCard("Water Energy","waterenergy-card","waterenergy",Tipo.Water);
-        Card e4 = new EnergiaCard("Steel Energy","steelenergy-card","steelenergy",Tipo.Steel);
+        Card e3 = new EnergiaCard("Energia de Água","waterenergy-card","waterenergy",Tipo.Water);
+        Card e4 = new EnergiaCard("Energia de Metal","steelenergy-card","steelenergy",Tipo.Steel);
 
         Card t1 = new TreinadorCard("Hau","hau-card","hau",18);
-        Card t2 = new TreinadorCard("Potion","potion-card","potion",19);
+        Card t2 = new TreinadorCard("Poção","potion-card","potion",19);
         Card t3 = new TreinadorCard("Full Heal","fullheal-card","fullheal",20);
 
         ArrayList<Card> deck2 = new ArrayList<>(Arrays.asList(p13,p13,p14,p15,p15,p16,p20,p20,p17,p18,p18,p19,p23,p23,p22,p21,t1,t2,t3,t3,e3,e3,e3,e3,e3,e4,e4,e4,e4,e4));

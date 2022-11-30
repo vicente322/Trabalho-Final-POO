@@ -214,11 +214,14 @@ public class PokemonCard extends Card{
      * @param cura Quantidade de vida curada.
      * Cura a vida do pokemon, nao ultrapassando a vida base
      */
-    public void heal(int cura){
+    public int heal(int cura){
+        int priorHP = currentHP;
         currentHP += cura;
         if (currentHP>defaultHP){
             currentHP=defaultHP;
+            return defaultHP-priorHP;
         }
+        return cura;
     }
     
     public void setQueimado(){
