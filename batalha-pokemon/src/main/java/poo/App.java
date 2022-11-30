@@ -42,7 +42,7 @@ public class App extends Application implements Observer{
     private Label playerTurn, lbP1, lbP2, infoPokemon1, infoPokemon2, infoDeck1, infoDeck2;
     private String jogador1Nome, jogador2Nome;
     private TextField jogador1, jogador2;
-    private ImageView cartaMaoP1, cartaJogoP1, cartaJogoP1Copia, cartaMaoP2, cartaJogoP2, cartaJogoP2Copia, coin, coin1, coin2, coin3,c1p1,c2p1,c3p1,c4p1,c1p2,c2p2,c3p2,c4p2;
+    private ImageView cartaMaoP1, cartaJogoP1, cartaJogoP1Copia, cartaMaoP2, cartaJogoP2, cartaJogoP2Copia, coin, coin1, coin2, coin3,c1p1,c2p1,c3p1,c4p1,c1p2,c2p2,c3p2,c4p2,deck1View,deck2View;
     private ComboBox<String> cb1, cb2;
     private boolean acabou,turnFinished,reachedLoop,flipped,fimPorCartas,fimPorBasicos,firstTurnAux,wroteNames,checkStatusDamage;
     private Alert popUp;
@@ -979,7 +979,7 @@ public class App extends Application implements Observer{
         cartaJogoP1.setPreserveRatio(true);
         gridP1.add(cartaJogoP1, 2, 0);
 
-        ImageView deck1View = ImageFactory.getInstance().createImage("imgBck");
+        deck1View = ImageFactory.getInstance().createImage("imgBck");
         deck1View.setFitHeight(200);
         deck1View.setPreserveRatio(true);
         gridP1.add(deck1View, 3, 0);
@@ -1047,7 +1047,7 @@ public class App extends Application implements Observer{
         cartaJogoP2.setPreserveRatio(true);
         gridP2.add(cartaJogoP2, 2, 1);
 
-        ImageView deck2View = ImageFactory.getInstance().createImage("imgBck");
+        deck2View = ImageFactory.getInstance().createImage("imgBck");
         deck2View.setFitHeight(200);
         deck2View.setFitWidth(150);
         gridP2.add(deck2View, 1, 1);
@@ -1295,6 +1295,7 @@ public class App extends Application implements Observer{
                 Game.getInstance().getHandP1().addCard(c);
                 cb1.getItems().add(c.getNome());
                 cb1.getItems().remove("null");
+                updateLabels();
                 while(!turnFinished||Game.getInstance().getFieldP1().getCard().getNome().equals("null")||!flipped)
                 {
                     trataBtnHand1(null);
@@ -1358,6 +1359,7 @@ public class App extends Application implements Observer{
                 Game.getInstance().getHandP2().addCard(c);
                 cb2.getItems().add(c.getNome());
                 cb2.getItems().remove("null");
+                updateLabels();
                 while(!turnFinished||Game.getInstance().getFieldP2().getCard().getNome().equals("null")||!flipped)
                 {
                     trataBtnHand2(null);
@@ -1562,9 +1564,17 @@ public class App extends Application implements Observer{
         + "\nTreinador: " + Game.getInstance().getDescTreiP2() + "\nEnergia: " + Game.getInstance().getDescEnerP2());
 
         infoDeck1.setText("Deck: " + Game.getInstance().getListDeckP1().size());
-        infoDeck2.setText("Deck: " + Game.getInstance().getListDeckP2().size());        
+        infoDeck2.setText("Deck: " + Game.getInstance().getListDeckP2().size());
         lbP1.setText(jogador1Nome);
         lbP2.setText(jogador2Nome);
+        if (Game.getInstance().getListDeckP1().size()==0)
+        {
+            deck1View.setImage(ImageFactory.getInstance().createImage("imgBckGrey").getImage());
+        }
+        if (Game.getInstance().getListDeckP2().size()==0)
+        {
+            deck2View.setImage(ImageFactory.getInstance().createImage("imgBckGrey").getImage());
+        }
 
         Card c1 = Game.getInstance().getFieldP1().getCard();
         cartaJogoP1Copia.setImage(ImageFactory.getInstance().createImage(c1.getImageId()).getImage());
