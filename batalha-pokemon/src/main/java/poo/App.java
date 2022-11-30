@@ -29,7 +29,7 @@ public class App extends Application implements Observer{
     private FieldCardView fieldCardP1, fieldCardP2;
     private HandView handViewP1, handViewP2;
     private Button  hnd1Btn, hnd2Btn;
-    private Stage hnd1Stage, hnd2Stage, confirmNameStage, pOpStage;
+    private Stage hnd1Stage, hnd2Stage, confirmNameStage, pOpStage, retreatStage;
     private Label playerTurn, lbP1, lbP2, infoPokemon1, infoPokemon2, infoDeck1, infoDeck2;
     private String jogador1Nome, jogador2Nome;
     private TextField jogador1, jogador2;
@@ -41,8 +41,16 @@ public class App extends Application implements Observer{
         // Fecha a janela de informar nomes
         Button confirmNamesBtn = new Button("Confirmar");
         confirmNamesBtn.setOnAction(e -> {
-            jogador1Nome = jogador1.getText();
-            jogador2Nome = jogador2.getText();
+            
+            if (!(jogador1.getText().equals(""))){
+                jogador1Nome = jogador1.getText();
+                jogador2Nome = jogador2.getText();
+            }
+            else {
+                jogador1Nome = "jogador 1";
+                jogador2Nome = "jogador 2";
+            }
+            
             lbP1.setText(jogador1Nome);
             lbP2.setText(jogador2Nome);
             hnd1Btn.setText("Mao de " + jogador1Nome);
@@ -291,6 +299,7 @@ public class App extends Application implements Observer{
             hnd1Stage.close();
             hnd2Stage.close();
             confirmNameStage.close();
+            pOpStage.close();
             primaryStage.close();
         });
         gridTopCmd.add(exitBtn, 3, 0);
@@ -408,6 +417,19 @@ public class App extends Application implements Observer{
                     pOpPane.add(zoom, 0, 2);
 
                     Button recuo = new Button("Recuar");
+                    recuo.setOnAction(e -> {
+
+                        GridPane retreatGrid = new GridPane();
+                        
+                        
+
+
+                        Scene retreatScene = new Scene(retreatGrid);
+                        retreatStage = new Stage();
+                        retreatStage.setScene(retreatScene);
+                        retreatStage.setTitle("Recuo");
+                        retreatStage.show();
+                    });
                     pOpPane.add(recuo, 0, 3);
 
                     Button cancel = new Button("Cancelar");

@@ -168,8 +168,5 @@ public class Game extends Observable{
                         notifyObservers((Object) ge);
                   }
             }
-            
-
       }
-
 }
