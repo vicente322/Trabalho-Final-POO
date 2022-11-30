@@ -11,7 +11,7 @@ package poo;
 
 public class GameEvent {
       public enum Target {App};
-      public enum Action {PLayerFieldOption};
+      public enum Action {PLayerFieldOption, HandOptions, Retreat};
       
       private Target target;
       private Action action;

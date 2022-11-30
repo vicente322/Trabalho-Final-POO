@@ -29,7 +29,7 @@ public class App extends Application implements Observer{
     private FieldCardView fieldCardP1, fieldCardP2;
     private HandView handViewP1, handViewP2;
     private Button  hnd1Btn, hnd2Btn;
-    private Stage hnd1Stage, hnd2Stage, confirmNameStage, pOpStage, retreatStage;
+    private Stage hnd1Stage, hnd2Stage, confirmNameStage, pOpStage, retreatStage, hOStage;
     private Label playerTurn, lbP1, lbP2, infoPokemon1, infoPokemon2, infoDeck1, infoDeck2;
     private String jogador1Nome, jogador2Nome;
     private TextField jogador1, jogador2;
@@ -41,14 +41,13 @@ public class App extends Application implements Observer{
         // Fecha a janela de informar nomes
         Button confirmNamesBtn = new Button("Confirmar");
         confirmNamesBtn.setOnAction(e -> {
-            
             if (!(jogador1.getText().equals(""))){
                 jogador1Nome = jogador1.getText();
                 jogador2Nome = jogador2.getText();
             }
             else {
-                jogador1Nome = "jogador 1";
-                jogador2Nome = "jogador 2";
+                jogador1Nome = "Jogador 1";
+                jogador2Nome = "Jogador 2";
             }
             
             lbP1.setText(jogador1Nome);
@@ -316,7 +315,28 @@ public class App extends Application implements Observer{
         grid.add(gridTopCmd, 0, 0);
 
     }
-  
+    /**
+     * Atualiza informacoes na tela
+     */
+    public void updateLabels() {
+        PokemonCard pc1 = fieldCardP1.getFieldCard().getCard();
+        PokemonCard pc2 = fieldCardP2.getFieldCard().getCard();
+
+        infoPokemon1.setText(pc1.getNome() + "    HP: " + pc1.getCurrentHP());
+        ;
+        infoPokemon2.setText(pc2.getNome() + "    HP: " + pc2.getCurrentHP());
+        infoDeck1.setText("Deck: " + Game.getInstance().getDeckP1().getNCards());
+        infoDeck2.setText("Deck: " + Game.getInstance().getDeckP2().getNCards());
+        lbP1.setText(jogador1Nome);
+        lbP2.setText(jogador2Nome);
+
+        if (Game.getInstance().getPlayer() == 1) {
+            playerTurn.setText("Vez de " + jogador1Nome);
+        } else {
+            playerTurn.setText("Vez de " + jogador2Nome);
+        }
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Game.getInstance().addObserver(this);
@@ -356,7 +376,7 @@ public class App extends Application implements Observer{
         if (ge.getTarget() == GameEvent.Target.App){
 
             switch(ge.getAction()){
-                case PLayerFieldOption:
+                case PLayerFieldOption: {
                     GridPane pOpPane = new GridPane();
                     pOpPane.setAlignment(Pos.CENTER);
                     pOpPane.setVgap(10);
@@ -367,17 +387,16 @@ public class App extends Application implements Observer{
                     ataque1.setOnAction(e -> {
                         Ataque attack;
 
-                        if (ge.getArg().equals("1")){
+                        if (ge.getArg().equals("1")) {
                             attack = Game.getInstance().getFieldP1()
-                                         .getCard().getAtaque1();
+                                    .getCard().getAtaque1();
 
                             Game.getInstance().getFieldP2().getCard().damage(attack.getDano());
-                        }
-                        else {
+                        } else {
                             attack = Game.getInstance().getFieldP2()
                                     .getCard().getAtaque1();
 
-                            Game.getInstance().getFieldP1().getCard().damage(attack.getDano()); 
+                            Game.getInstance().getFieldP1().getCard().damage(attack.getDano());
                         }
 
                         updateLabels();
@@ -388,18 +407,17 @@ public class App extends Application implements Observer{
                     });
                     pOpPane.add(ataque1, 0, 0);
 
-                    if (fieldCardP1.getFieldCard().getCard().getAtaque2() != null){
+                    if (fieldCardP1.getFieldCard().getCard().getAtaque2() != null) {
                         Button ataque2 = new Button("Ataque 2");
                         ataque2.setOnAction(e -> {
                             Ataque attack;
 
-                            if (ge.getArg().equals("1")){
+                            if (ge.getArg().equals("1")) {
                                 attack = Game.getInstance().getFieldP1()
-                                             .getCard().getAtaque2();
-                                
+                                        .getCard().getAtaque2();
+
                                 Game.getInstance().getFieldP2().getCard().damage(attack.getDano());
-                            }
-                            else {
+                            } else {
                                 attack = Game.getInstance().getFieldP2()
                                         .getCard().getAtaque2();
 
@@ -419,16 +437,12 @@ public class App extends Application implements Observer{
                     Button recuo = new Button("Recuar");
                     recuo.setOnAction(e -> {
 
-                        GridPane retreatGrid = new GridPane();
-                        
-                        
-
-
-                        Scene retreatScene = new Scene(retreatGrid);
-                        retreatStage = new Stage();
-                        retreatStage.setScene(retreatScene);
-                        retreatStage.setTitle("Recuo");
-                        retreatStage.show();
+                        if (Game.getInstance().getPlayer() == 1){
+                            Game.getInstance().play("retreat1");
+                        }
+                        else {
+                            Game.getInstance().play("retreat2");
+                        }
                     });
                     pOpPane.add(recuo, 0, 3);
 
@@ -439,33 +453,33 @@ public class App extends Application implements Observer{
                     Scene pOpScene = new Scene(pOpPane);
                     pOpStage = new Stage();
                     pOpStage.setScene(pOpScene);
-                    pOpStage.setTitle("Options");
+                    pOpStage.setTitle("Field Pokemon Options");
                     pOpStage.show();
+                    break;
+                }
+                case HandOptions:{
 
+                    GridPane hOPane = new GridPane();
+                    hOPane.setAlignment(Pos.CENTER);
+                    hOPane.setVgap(10);
+                    hOPane.setHgap(10);
+                    hOPane.setStyle("-fx-background-color:lightred");
+                    hOPane.setMinSize(100, 200);
+
+                    Scene hOScene = new Scene(hOPane);
+                    hOStage = new Stage();
+                    hOStage.setTitle("Hand Options");
+
+
+
+                }
+                case Retreat
+                    
+                    
+            
             }
         }
     }
-    /**
-     * Atualiza informacoes na tela
-     */
-    public void updateLabels() {
-        PokemonCard pc1 = fieldCardP1.getFieldCard().getCard();
-        PokemonCard pc2 = fieldCardP2.getFieldCard().getCard();
-
-        infoPokemon1.setText(pc1.getNome() + "    HP: " + pc1.getCurrentHP());;
-        infoPokemon2.setText(pc2.getNome() + "    HP: " + pc2.getCurrentHP());
-        infoDeck1.setText("Deck: " + Game.getInstance().getDeckP1().getNCards());
-        infoDeck2.setText("Deck: " + Game.getInstance().getDeckP2().getNCards());        
-        lbP1.setText(jogador1Nome);
-        lbP2.setText(jogador2Nome);
-
-        if (Game.getInstance().getPlayer() == 1) {
-            playerTurn.setText("Vez de " + jogador1Nome);
-        } else {
-            playerTurn.setText("Vez de " + jogador2Nome);
-        }
-    }
-
     public static void main(String args[]){
         launch(args);
     }

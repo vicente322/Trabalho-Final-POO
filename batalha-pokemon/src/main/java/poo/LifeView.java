@@ -18,31 +18,31 @@ public class LifeView extends HBox implements Observer {
      */
     public LifeView(int nroPlayer, int lifeSize) {
         GridPane grid = new GridPane();
-            player = nroPlayer;
-            initialLife = Game.getInstance().getInitialLife();
+        player = nroPlayer;
+        initialLife = Game.getInstance().getInitialLife();
             
             
-            life = 0;
+        life = 0;
 
-            if(player == 1){
-                life = Game.getInstance().getP1Life();        
+        if(player == 1){
+            life = Game.getInstance().getP1Life();        
 
-            }
-            else{
-                life  = Game.getInstance().getP2Life();
-            }
+        }
+        else{
+            life  = Game.getInstance().getP2Life();
+        }
 
-            for(int i = 0; i<initialLife; i++){
-                ImageView heart = ImageFactory.getInstance().createImage("fullheart");
-                this.getChildren().add(heart);
-                heart.setPreserveRatio(true);
-                heart.setFitHeight(lifeSize);
+        for(int i = 0; i<initialLife; i++){
+            ImageView heart = ImageFactory.getInstance().createImage("fullheart");
+            this.getChildren().add(heart);
+            heart.setPreserveRatio(true);
+            heart.setFitHeight(lifeSize);
                 
                 
                 
                 
 
-            }
+        }
 
     }
 
