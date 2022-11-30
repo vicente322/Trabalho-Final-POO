@@ -1457,15 +1457,15 @@ public class App extends Application implements Observer{
             if (Game.getInstance().getPlayer()==1)
             {
                 popUp.setHeaderText("O jogador "+ jogador1Nome +" venceu!!");
-                popUp.setContentText(jogador2Nome + " não possui Pokémons básicos para jogar!");
-                System.out.println(jogador2Nome + " não pode baixar um Pokémon básico! " +jogador1Nome + " vence o jogo!\n");
+                popUp.setContentText(jogador2Nome + " não pode jogar um Pokémon básico!");
+                System.out.println(jogador2Nome + " não possui um Pokémon básico para jogar! " +jogador1Nome + " vence o jogo!\n");
                 popUp.showAndWait();
             }
             else
             {
                 popUp.setHeaderText("O jogador "+ jogador2Nome +" venceu!!");
-                popUp.setContentText(jogador1Nome + " não possui Pokémons básicos para jogar!");
-                System.out.println(jogador1Nome + " não pode baixar um Pokémon básico! " +jogador2Nome + " vence o jogo!\n");
+                popUp.setContentText(jogador1Nome + " não pode jogar um Pokémon básico!");
+                System.out.println(jogador1Nome + " não possui um Pokémon básico para jogar! " +jogador2Nome + " vence o jogo!\n");
                 popUp.showAndWait();
             }
         }

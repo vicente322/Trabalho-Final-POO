@@ -207,7 +207,7 @@ public class CardDeck extends Observable{
         Card t2 = new TreinadorCard("Poção","potion-card","potion",19);
         Card t3 = new TreinadorCard("Full Heal","fullheal-card","fullheal",20);
 
-        ArrayList<Card> deck2 = new ArrayList<>(Arrays.asList(p13,p13,p14,p15,p15,p16,p20,p20,p17,p18,p18,p19,p23,p23,p22,p21,t1,t2,t3,t3,e3,e3,e3,e3,e3,e4,e4,e4,e4,e4));
+        ArrayList<Card> deck2 = new ArrayList<>(Arrays.asList(p13,p13,p14,p15,p15,p16,p20,p20,p17,p18,p18,p19,p23,p23,p22,p21,t1,t2,t3,t3,e3,e3,e3,e3,e3,e4,e4,e4,e4,e4,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17,p17));
         Collections.shuffle(deck2);
         return deck2;
 
