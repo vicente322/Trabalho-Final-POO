@@ -307,7 +307,7 @@ public class App extends Application implements Observer{
         grid.add(gridTopCmd, 0, 0);
 
     }
-   
+  
     @Override
     public void start(Stage primaryStage) throws Exception {
         Game.getInstance().addObserver(this);
@@ -406,9 +406,13 @@ public class App extends Application implements Observer{
 
                     Button zoom = new Button("Zoom");
                     pOpPane.add(zoom, 0, 2);
+
+                    Button recuo = new Button("Recuar");
+                    pOpPane.add(recuo, 0, 3);
+
                     Button cancel = new Button("Cancelar");
                     cancel.setOnAction(e -> pOpStage.close());
-                    pOpPane.add(cancel, 0, 3);
+                    pOpPane.add(cancel, 0, 4);
 
                     Scene pOpScene = new Scene(pOpPane);
                     pOpStage = new Stage();
@@ -417,12 +421,11 @@ public class App extends Application implements Observer{
                     pOpStage.show();
 
             }
-
-
         }
-
     }
-
+    /**
+     * Atualiza informacoes na tela
+     */
     public void updateLabels() {
         PokemonCard pc1 = fieldCardP1.getFieldCard().getCard();
         PokemonCard pc2 = fieldCardP2.getFieldCard().getCard();
