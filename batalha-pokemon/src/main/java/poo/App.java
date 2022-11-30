@@ -364,15 +364,43 @@ public class App extends Application implements Observer{
 
                             Game.getInstance().getFieldP2().getCard().damage(attack.getDano());
                         }
+                        else {
+                            attack = Game.getInstance().getFieldP2()
+                                    .getCard().getAtaque1();
 
+                            Game.getInstance().getFieldP1().getCard().damage(attack.getDano()); 
+                        }
 
                         updateLabels();
 
+                        Game.getInstance().nextPlayer();
+                        updateLabels();
+                        pOpStage.close();
                     });
                     pOpPane.add(ataque1, 0, 0);
 
                     if (fieldCardP1.getFieldCard().getCard().getAtaque2() != null){
                         Button ataque2 = new Button("Ataque 2");
+                        ataque2.setOnAction(e -> {
+                            Ataque attack;
+
+                            if (ge.getArg().equals("1")){
+                                attack = Game.getInstance().getFieldP1()
+                                             .getCard().getAtaque2();
+                                
+                                Game.getInstance().getFieldP2().getCard().damage(attack.getDano());
+                            }
+                            else {
+                                attack = Game.getInstance().getFieldP2()
+                                        .getCard().getAtaque2();
+
+                                Game.getInstance().getFieldP1().getCard().damage(attack.getDano());
+                            }
+
+                            Game.getInstance().nextPlayer();
+                            updateLabels();
+                            pOpStage.close();
+                        });
                         pOpPane.add(ataque2, 0, 1);
                     }
 
