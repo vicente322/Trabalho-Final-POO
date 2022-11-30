@@ -362,8 +362,11 @@ public class App extends Application implements Observer{
                             attack = Game.getInstance().getFieldP1()
                                          .getCard().getAtaque1();
 
-                            Game.
+                            Game.getInstance().getFieldP2().getCard().damage(attack.getDano());
                         }
+
+
+                        updateLabels();
 
                     });
                     pOpPane.add(ataque1, 0, 0);
